@@ -22,6 +22,9 @@ class Arbitre
     #[ORM\Column]
     private ?bool $disponibilite = null;
 
+    #[ORM\OneToOne(mappedBy: 'arbitre', cascade: ['persist', 'remove'])]
+    private ?Combat $combat = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,29 @@ class Arbitre
     public function setDisponibilite(bool $disponibilite): static
     {
         $this->disponibilite = $disponibilite;
+
+        return $this;
+    }
+
+
+    public function getCombat(): ?Combat
+    {
+        return $this->combat;
+    }
+
+    public function setCombat(?Combat $combat): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($combat === null && $this->combat !== null) {
+            $this->combat->setArbitre(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($combat !== null && $combat->getArbitre() !== $this) {
+            $combat->setArbitre($this);
+        }
+
+        $this->combat = $combat;
 
         return $this;
     }

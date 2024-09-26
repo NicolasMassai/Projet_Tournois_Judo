@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\HistoriqueCombatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,20 @@ class HistoriqueCombat
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_combat = null;
+
+    /**
+     * @var Collection<int, Combattant>
+     */
+    #[ORM\OneToMany(targetEntity: Combattant::class, mappedBy: 'historiqueCombat')]
+    private Collection $combattant;
+
+    #[ORM\OneToOne(inversedBy: 'historiqueCombat', cascade: ['persist', 'remove'])]
+    private ?tournoi $tournoi = null;
+
+    public function __construct()
+    {
+        $this->combattant = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +76,48 @@ class HistoriqueCombat
     public function setDateCombat(\DateTimeInterface $date_combat): static
     {
         $this->date_combat = $date_combat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Combattant>
+     */
+    public function getCombattant(): Collection
+    {
+        return $this->combattant;
+    }
+
+    public function addCombattant(Combattant $combattant): static
+    {
+        if (!$this->combattant->contains($combattant)) {
+            $this->combattant->add($combattant);
+            $combattant->setHistoriqueCombat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCombattant(Combattant $combattant): static
+    {
+        if ($this->combattant->removeElement($combattant)) {
+            // set the owning side to null (unless already changed)
+            if ($combattant->getHistoriqueCombat() === $this) {
+                $combattant->setHistoriqueCombat(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTournoi(): ?tournoi
+    {
+        return $this->tournoi;
+    }
+
+    public function setTournoi(?tournoi $tournoi): static
+    {
+        $this->tournoi = $tournoi;
 
         return $this;
     }

@@ -25,6 +25,18 @@ class Club
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    #[ORM\ManyToOne(inversedBy: 'club')]
+    private ?Tournoi $tournoi = null;
+
+    #[ORM\OneToOne(mappedBy: 'club', cascade: ['persist', 'remove'])]
+    private ?Inscription $inscription = null;
+
+    #[ORM\ManyToOne(inversedBy: 'club')]
+    private ?Combattant $combattant = null;
+
+    #[ORM\ManyToOne(inversedBy: 'club')]
+    private ?Adherant $adherant = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +86,64 @@ class Club
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getTournoi(): ?Tournoi
+    {
+        return $this->tournoi;
+    }
+
+    public function setTournoi(?Tournoi $tournoi): static
+    {
+        $this->tournoi = $tournoi;
+
+        return $this;
+    }
+
+    public function getInscription(): ?Inscription
+    {
+        return $this->inscription;
+    }
+
+    public function setInscription(?Inscription $inscription): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($inscription === null && $this->inscription !== null) {
+            $this->inscription->setClub(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($inscription !== null && $inscription->getClub() !== $this) {
+            $inscription->setClub($this);
+        }
+
+        $this->inscription = $inscription;
+
+        return $this;
+    }
+
+    public function getCombattant(): ?Combattant
+    {
+        return $this->combattant;
+    }
+
+    public function setCombattant(?Combattant $combattant): static
+    {
+        $this->combattant = $combattant;
+
+        return $this;
+    }
+
+    public function getAdherant(): ?Adherant
+    {
+        return $this->adherant;
+    }
+
+    public function setAdherant(?Adherant $adherant): static
+    {
+        $this->adherant = $adherant;
 
         return $this;
     }
