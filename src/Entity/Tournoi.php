@@ -34,11 +34,6 @@ class Tournoi
     #[ORM\Column]
     private ?int $categorie_poids = null;
 
-    /**
-     * @var Collection<int, Club>
-     */
-    #[ORM\OneToMany(targetEntity: Club::class, mappedBy: 'tournoi')]
-    private Collection $club;
 
     #[ORM\OneToOne(mappedBy: 'tournoi', cascade: ['persist', 'remove'])]
     private ?Inscription $inscription = null;
@@ -49,9 +44,11 @@ class Tournoi
     #[ORM\ManyToOne(inversedBy: 'tournoi')]
     private ?Combat $combat = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tournoi')]
+    private ?Club $club = null;
+
     public function __construct()
     {
-        $this->club = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,36 +128,6 @@ class Tournoi
         return $this;
     }
 
-    /**
-     * @return Collection<int, Club>
-     */
-    public function getClub(): Collection
-    {
-        return $this->club;
-    }
-
-    public function addClub(Club $club): static
-    {
-        if (!$this->club->contains($club)) {
-            $this->club->add($club);
-            $club->setTournoi($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClub(Club $club): static
-    {
-        if ($this->club->removeElement($club)) {
-            // set the owning side to null (unless already changed)
-            if ($club->getTournoi() === $this) {
-                $club->setTournoi(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getInscription(): ?Inscription
     {
         return $this->inscription;
@@ -213,6 +180,18 @@ class Tournoi
     public function setCombat(?Combat $combat): static
     {
         $this->combat = $combat;
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): static
+    {
+        $this->club = $club;
 
         return $this;
     }

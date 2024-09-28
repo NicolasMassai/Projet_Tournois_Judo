@@ -33,21 +33,17 @@ class Combattant
     #[ORM\OneToOne(mappedBy: 'combattant', cascade: ['persist', 'remove'])]
     private ?Inscription $inscription = null;
 
-    /**
-     * @var Collection<int, club>
-     */
-    #[ORM\OneToMany(targetEntity: club::class, mappedBy: 'combattant')]
-    private Collection $club;
-
     #[ORM\ManyToOne(inversedBy: 'combattant')]
     private ?HistoriqueCombat $historiqueCombat = null;
 
     #[ORM\OneToOne(mappedBy: 'combattant', cascade: ['persist', 'remove'])]
     private ?Adherant $adherant = null;
 
+    #[ORM\ManyToOne(inversedBy: 'combattant')]
+    private ?Club $club = null;
+
     public function __construct()
     {
-        $this->club = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -137,36 +133,6 @@ class Combattant
         return $this;
     }
 
-    /**
-     * @return Collection<int, club>
-     */
-    public function getClub(): Collection
-    {
-        return $this->club;
-    }
-
-    public function addClub(club $club): static
-    {
-        if (!$this->club->contains($club)) {
-            $this->club->add($club);
-            $club->setCombattant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClub(club $club): static
-    {
-        if ($this->club->removeElement($club)) {
-            // set the owning side to null (unless already changed)
-            if ($club->getCombattant() === $this) {
-                $club->setCombattant(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getHistoriqueCombat(): ?HistoriqueCombat
     {
         return $this->historiqueCombat;
@@ -197,6 +163,18 @@ class Combattant
         }
 
         $this->adherant = $adherant;
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): static
+    {
+        $this->club = $club;
 
         return $this;
     }

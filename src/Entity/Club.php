@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClubRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ClubRepository::class)]
@@ -25,17 +27,33 @@ class Club
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\ManyToOne(inversedBy: 'club')]
-    private ?Tournoi $tournoi = null;
-
     #[ORM\OneToOne(mappedBy: 'club', cascade: ['persist', 'remove'])]
     private ?Inscription $inscription = null;
 
-    #[ORM\ManyToOne(inversedBy: 'club')]
-    private ?Combattant $combattant = null;
+    /**
+     * @var Collection<int, Combattant>
+     */
+    #[ORM\OneToMany(targetEntity: Combattant::class, mappedBy: 'club')]
+    private Collection $combattant;
 
-    #[ORM\ManyToOne(inversedBy: 'club')]
-    private ?Adherant $adherant = null;
+    /**
+     * @var Collection<int, Adherant>
+     */
+    #[ORM\OneToMany(targetEntity: Adherant::class, mappedBy: 'club')]
+    private Collection $adherant;
+
+    /**
+     * @var Collection<int, tournoi>
+     */
+    #[ORM\OneToMany(targetEntity: tournoi::class, mappedBy: 'club')]
+    private Collection $tournoi;
+
+    public function __construct()
+    {
+        $this->combattant = new ArrayCollection();
+        $this->adherant = new ArrayCollection();
+        $this->tournoi = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,18 +108,6 @@ class Club
         return $this;
     }
 
-    public function getTournoi(): ?Tournoi
-    {
-        return $this->tournoi;
-    }
-
-    public function setTournoi(?Tournoi $tournoi): static
-    {
-        $this->tournoi = $tournoi;
-
-        return $this;
-    }
-
     public function getInscription(): ?Inscription
     {
         return $this->inscription;
@@ -124,26 +130,92 @@ class Club
         return $this;
     }
 
-    public function getCombattant(): ?Combattant
+    /**
+     * @return Collection<int, Combattant>
+     */
+    public function getCombattant(): Collection
     {
         return $this->combattant;
     }
 
-    public function setCombattant(?Combattant $combattant): static
+    public function addCombattant(Combattant $combattant): static
     {
-        $this->combattant = $combattant;
+        if (!$this->combattant->contains($combattant)) {
+            $this->combattant->add($combattant);
+            $combattant->setClub($this);
+        }
 
         return $this;
     }
 
-    public function getAdherant(): ?Adherant
+    public function removeCombattant(Combattant $combattant): static
+    {
+        if ($this->combattant->removeElement($combattant)) {
+            // set the owning side to null (unless already changed)
+            if ($combattant->getClub() === $this) {
+                $combattant->setClub(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Adherant>
+     */
+    public function getAdherant(): Collection
     {
         return $this->adherant;
     }
 
-    public function setAdherant(?Adherant $adherant): static
+    public function addAdherant(Adherant $adherant): static
     {
-        $this->adherant = $adherant;
+        if (!$this->adherant->contains($adherant)) {
+            $this->adherant->add($adherant);
+            $adherant->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdherant(Adherant $adherant): static
+    {
+        if ($this->adherant->removeElement($adherant)) {
+            // set the owning side to null (unless already changed)
+            if ($adherant->getClub() === $this) {
+                $adherant->setClub(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, tournoi>
+     */
+    public function getTournoi(): Collection
+    {
+        return $this->tournoi;
+    }
+
+    public function addTournoi(tournoi $tournoi): static
+    {
+        if (!$this->tournoi->contains($tournoi)) {
+            $this->tournoi->add($tournoi);
+            $tournoi->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTournoi(tournoi $tournoi): static
+    {
+        if ($this->tournoi->removeElement($tournoi)) {
+            // set the owning side to null (unless already changed)
+            if ($tournoi->getClub() === $this) {
+                $tournoi->setClub(null);
+            }
+        }
 
         return $this;
     }
