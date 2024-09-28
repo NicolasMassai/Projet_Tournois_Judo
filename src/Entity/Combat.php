@@ -25,7 +25,7 @@ class Combat
     /**
      * @var Collection<int, tournoi>
      */
-    #[ORM\OneToMany(targetEntity: tournoi::class, mappedBy: 'combat')]
+    #[ORM\OneToMany(targetEntity: Tournoi::class, mappedBy: 'combat')]
     private Collection $tournoi;
 
     /**

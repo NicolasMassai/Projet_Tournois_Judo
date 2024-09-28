@@ -45,7 +45,7 @@ class Club
     /**
      * @var Collection<int, tournoi>
      */
-    #[ORM\OneToMany(targetEntity: tournoi::class, mappedBy: 'club')]
+    #[ORM\OneToMany(targetEntity: Tournoi::class, mappedBy: 'club')]
     private Collection $tournoi;
 
     public function __construct()
