@@ -26,9 +26,6 @@ class Inscription
     #[ORM\OneToOne(inversedBy: 'inscription', cascade: ['persist', 'remove'])]
     private ?Combattant $combattant = null;
 
-    #[ORM\OneToOne(inversedBy: 'inscription', cascade: ['persist', 'remove'])]
-    private ?Club $club = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -78,18 +75,6 @@ class Inscription
     public function setCombattant(?Combattant $combattant): static
     {
         $this->combattant = $combattant;
-
-        return $this;
-    }
-
-    public function getClub(): ?Club
-    {
-        return $this->club;
-    }
-
-    public function setClub(?Club $club): static
-    {
-        $this->club = $club;
 
         return $this;
     }

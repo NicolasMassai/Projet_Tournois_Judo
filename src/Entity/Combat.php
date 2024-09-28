@@ -41,7 +41,7 @@ class Combat
     private Collection $combats;
 
     #[ORM\OneToOne(inversedBy: 'combat', cascade: ['persist', 'remove'])]
-    private ?arbitre $arbitre = null;
+    private ?Arbitre $arbitre = null;
 
     public function __construct()
     {
@@ -87,7 +87,7 @@ class Combat
         return $this->tournoi;
     }
 
-    public function addTournoi(tournoi $tournoi): static
+    public function addTournoi(Tournoi $tournoi): static
     {
         if (!$this->tournoi->contains($tournoi)) {
             $this->tournoi->add($tournoi);
@@ -97,7 +97,7 @@ class Combat
         return $this;
     }
 
-    public function removeTournoi(tournoi $tournoi): static
+    public function removeTournoi(Tournoi $tournoi): static
     {
         if ($this->tournoi->removeElement($tournoi)) {
             // set the owning side to null (unless already changed)
@@ -160,12 +160,12 @@ class Combat
         return $this;
     }
 
-    public function getArbitre(): ?arbitre
+    public function getArbitre(): ?Arbitre
     {
         return $this->arbitre;
     }
 
-    public function setArbitre(?arbitre $arbitre): static
+    public function setArbitre(?Arbitre $arbitre): static
     {
         $this->arbitre = $arbitre;
 

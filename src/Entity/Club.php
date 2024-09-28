@@ -27,9 +27,6 @@ class Club
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\OneToOne(mappedBy: 'club', cascade: ['persist', 'remove'])]
-    private ?Inscription $inscription = null;
-
     /**
      * @var Collection<int, Combattant>
      */
@@ -108,28 +105,6 @@ class Club
         return $this;
     }
 
-    public function getInscription(): ?Inscription
-    {
-        return $this->inscription;
-    }
-
-    public function setInscription(?Inscription $inscription): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($inscription === null && $this->inscription !== null) {
-            $this->inscription->setClub(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($inscription !== null && $inscription->getClub() !== $this) {
-            $inscription->setClub($this);
-        }
-
-        $this->inscription = $inscription;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Combattant>
      */
@@ -198,7 +173,7 @@ class Club
         return $this->tournoi;
     }
 
-    public function addTournoi(tournoi $tournoi): static
+    public function addTournoi(Tournoi $tournoi): static
     {
         if (!$this->tournoi->contains($tournoi)) {
             $this->tournoi->add($tournoi);
@@ -208,7 +183,7 @@ class Club
         return $this;
     }
 
-    public function removeTournoi(tournoi $tournoi): static
+    public function removeTournoi(Tournoi $tournoi): static
     {
         if ($this->tournoi->removeElement($tournoi)) {
             // set the owning side to null (unless already changed)

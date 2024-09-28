@@ -22,7 +22,7 @@ class Adherant
     private ?string $prenom = null;
 
     #[ORM\OneToOne(inversedBy: 'adherant', cascade: ['persist', 'remove'])]
-    private ?combattant $combattant = null;
+    private ?Combattant $combattant = null;
 
     #[ORM\ManyToOne(inversedBy: 'adherant')]
     private ?Club $club = null;
@@ -60,12 +60,12 @@ class Adherant
         return $this;
     }
 
-    public function getCombattant(): ?combattant
+    public function getCombattant(): ?Combattant
     {
         return $this->combattant;
     }
 
-    public function setCombattant(?combattant $combattant): static
+    public function setCombattant(?Combattant $combattant): static
     {
         $this->combattant = $combattant;
 

@@ -32,7 +32,7 @@ class HistoriqueCombat
     private Collection $combattant;
 
     #[ORM\OneToOne(inversedBy: 'historiqueCombat', cascade: ['persist', 'remove'])]
-    private ?tournoi $tournoi = null;
+    private ?Tournoi $tournoi = null;
 
     public function __construct()
     {
@@ -110,12 +110,12 @@ class HistoriqueCombat
         return $this;
     }
 
-    public function getTournoi(): ?tournoi
+    public function getTournoi(): ?Tournoi
     {
         return $this->tournoi;
     }
 
-    public function setTournoi(?tournoi $tournoi): static
+    public function setTournoi(?Tournoi $tournoi): static
     {
         $this->tournoi = $tournoi;
 
