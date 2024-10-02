@@ -16,13 +16,19 @@ class InscriptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        
-        ->add('tournois', EntityType::class, [
-            'class' => Tournoi::class,
-            'choice_label' => 'nom',
-            'mapped' => false,
-        ])
-        ->add('Sinscrire', SubmitType::class);
+            ->add('tournoi', EntityType::class, [
+                'class' => Tournoi::class,
+                'choice_label' => 'nom', 
+                'placeholder' => 'Sélectionnez un tournoi',
+                'required' => true,
+            ])
+            ->add('club', EntityType::class, [
+                'class' => Club::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionnez un club',
+                'required' => true,
+            ])
+            ->add('Sinscrire', SubmitType::class);
         ;
     }
 

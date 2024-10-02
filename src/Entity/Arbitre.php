@@ -6,15 +6,8 @@ use App\Repository\ArbitreRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArbitreRepository::class)]
-class Arbitre
+class Arbitre extends User
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
     private ?string $qualification = null;
@@ -25,22 +18,6 @@ class Arbitre
     #[ORM\OneToOne(mappedBy: 'arbitre', cascade: ['persist', 'remove'])]
     private ?Combat $combat = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): static
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
 
     public function getQualification(): ?string
     {

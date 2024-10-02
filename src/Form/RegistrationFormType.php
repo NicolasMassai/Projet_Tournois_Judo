@@ -2,15 +2,19 @@
 
 namespace App\Form;
 
+use App\Entity\Club;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -18,13 +22,27 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
+            ->add('prenom', TextType::class, [
+                'label' => 'Prénom'
+            ])
+            ->add('nom', TextType::class, [
+                'label' => 'Nom'
+            ])
+            ->add('role', ChoiceType::class, [
+                'choices'  => [
+                    'Adherant' => 'ROLE_ADHERANT',
+                    'Arbitre'  => 'ROLE_ARBITRE',
                 ],
+                'mapped' => false,
+                'label' => 'Inscription en tant que',
+                'expanded' => true,
+                'multiple' => false,
+            ])
+            ->add('club', EntityType::class, [
+                'class' => Club::class,
+                'choice_label' => 'nom', // Ou tout autre champ que tu veux afficher
+                'placeholder' => 'Sélectionnez un club',
+                'required' => false,
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,

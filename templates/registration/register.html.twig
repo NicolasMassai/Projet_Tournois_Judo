@@ -9,11 +9,47 @@
 
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.prenom) }}
+        {{ form_row(registrationForm.nom) }}
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+
+        {{ form_row(registrationForm.role, {
+            id: 'roleField'
+        }) }}
+
+        <div id="clubField" style="display: none;">  {# Champ pour le club masqué par défaut #}
+            {{ form_row(registrationForm.club, {
+                label: 'Sélectionnez un club'
+            }) }}
+        </div>
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const roleField = document.querySelector('input[name="registration_form[role]"]:checked'); // Sélection du champ rôle
+            const clubField = document.getElementById('clubField');
+
+            // Fonction pour afficher ou masquer le champ du club
+            function toggleClubField() {
+                const selectedRole = document.querySelector('input[name="registration_form[role]"]:checked');
+                if (selectedRole && selectedRole.value === 'ROLE_ADHERANT') {
+                    clubField.style.display = 'block';  // Afficher le champ du club
+                } else {
+                    clubField.style.display = 'none';  // Masquer le champ du club
+                }
+            }
+
+            // Appel initial pour définir l'état du champ de club
+            toggleClubField();
+
+            // Écouteur d'événement pour les changements sur le champ de rôle
+            document.querySelectorAll('input[name="registration_form[role]"]').forEach((input) => {
+                input.addEventListener('change', toggleClubField);
+            });
+        });
+    </script>
 {% endblock %}

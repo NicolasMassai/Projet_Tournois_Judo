@@ -26,14 +26,24 @@ class ClubController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/club', name: 'app_club')]
+    #[Route('/clubs', name: 'app_club')]
     public function club(ClubRepository $clubRepository): Response
     {
-        $club = $clubRepository->findAll();
+        $clubs = $clubRepository->findAll();
 
+        $clubData = [];
+
+        foreach ($clubs as $club) {
+            $adherants = $club->getAdherant(); 
+            $clubData[] = [
+                'club' => $club,
+                'count' => $adherants->count(),
+                'adherants' => $adherants
+            ];
+        }
 
         return $this->render('club/club.html.twig', [
-            'clubs' => $club
+            'clubs' => $clubData,
         ]);
     }
 
