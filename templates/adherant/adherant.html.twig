@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ClubController!{% endblock %}
+{% block title %}Hello adherantController!{% endblock %}
 
 {% block body %}
 <style>
@@ -10,12 +10,11 @@
 
 <div class="example-wrapper">
 
-    {% for club in clubs %}
+    {% for adherant in adherants %}
         <ul>
-            <li>Nom : {{club.nom}}</li>
-            <li>Ville : {{club.ville}}</li>
-            <li>Pays : {{club.pays}}</li>
-            <li>Email : {{club.email}}</li>
+            <li>Nom : {{adherant.nom}}</li>
+            <li>Prenom : {{adherant.prenom}}</li>
+            <li>Club : {{adherant.club}}</li>
         </ul>
     {% endfor %}
 

@@ -40,16 +40,17 @@ class Club
     private Collection $adherant;
 
     /**
-     * @var Collection<int, tournoi>
+     * @var Collection<int, Tournoi>
      */
-    #[ORM\OneToMany(targetEntity: Tournoi::class, mappedBy: 'club')]
-    private Collection $tournoi;
+    #[ORM\ManyToMany(targetEntity: Tournoi::class, mappedBy: 'clubs')]
+    private Collection $tournois;
+
 
     public function __construct()
     {
         $this->combattant = new ArrayCollection();
         $this->adherant = new ArrayCollection();
-        $this->tournoi = new ArrayCollection();
+        $this->tournois = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,19 +166,24 @@ class Club
         return $this;
     }
 
+    
+    public function __tostring(){
+        return $this->nom;
+    }
+
     /**
-     * @return Collection<int, tournoi>
+     * @return Collection<int, Tournoi>
      */
-    public function getTournoi(): Collection
+    public function getTournois(): Collection
     {
-        return $this->tournoi;
+        return $this->tournois;
     }
 
     public function addTournoi(Tournoi $tournoi): static
     {
-        if (!$this->tournoi->contains($tournoi)) {
-            $this->tournoi->add($tournoi);
-            $tournoi->setClub($this);
+        if (!$this->tournois->contains($tournoi)) {
+            $this->tournois->add($tournoi);
+            $tournoi->addClub($this);
         }
 
         return $this;
@@ -185,13 +191,11 @@ class Club
 
     public function removeTournoi(Tournoi $tournoi): static
     {
-        if ($this->tournoi->removeElement($tournoi)) {
-            // set the owning side to null (unless already changed)
-            if ($tournoi->getClub() === $this) {
-                $tournoi->setClub(null);
-            }
+        if ($this->tournois->removeElement($tournoi)) {
+            $tournoi->removeClub($this);
         }
 
         return $this;
     }
+
 }

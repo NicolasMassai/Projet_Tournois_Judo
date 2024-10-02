@@ -10,13 +10,9 @@
 
 <div class="example-wrapper">
 
-    {% for club in clubs %}
+    {% for tournoi in tournois %}
         <ul>
-            <li>Nom : {{club.nom}}</li>
-            <li>Ville : {{club.ville}}</li>
-            <li>Pays : {{club.pays}}</li>
-            <li>Email : {{club.email}}</li>
-        </ul>
+            <li>Nom : {{tournoi.nom}}</li>
     {% endfor %}
 
 </div>

@@ -38,7 +38,7 @@ class ClubController extends AbstractController
     }
 
 
-    #[Route('/club/create', name: 'app_produit_create')]
+    #[Route('/club/create', name: 'app_club_create')]
     public function create(Service $myService, Request $request): Response
     {
         $form = $myService->create(
@@ -53,7 +53,7 @@ class ClubController extends AbstractController
         return $form;
     }
 
-    #[Route('/club/update/{club}', name: 'app_produit_update')]
+    #[Route('/club/update/{club}', name: 'app_club_update')]
     public function update(Service $myService, Club $club, Request $request): Response
     {
 
@@ -70,7 +70,7 @@ class ClubController extends AbstractController
 
     }
 
-    #[Route('/club/delete/{club}', name: 'app_produit_delete')]
+    #[Route('/club/delete/{club}', name: 'app_club_delete')]
     public function delete(Club $club): Response
 
     {

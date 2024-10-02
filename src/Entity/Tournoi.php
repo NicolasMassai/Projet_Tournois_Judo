@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TournoiRepository;
@@ -26,13 +28,6 @@ class Tournoi
     #[ORM\Column(length: 255)]
     private ?string $lieu = null;
 
-    #[ORM\Column]
-    private ?int $categorie_age = null;
-
-    #[ORM\Column]
-    private ?int $categorie_poids = null;
-
-
     #[ORM\OneToOne(mappedBy: 'tournoi', cascade: ['persist', 'remove'])]
     private ?Inscription $inscription = null;
 
@@ -42,16 +37,29 @@ class Tournoi
     #[ORM\ManyToOne(inversedBy: 'tournoi')]
     private ?Combat $combat = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tournoi')]
-    private ?Club $club = null;
+
+    /**
+     * @var Collection<int, Categorie>
+     */
+    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'tournois')]
+    private Collection $poids;
+
+    /**
+     * @var Collection<int, Club>
+     */
+    #[ORM\ManyToMany(targetEntity: Club::class, inversedBy: 'tournois')]
+    private Collection $clubs;
 
     public function __construct()
     {
+        $this->poids = new ArrayCollection();
+        $this->clubs = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+
     }
 
     public function getNom(): ?string
@@ -98,30 +106,6 @@ class Tournoi
     public function setLieu(string $lieu): static
     {
         $this->lieu = $lieu;
-
-        return $this;
-    }
-
-    public function getCategorieAge(): ?int
-    {
-        return $this->categorie_age;
-    }
-
-    public function setCategorieAge(int $categorie_age): static
-    {
-        $this->categorie_age = $categorie_age;
-
-        return $this;
-    }
-
-    public function getCategoriePoids(): ?int
-    {
-        return $this->categorie_poids;
-    }
-
-    public function setCategoriePoids(int $categorie_poids): static
-    {
-        $this->categorie_poids = $categorie_poids;
 
         return $this;
     }
@@ -182,15 +166,52 @@ class Tournoi
         return $this;
     }
 
-    public function getClub(): ?Club
+    /**
+     * @return Collection<int, Categorie>
+     */
+    public function getPoids(): Collection
     {
-        return $this->club;
+        return $this->poids;
     }
 
-    public function setClub(?Club $club): static
+    public function addPoid(Categorie $poid): static
     {
-        $this->club = $club;
+        if (!$this->poids->contains($poid)) {
+            $this->poids->add($poid);
+        }
 
         return $this;
     }
+
+    public function removePoid(Categorie $poid): static
+    {
+        $this->poids->removeElement($poid);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Club>
+     */
+    public function getClubs(): Collection
+    {
+        return $this->clubs;
+    }
+
+    public function addClub(Club $club): static
+    {
+        if (!$this->clubs->contains($club)) {
+            $this->clubs->add($club);
+        }
+
+        return $this;
+    }
+
+    public function removeClub(Club $club): static
+    {
+        $this->clubs->removeElement($club);
+
+        return $this;
+    }
+
 }
