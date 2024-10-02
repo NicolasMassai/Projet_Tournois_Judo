@@ -45,6 +45,9 @@ class Club
     #[ORM\ManyToMany(targetEntity: Tournoi::class, mappedBy: 'clubs')]
     private Collection $tournois;
 
+    #[ORM\OneToOne(inversedBy: 'president_club', cascade: ['persist', 'remove'])]
+    private ?User $president = null;
+
 
     public function __construct()
     {
@@ -194,6 +197,18 @@ class Club
         if ($this->tournois->removeElement($tournoi)) {
             $tournoi->removeClub($this);
         }
+
+        return $this;
+    }
+
+    public function getPresident(): ?User
+    {
+        return $this->president;
+    }
+
+    public function setPresident(?User $president): static
+    {
+        $this->president = $president;
 
         return $this;
     }

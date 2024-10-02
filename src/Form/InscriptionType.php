@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Club;
 use App\Entity\Tournoi;
+use App\Entity\Adherant;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,26 +18,25 @@ class InscriptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('tournoi', EntityType::class, [
-                'class' => Tournoi::class,
-                'choice_label' => 'nom', 
-                'placeholder' => 'Sélectionnez un tournoi',
-                'required' => true,
+            ->add('combattant', EntityType::class, [
+                'class' => Adherant::class,
+                'choices' => $options['club_adherants'], // membres du club seulement
+                'choice_label' => function(Adherant $adherant) {
+                    return $adherant->getNom() . ' ' . $adherant->getPrenom();
+                },
+                'multiple' => true,
+                'expanded' => true, // Pour afficher les membres comme des cases à cocher
             ])
-            ->add('club', EntityType::class, [
-                'class' => Club::class,
-                'choice_label' => 'nom',
-                'placeholder' => 'Sélectionnez un club',
-                'required' => true,
-            ])
-            ->add('Sinscrire', SubmitType::class);
-        ;
+            ->add('submit', SubmitType::class, [
+                'label' => 'Inscrire au tournoi',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Club::class,
+            'data_class' => Tournoi::class,
+            'club_adherants' => [] // On passe les membres du club en option
         ]);
     }
 }

@@ -1,4 +1,16 @@
-<div class="">
-    <h1>Inscription au Tournoi</h1>
-    {{ form(form) }}
-</div>
+{# templates/tournoi/inscription.html.twig #}
+
+<h1>Inscription au tournoi {{ tournoi.nom }}</h1>
+
+{{ form_start(form) }}
+
+    <div>
+        {{ form_label(form.members) }}
+        {{ form_widget(form.members) }}
+    </div>
+
+    <div>
+        {{ form_widget(form.submit) }}
+    </div>
+
+{{ form_end(form) }}

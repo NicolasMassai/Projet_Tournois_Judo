@@ -42,6 +42,9 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\OneToOne(mappedBy: 'president', cascade: ['persist', 'remove'])]
+    private ?Club $president_club = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -145,5 +148,32 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getPresidentClub(): ?Club
+    {
+        return $this->president_club;
+    }
+
+    public function setPresidentClub(?Club $president_club): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($president_club === null && $this->president_club !== null) {
+            $this->president_club->setPresident(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($president_club !== null && $president_club->getPresident() !== $this) {
+            $president_club->setPresident($this);
+        }
+
+        $this->president_club = $president_club;
+
+        return $this;
+    }
+
+    public function isPresident(): bool
+    {
+        return in_array('ROLE_PRESIDENT', $this->roles);
     }
 }

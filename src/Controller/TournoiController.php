@@ -9,7 +9,9 @@ use App\Entity\Categorie;
 use App\Form\TournoiType;
 use App\Form\InscriptionType;
 use Doctrine\ORM\EntityManager;
+use App\Repository\ClubRepository;
 use App\Repository\TournoiRepository;
+use App\Repository\AdherantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\ByteString;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,30 +89,48 @@ class TournoiController extends AbstractController
     }
 
 
-    #[Route('/tournoi/inscription', name: 'app_tournoi_inscription')]
-    public function inscription(Service $myService, Request $request): Response
+    #[Route('/tournoi/{id}/inscription', name: 'inscrire_club_tournoi')]
+    public function inscrireClub(Tournoi $tournoi, Request $request, EntityManagerInterface $em, AdherantRepository $adherantRepository): Response
     {
-        $club = new Club(); 
-        $form = $this->createForm(InscriptionType::class);
-        $form->handleRequest($request);
-    
-        if ($form->isSubmitted() && $form->isValid()) {
-            
-            $tournois = $form->get('tournois')->getData();
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+        // Récupérer le club du président
+        $club = $user->getPresidentClub();
 
-            foreach ($tournois as $tournoi) {
-                // Associer le tournoi au club
-                $club->addTournoi($tournoi);
+        // Récupérer les membres du club (Adherant)
+        $adherants = $adherantRepository->findBy(['club' => $club]);
+
+        // Créer le formulaire en passant les membres du club dans les options
+        $form = $this->createForm(InscriptionType::class, $tournoi, [
+            'club_adherants' => $adherants
+        ]);
+        dd($form);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupérer les membres sélectionnés
+            $selectedMembers = $form->get('combattant')->getData();
+
+            foreach ($selectedMembers as $member) {
+                // Ajouter chaque membre au tournoi
+                $tournoi->addParticipant($member);
             }
-    
-            $this->em->persist($club);
-            $this->em->flush();
-    
-            return $this->redirectToRoute('app_tournoi');
+
+            // Ajouter le club au tournoi
+            $tournoi->addClub($club);
+
+            // Sauvegarder les changements en base de données
+            $em->persist($tournoi);
+            $em->flush();
+
+            // Rediriger vers la page de détails du tournoi
+            return $this->redirectToRoute('tournoi_show', ['id' => $tournoi->getId()]);
         }
-    
+
         return $this->render('tournoi/inscription_create.html.twig', [
             'form' => $form->createView(),
+            'tournoi' => $tournoi,
         ]);
     }
 
