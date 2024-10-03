@@ -16,8 +16,15 @@ class Adherant extends User
     #[ORM\ManyToOne(inversedBy: 'adherant')]
     private ?Club $club = null;
 
+    /**
+     * @var Collection<int, Tournoi>
+     */
+    #[ORM\ManyToMany(targetEntity: Tournoi::class, mappedBy: 'combattant')]
+    private Collection $tournois;
+
     public function __construct()
     {
+        $this->tournois = new ArrayCollection();
     }
 
     public function getCombattant(): ?Combattant
@@ -40,6 +47,33 @@ class Adherant extends User
     public function setClub(?Club $club): static
     {
         $this->club = $club;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tournoi>
+     */
+    public function getTournois(): Collection
+    {
+        return $this->tournois;
+    }
+
+    public function addTournoi(Tournoi $tournoi): static
+    {
+        if (!$this->tournois->contains($tournoi)) {
+            $this->tournois->add($tournoi);
+            $tournoi->addCombattant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTournoi(Tournoi $tournoi): static
+    {
+        if ($this->tournois->removeElement($tournoi)) {
+            $tournoi->removeCombattant($this);
+        }
 
         return $this;
     }

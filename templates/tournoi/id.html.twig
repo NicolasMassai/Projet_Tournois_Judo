@@ -1,0 +1,34 @@
+<h1>Détails du tournoi : {{ tournoi.nom }}</h1>
+<p>ID du tournoi : {{ id }}</p>
+<p>Date de début : {{ tournoi.dateDebut|date('d/m/Y') }}</p>
+<p>Date de fin : {{ tournoi.dateFin|date('d/m/Y') }}</p>
+<p>Lieu : {{ tournoi.lieu }}</p>
+
+<h2>Clubs engagés</h2>
+<ul>
+    {% for club in clubs %}
+        <li>{{ club.nom }}</li>
+    {% else %}
+        <li>Aucun club engagé.</li>
+    {% endfor %}
+</ul>
+
+<h2>Combattants engagés</h2>
+<ul>
+    {% for combattant in combattants %}
+        <li>{{ combattant.nom }} {{ combattant.prenom }} - Club: {{ combattant.club.nom }}</li>
+    {% else %}
+        <li>Aucun combattant engagé.</li>
+    {% endfor %}
+</ul>
+
+<h2>Catégories de poids</h2>
+<ul>
+    {% for categorie in categories %}
+        <li>{{ categorie.getCategoriePoids }} kg</li>
+    {% else %}
+        <li>Aucune catégorie associée à ce tournoi.</li>
+    {% endfor %}
+</ul>
+
+<a href="{{ path('app_tournoi') }}">Retour à la liste des tournois</a>

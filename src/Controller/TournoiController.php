@@ -17,6 +17,7 @@ use Symfony\Component\String\ByteString;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TournoiController extends AbstractController
@@ -42,6 +43,21 @@ class TournoiController extends AbstractController
         ]);
     }
 
+
+    #[Route('/tournoi/{id}', name: 'app_tournoi_show')]
+    public function tournoiID(int $id, TournoiRepository $tournoiRepository): Response
+    {
+
+        $tournoi = $tournoiRepository->find($id);
+
+        return $this->render('tournoi/id.html.twig', [
+            'tournoi' => $tournoi,
+            'id' => $id,
+            'clubs' => $tournoi->getClubs(),
+            'combattants' => $tournoi->getCombattant(),
+            'categories' => $tournoi->getPoids(),
+        ]);
+    }
 
     #[Route('/tournoi/create', name: 'app_tournoi_create')]
     public function create(Request $request): Response
@@ -89,6 +105,7 @@ class TournoiController extends AbstractController
     }
 
 
+    #[IsGranted("ROLE_PRESIDENT")]
     #[Route('/tournoi/{id}/inscription', name: 'inscrire_club_tournoi')]
     public function inscrireClub(Tournoi $tournoi, Request $request, EntityManagerInterface $em, AdherantRepository $adherantRepository): Response
     {
@@ -96,7 +113,7 @@ class TournoiController extends AbstractController
         $user = $this->getUser();
         // Récupérer le club du président
         $club = $user->getPresidentClub();
-
+;
         // Récupérer les membres du club (Adherant)
         $adherants = $adherantRepository->findBy(['club' => $club]);
 
@@ -104,7 +121,6 @@ class TournoiController extends AbstractController
         $form = $this->createForm(InscriptionType::class, $tournoi, [
             'club_adherants' => $adherants
         ]);
-        dd($form);
 
         $form->handleRequest($request);
 
@@ -114,7 +130,7 @@ class TournoiController extends AbstractController
 
             foreach ($selectedMembers as $member) {
                 // Ajouter chaque membre au tournoi
-                $tournoi->addParticipant($member);
+                $tournoi->addCombattant($member);
             }
 
             // Ajouter le club au tournoi
@@ -125,7 +141,7 @@ class TournoiController extends AbstractController
             $em->flush();
 
             // Rediriger vers la page de détails du tournoi
-            return $this->redirectToRoute('tournoi_show', ['id' => $tournoi->getId()]);
+            return $this->redirectToRoute('app_tournoi'); //, ['id' => $tournoi->getId()]);
         }
 
         return $this->render('tournoi/inscription_create.html.twig', [

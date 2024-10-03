@@ -50,10 +50,17 @@ class Tournoi
     #[ORM\ManyToMany(targetEntity: Club::class, inversedBy: 'tournois')]
     private Collection $clubs;
 
+    /**
+     * @var Collection<int, Adherant>
+     */
+    #[ORM\ManyToMany(targetEntity: Adherant::class, inversedBy: 'tournois')]
+    private Collection $combattant;
+
     public function __construct()
     {
         $this->poids = new ArrayCollection();
         $this->clubs = new ArrayCollection();
+        $this->combattant = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -210,6 +217,30 @@ class Tournoi
     public function removeClub(Club $club): static
     {
         $this->clubs->removeElement($club);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Adherant>
+     */
+    public function getCombattant(): Collection
+    {
+        return $this->combattant;
+    }
+
+    public function addCombattant(Adherant $combattant): static
+    {
+        if (!$this->combattant->contains($combattant)) {
+            $this->combattant->add($combattant);
+        }
+
+        return $this;
+    }
+
+    public function removeCombattant(Adherant $combattant): static
+    {
+        $this->combattant->removeElement($combattant);
 
         return $this;
     }
