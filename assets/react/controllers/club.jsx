@@ -10,7 +10,7 @@ export default function club() {
 
 
     useEffect(() => {
-    fetch(constantes.url + '/club/JSON', {method : 'GET'})
+    fetch(constantes.url + '/clubs/JSON', {method : 'GET'})
     .then (response => response.json () )
     .then ( apiClub => {
         setClub(apiClub);
@@ -18,18 +18,7 @@ export default function club() {
     })
     }, []);
 
-    
-    function update(id) {
-        window.location.href = `/club/update/${id}`;    
-    }
 
-    function create() {
-        window.location.href = `/club/create`;    
-    }
-
-    function Delete(id) {
-        window.location.href = `/club/delete/${id}`;    
-    }
 
     return (
         <main className='admin'>
@@ -45,29 +34,13 @@ export default function club() {
                     </tr>
                 </thead>
                 <tbody>
-                    
-                    {clubs.map(club => (
-                            <tr key = {club.id}>
-                                <td>{club.nom}</td>
-                                <td>{club.ville}€</td>                                
-                                <td>{club.pays}</td>
-                                <td>{club.email}</td>
-                                <td>
-                                    {<button className = 'boutonProduit' type="button" onClick={(e) => update(club.id,e)}>
-                                        Modifier
-                                    </button>}
+                {clubs.map(club => (
+                    <div key={club.id} >
+                        <p> <b>{club.nom}</b></p>
+                    </div>
 
-                                    {<button className = 'boutonProduit' type="button" onClick={(create)}>
-                                        Créer
-                                    </button>}
-                                    
-                                    {<button className = 'boutonProduit' type="button" onClick={(e) => Delete(club.id,e)}>
-                                        Supprimer
-                                    </button>}
-                                </td>                            
-                            </tr>    
-
-                    ))}
+                ))}
+                   
                
 
                 </tbody>

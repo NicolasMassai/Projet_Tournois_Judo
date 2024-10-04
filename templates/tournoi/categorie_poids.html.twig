@@ -1,0 +1,20 @@
+
+<h1>Assigner des catégories de poids aux adhérents inscrits</h1>
+
+{{ form_start(form) }}
+
+    <div>
+        {{ form_label(form.adherants) }}
+        {{ form_widget(form.adherants) }}
+    </div>
+
+    <div>
+        {{ form_label(form.poids) }}
+        {{ form_widget(form.poids) }}
+    </div>
+
+    <div>
+        {{ form_widget(form.Assigner) }}
+    </div>
+
+{{ form_end(form) }}

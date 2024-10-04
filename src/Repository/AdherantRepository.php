@@ -16,6 +16,21 @@ class AdherantRepository extends ServiceEntityRepository
         parent::__construct($registry, Adherant::class);
     }
 
+    public function findAdherantsInscritsDansTournoi(int $tournoiId, int $clubId = null): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->join('a.tournois', 't')
+            ->where('t.id = :tournoiId')
+            ->setParameter('tournoiId', $tournoiId);
+
+        if ($clubId !== null) {
+            $qb->andWhere('a.club = :clubId')
+               ->setParameter('clubId', $clubId);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     //    /**
     //     * @return Adherant[] Returns an array of Adherant objects
     //     */

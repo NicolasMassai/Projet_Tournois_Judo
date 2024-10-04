@@ -24,9 +24,16 @@ class Categorie
     #[ORM\ManyToMany(targetEntity: Tournoi::class, mappedBy: 'poids')]
     private Collection $tournois;
 
+    /**
+     * @var Collection<int, Adherant>
+     */
+    #[ORM\ManyToMany(targetEntity: Adherant::class, mappedBy: 'poids')]
+    private Collection $adherants;
+
     public function __construct()
     {
         $this->tournois = new ArrayCollection();
+        $this->adherants = new ArrayCollection();
     }
 
 
@@ -73,4 +80,36 @@ class Categorie
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Adherant>
+     */
+    public function getAdherants(): Collection
+    {
+        return $this->adherants;
+    }
+
+    public function addAdherant(Adherant $adherant): static
+    {
+        if (!$this->adherants->contains($adherant)) {
+            $this->adherants->add($adherant);
+            $adherant->addPoid($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdherant(Adherant $adherant): static
+    {
+        if ($this->adherants->removeElement($adherant)) {
+            $adherant->removePoid($this);
+        }
+
+        return $this;
+    }
+        // Ajout de la méthode __toString pour permettre la conversion en chaîne
+        public function __toString(): string
+        {
+            return (string)$this->categorie_poids; // Retourne la catégorie de poids sous forme de chaîne
+        }       
 }

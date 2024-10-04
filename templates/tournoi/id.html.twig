@@ -16,7 +16,13 @@
 <h2>Combattants engagés</h2>
 <ul>
     {% for combattant in combattants %}
-        <li>{{ combattant.nom }} {{ combattant.prenom }} - Club: {{ combattant.club.nom }}</li>
+        <li>{{ combattant.nom }} {{ combattant.prenom }} - Club: {{ combattant.club }}
+            {% if combattant.poids is not empty %}
+                - Poids: {{ combattant.poids|join(', ') }} kg
+            {% else %}
+                - Poids: Non attribué
+            {% endif %}
+        </li>
     {% else %}
         <li>Aucun combattant engagé.</li>
     {% endfor %}

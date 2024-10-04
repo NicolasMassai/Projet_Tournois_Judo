@@ -22,9 +22,16 @@ class Adherant extends User
     #[ORM\ManyToMany(targetEntity: Tournoi::class, mappedBy: 'combattant')]
     private Collection $tournois;
 
+    /**
+     * @var Collection<int, Categorie>
+     */
+    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'adherants')]
+    private Collection $poids;
+
     public function __construct()
     {
         $this->tournois = new ArrayCollection();
+        $this->poids = new ArrayCollection();
     }
 
     public function getCombattant(): ?Combattant
@@ -74,6 +81,30 @@ class Adherant extends User
         if ($this->tournois->removeElement($tournoi)) {
             $tournoi->removeCombattant($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Categorie>
+     */
+    public function getPoids(): Collection
+    {
+        return $this->poids;
+    }
+
+    public function addPoid(Categorie $poid): static
+    {
+        if (!$this->poids->contains($poid)) {
+            $this->poids->add($poid);
+        }
+
+        return $this;
+    }
+
+    public function removePoid(Categorie $poid): static
+    {
+        $this->poids->removeElement($poid);
 
         return $this;
     }

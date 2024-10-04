@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-class ClubController extends AbstractController
+class Club2Controller extends AbstractController
 {
 
 
@@ -26,7 +26,7 @@ class ClubController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/clubs', name: 'app_club')]
+    #[Route('/club', name: 'app_club')]
     public function club(ClubRepository $clubRepository): Response
     {
         $clubs = $clubRepository->findAll();
@@ -45,6 +45,30 @@ class ClubController extends AbstractController
         return $this->render('club/club.html.twig', [
             'clubs' => $clubData,
         ]);
+    }
+
+    #[Route('/clubs/JSON', name: 'app_clubs2')]
+    public function clubJSON(ClubRepository $clubRepository): Response
+    {
+        $Club = $clubRepository->findAll();
+
+
+        $clubs = [];
+        foreach ($Club as $club) {
+            $clubs[] = [
+                'id' => $club->getId(),
+                'nom' => $club->getNom(),
+                'ville' => $club->getVille()
+            ];
+        }
+        return $this->json($clubs, 200);
+    }
+
+    #[Route('/clubs', name: 'app_clubs')]
+    public function montre(): Response
+    {
+
+        return $this->render('club2/index.html.twig');
     }
 
 

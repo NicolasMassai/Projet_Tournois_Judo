@@ -20,16 +20,16 @@ class InscriptionType extends AbstractType
         $builder
             ->add('combattant', EntityType::class, [
                 'class' => Adherant::class,
-                'choices' => $options['club_adherants'], // membres du club seulement
-                'choice_label' => function(Adherant $adherant) {
-                    return $adherant->getNom() . ' ' . $adherant->getPrenom();
-                },
+                'choices' => $options['club_adherants'], // membres du club
                 'multiple' => true,
-                'expanded' => true, // Pour afficher les membres comme des cases à cocher
-            ])
+                'expanded' => true,
+                'choice_label' => 'nom', // ou tout autre attribut du modèle Adherant
+                ])
+            
             ->add('submit', SubmitType::class, [
                 'label' => 'Inscrire au tournoi',
-            ]);
+                ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
