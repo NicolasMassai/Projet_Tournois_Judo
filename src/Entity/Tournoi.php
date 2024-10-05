@@ -34,8 +34,6 @@ class Tournoi
     #[ORM\OneToOne(mappedBy: 'tournoi', cascade: ['persist', 'remove'])]
     private ?HistoriqueCombat $historiqueCombat = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tournoi')]
-    private ?Combat $combat = null;
 
 
     /**
@@ -56,11 +54,18 @@ class Tournoi
     #[ORM\ManyToMany(targetEntity: Adherant::class, inversedBy: 'tournois')]
     private Collection $combattant;
 
+    /**
+     * @var Collection<int, Combat>
+     */
+    #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'tournoi')]
+    private Collection $combats;
+
     public function __construct()
     {
         $this->poids = new ArrayCollection();
         $this->clubs = new ArrayCollection();
         $this->combattant = new ArrayCollection();
+        $this->combats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,18 +166,6 @@ class Tournoi
         return $this;
     }
 
-    public function getCombat(): ?Combat
-    {
-        return $this->combat;
-    }
-
-    public function setCombat(?Combat $combat): static
-    {
-        $this->combat = $combat;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Categorie>
      */
@@ -241,6 +234,36 @@ class Tournoi
     public function removeCombattant(Adherant $combattant): static
     {
         $this->combattant->removeElement($combattant);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Combat>
+     */
+    public function getCombats(): Collection
+    {
+        return $this->combats;
+    }
+
+    public function addCombat(Combat $combat): static
+    {
+        if (!$this->combats->contains($combat)) {
+            $this->combats->add($combat);
+            $combat->setTournoi($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCombat(Combat $combat): static
+    {
+        if ($this->combats->removeElement($combat)) {
+            // set the owning side to null (unless already changed)
+            if ($combat->getTournoi() === $this) {
+                $combat->setTournoi(null);
+            }
+        }
 
         return $this;
     }

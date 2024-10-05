@@ -15,9 +15,6 @@ class Arbitre extends User
     #[ORM\Column]
     private ?bool $disponibilite = null;
 
-    #[ORM\OneToOne(mappedBy: 'arbitre', cascade: ['persist', 'remove'])]
-    private ?Combat $combat = null;
-
 
     public function getQualification(): ?string
     {
@@ -42,27 +39,5 @@ class Arbitre extends User
 
         return $this;
     }
-
-
-    public function getCombat(): ?Combat
-    {
-        return $this->combat;
-    }
-
-    public function setCombat(?Combat $combat): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($combat === null && $this->combat !== null) {
-            $this->combat->setArbitre(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($combat !== null && $combat->getArbitre() !== $this) {
-            $combat->setArbitre($this);
-        }
-
-        $this->combat = $combat;
-
-        return $this;
-    }
+  
 }

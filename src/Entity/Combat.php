@@ -16,43 +16,81 @@ class Combat
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\ManyToOne(inversedBy: 'combattant1')]
+    private ?Adherant $combattant1 = null;
+
+    #[ORM\ManyToOne(inversedBy: 'combattant2')]
+    private ?Adherant $combattant2 = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $scoreCombattant1 = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $scoreCombattant2 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $resultat = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    #[ORM\ManyToOne(inversedBy: 'combats')]
+    private ?Tournoi $tournoi = null;
 
-    /**
-     * @var Collection<int, tournoi>
-     */
-    #[ORM\OneToMany(targetEntity: Tournoi::class, mappedBy: 'combat')]
-    private Collection $tournoi;
 
-    /**
-     * @var Collection<int, self>
-     */
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'combats')]
-    private Collection $combattant;
-
-    /**
-     * @var Collection<int, self>
-     */
-    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'combattant')]
-    private Collection $combats;
-
-    #[ORM\OneToOne(inversedBy: 'combat', cascade: ['persist', 'remove'])]
-    private ?Arbitre $arbitre = null;
 
     public function __construct()
     {
-        $this->tournoi = new ArrayCollection();
-        $this->combattant = new ArrayCollection();
-        $this->combats = new ArrayCollection();
-    }
+       }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCombattant1(): ?Adherant
+    {
+        return $this->combattant1;
+    }
+
+    public function setCombattant1(?Adherant $combattant1): static
+    {
+        $this->combattant1 = $combattant1;
+
+        return $this;
+    }
+
+    public function getCombattant2(): ?Adherant
+    {
+        return $this->combattant2;
+    }
+
+    public function setCombattant2(?Adherant $combattant2): static
+    {
+        $this->combattant2 = $combattant2;
+
+        return $this;
+    }
+
+    public function getScoreCombattant1(): ?int
+    {
+        return $this->scoreCombattant1;
+    }
+
+    public function setScoreCombattant1(?int $scoreCombattant1): static
+    {
+        $this->scoreCombattant1 = $scoreCombattant1;
+
+        return $this;
+    }
+
+    public function getScoreCombattant2(): ?int
+    {
+        return $this->scoreCombattant2;
+    }
+
+    public function setScoreCombattant2(?int $scoreCombattant2): static
+    {
+        $this->scoreCombattant2 = $scoreCombattant2;
+
+        return $this;
     }
 
     public function getResultat(): ?string
@@ -60,116 +98,24 @@ class Combat
         return $this->resultat;
     }
 
-    public function setResultat(string $resultat): static
+    public function setResultat(?string $resultat): static
     {
         $this->resultat = $resultat;
 
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): static
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, tournoi>
-     */
-    public function getTournoi(): Collection
+    public function getTournoi(): ?Tournoi
     {
         return $this->tournoi;
     }
 
-    public function addTournoi(Tournoi $tournoi): static
+    public function setTournoi(?Tournoi $tournoi): static
     {
-        if (!$this->tournoi->contains($tournoi)) {
-            $this->tournoi->add($tournoi);
-            $tournoi->setCombat($this);
-        }
+        $this->tournoi = $tournoi;
 
         return $this;
     }
 
-    public function removeTournoi(Tournoi $tournoi): static
-    {
-        if ($this->tournoi->removeElement($tournoi)) {
-            // set the owning side to null (unless already changed)
-            if ($tournoi->getCombat() === $this) {
-                $tournoi->setCombat(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, self>
-     */
-    public function getCombattant(): Collection
-    {
-        return $this->combattant;
-    }
-
-    public function addCombattant(self $combattant): static
-    {
-        if (!$this->combattant->contains($combattant)) {
-            $this->combattant->add($combattant);
-        }
-
-        return $this;
-    }
-
-    public function removeCombattant(self $combattant): static
-    {
-        $this->combattant->removeElement($combattant);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, self>
-     */
-    public function getCombats(): Collection
-    {
-        return $this->combats;
-    }
-
-    public function addCombat(self $combat): static
-    {
-        if (!$this->combats->contains($combat)) {
-            $this->combats->add($combat);
-            $combat->addCombattant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCombat(self $combat): static
-    {
-        if ($this->combats->removeElement($combat)) {
-            $combat->removeCombattant($this);
-        }
-
-        return $this;
-    }
-
-    public function getArbitre(): ?Arbitre
-    {
-        return $this->arbitre;
-    }
-
-    public function setArbitre(?Arbitre $arbitre): static
-    {
-        $this->arbitre = $arbitre;
-
-        return $this;
-    }
-
+    
 }

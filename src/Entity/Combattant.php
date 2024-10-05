@@ -36,8 +36,6 @@ class Combattant
     #[ORM\ManyToOne(inversedBy: 'combattant')]
     private ?HistoriqueCombat $historiqueCombat = null;
 
-    #[ORM\OneToOne(mappedBy: 'combattant', cascade: ['persist', 'remove'])]
-    private ?Adherant $adherant = null;
 
     #[ORM\ManyToOne(inversedBy: 'combattant')]
     private ?Club $club = null;
@@ -141,28 +139,6 @@ class Combattant
     public function setHistoriqueCombat(?HistoriqueCombat $historiqueCombat): static
     {
         $this->historiqueCombat = $historiqueCombat;
-
-        return $this;
-    }
-
-    public function getAdherant(): ?Adherant
-    {
-        return $this->adherant;
-    }
-
-    public function setAdherant(?Adherant $adherant): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($adherant === null && $this->adherant !== null) {
-            $this->adherant->setCombattant(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($adherant !== null && $adherant->getCombattant() !== $this) {
-            $adherant->setCombattant($this);
-        }
-
-        $this->adherant = $adherant;
 
         return $this;
     }

@@ -10,8 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: AdherantRepository::class)]
 class Adherant extends User
 {
-    #[ORM\OneToOne(inversedBy: 'adherant', cascade: ['persist', 'remove'])]
-    private ?Combattant $combattant = null;
 
     #[ORM\ManyToOne(inversedBy: 'adherant')]
     private ?Club $club = null;
@@ -28,22 +26,24 @@ class Adherant extends User
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'adherants')]
     private Collection $poids;
 
+    /**
+     * @var Collection<int, Combat>
+     */
+    #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'combattant1')]
+    private Collection $combattant1;
+
+    /**
+     * @var Collection<int, Combat>
+     */
+    #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'combattant2')]
+    private Collection $combattant2;
+
     public function __construct()
     {
         $this->tournois = new ArrayCollection();
         $this->poids = new ArrayCollection();
-    }
-
-    public function getCombattant(): ?Combattant
-    {
-        return $this->combattant;
-    }
-
-    public function setCombattant(?Combattant $combattant): static
-    {
-        $this->combattant = $combattant;
-
-        return $this;
+        $this->combattant1 = new ArrayCollection();
+        $this->combattant2 = new ArrayCollection();
     }
 
     public function getClub(): ?Club
@@ -105,6 +105,66 @@ class Adherant extends User
     public function removePoid(Categorie $poid): static
     {
         $this->poids->removeElement($poid);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Combat>
+     */
+    public function getCombattant1(): Collection
+    {
+        return $this->combattant1;
+    }
+
+    public function addCombattant1(Combat $combattant1): static
+    {
+        if (!$this->combattant1->contains($combattant1)) {
+            $this->combattant1->add($combattant1);
+            $combattant1->setCombattant1($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCombattant1(Combat $combattant1): static
+    {
+        if ($this->combattant1->removeElement($combattant1)) {
+            // set the owning side to null (unless already changed)
+            if ($combattant1->getCombattant1() === $this) {
+                $combattant1->setCombattant1(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Combat>
+     */
+    public function getCombattant2(): Collection
+    {
+        return $this->combattant2;
+    }
+
+    public function addCombattant2(Combat $combattant2): static
+    {
+        if (!$this->combattant2->contains($combattant2)) {
+            $this->combattant2->add($combattant2);
+            $combattant2->setCombattant2($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCombattant2(Combat $combattant2): static
+    {
+        if ($this->combattant2->removeElement($combattant2)) {
+            // set the owning side to null (unless already changed)
+            if ($combattant2->getCombattant2() === $this) {
+                $combattant2->setCombattant2(null);
+            }
+        }
 
         return $this;
     }

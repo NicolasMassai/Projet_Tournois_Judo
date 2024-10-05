@@ -1,0 +1,35 @@
+{# templates/phase_poule/combats.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Combats de la phase de poule - {{ tournoi.nom }}{% endblock %}
+
+{% block body %}
+    <h1>Combats de la phase de poule pour le tournoi {{ tournoi.nom }}</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Combattant 1</th>
+                <th>Combattant 2</th>
+                <th>Catégorie de poids</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for combat in combats %}
+                <tr>
+                    <td>{{ combat.combattant1.nom }} {{ combat.combattant1.prenom }}</td>
+                    <td>{{ combat.combattant2.nom }} {{ combat.combattant2.prenom }}</td>
+                    <td>{{ combat.combattant1.categoriePoids.nom }}</td>
+                    <td>{% if combat.resultat %}
+                        {{ combat.resultat }}
+                    {% else %}
+                        En attente
+                    {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
