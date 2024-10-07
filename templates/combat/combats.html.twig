@@ -1,35 +1,34 @@
-{# templates/phase_poule/combats.html.twig #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Combats de la phase de poule - {{ tournoi.nom }}{% endblock %}
+{% block title %}Combats du Tournoi {{ tournoi.nom }}{% endblock %}
 
 {% block body %}
-    <h1>Combats de la phase de poule pour le tournoi {{ tournoi.nom }}</h1>
+    <h1>Combats du Tournoi {{ tournoi.nom }}</h1>
 
     <table>
         <thead>
             <tr>
+                <th>#</th>
                 <th>Combattant 1</th>
                 <th>Combattant 2</th>
-                <th>Catégorie de poids</th>
-                <th>Score</th>
+                <th>Score Combattant 1</th>
+                <th>Score Combattant 2</th>
+                <th>Catégorie</th>
             </tr>
         </thead>
         <tbody>
-            {% for combat in combats %}
-                <tr>
-                    <td>{{ combat.combattant1.nom }} {{ combat.combattant1.prenom }}</td>
-                    <td>{{ combat.combattant2.nom }} {{ combat.combattant2.prenom }}</td>
-                    <td>{{ combat.combattant1.categoriePoids.nom }}</td>
-                    <td>{% if combat.resultat %}
-                        {{ combat.resultat }}
-                    {% else %}
-                        En attente
-                    {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
+        {% for combat in combats %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ combat.combattant1.nom }} {{ combat.combattant1.prenom }}</td>
+                <td>{{ combat.combattant2.nom }} {{ combat.combattant2.prenom }}</td>
+                <td>{{ combat.scoreCombattant1 }}</td>
+                <td>{{ combat.scoreCombattant2 }}</td>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucun combat disponible pour ce tournoi.</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 {% endblock %}

@@ -30,10 +30,24 @@ class Categorie
     #[ORM\ManyToMany(targetEntity: Adherant::class, mappedBy: 'poids')]
     private Collection $adherants;
 
+    /**
+     * @var Collection<int, Groupe>
+     */
+    #[ORM\OneToMany(targetEntity: Groupe::class, mappedBy: 'categorie')]
+    private Collection $groupes;
+
+    /**
+     * @var Collection<int, Combat>
+     */
+    #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'categorie')]
+    private Collection $combats;
+
     public function __construct()
     {
         $this->tournois = new ArrayCollection();
         $this->adherants = new ArrayCollection();
+        $this->groupes = new ArrayCollection();
+        $this->combats = new ArrayCollection();
     }
 
 
@@ -111,5 +125,65 @@ class Categorie
         public function __toString(): string
         {
             return (string)$this->categorie_poids; // Retourne la catégorie de poids sous forme de chaîne
+        }
+
+        /**
+         * @return Collection<int, Groupe>
+         */
+        public function getGroupes(): Collection
+        {
+            return $this->groupes;
+        }
+
+        public function addGroupe(Groupe $groupe): static
+        {
+            if (!$this->groupes->contains($groupe)) {
+                $this->groupes->add($groupe);
+                $groupe->setCategorie($this);
+            }
+
+            return $this;
+        }
+
+        public function removeGroupe(Groupe $groupe): static
+        {
+            if ($this->groupes->removeElement($groupe)) {
+                // set the owning side to null (unless already changed)
+                if ($groupe->getCategorie() === $this) {
+                    $groupe->setCategorie(null);
+                }
+            }
+
+            return $this;
+        }
+
+        /**
+         * @return Collection<int, Combat>
+         */
+        public function getCombats(): Collection
+        {
+            return $this->combats;
+        }
+
+        public function addCombat(Combat $combat): static
+        {
+            if (!$this->combats->contains($combat)) {
+                $this->combats->add($combat);
+                $combat->setCategorie($this);
+            }
+
+            return $this;
+        }
+
+        public function removeCombat(Combat $combat): static
+        {
+            if ($this->combats->removeElement($combat)) {
+                // set the owning side to null (unless already changed)
+                if ($combat->getCategorie() === $this) {
+                    $combat->setCategorie(null);
+                }
+            }
+
+            return $this;
         }       
 }

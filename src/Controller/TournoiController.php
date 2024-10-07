@@ -168,13 +168,12 @@ class TournoiController extends AbstractController
         EntityManagerInterface $em, AdherantRepository $adherantRepository): Response {
 
 
-             // Récupérer l'utilisateur connecté
+    // Récupérer l'utilisateur connecté
     $user = $this->getUser();
     // Récupérer le club du président
     $club = $user->getPresidentClub();
 
     // Récupérer les adhérents du club déjà inscrits au tournoi
-
        
     $tournoiID = $tournoi->getId();
 

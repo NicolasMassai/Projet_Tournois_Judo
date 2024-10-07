@@ -34,6 +34,9 @@ class Combat
     #[ORM\ManyToOne(inversedBy: 'combats')]
     private ?Tournoi $tournoi = null;
 
+    #[ORM\ManyToOne(inversedBy: 'combats')]
+    private ?Categorie $categorie = null;
+
 
 
     public function __construct()
@@ -113,6 +116,18 @@ class Combat
     public function setTournoi(?Tournoi $tournoi): static
     {
         $this->tournoi = $tournoi;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): static
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }

@@ -60,12 +60,22 @@ class Tournoi
     #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'tournoi')]
     private Collection $combats;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $combatGenerer = false;
+
+    /**
+     * @var Collection<int, Groupe>
+     */
+    #[ORM\OneToMany(targetEntity: Groupe::class, mappedBy: 'tournoi')]
+    private Collection $groupes;
+
     public function __construct()
     {
         $this->poids = new ArrayCollection();
         $this->clubs = new ArrayCollection();
         $this->combattant = new ArrayCollection();
         $this->combats = new ArrayCollection();
+        $this->groupes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -262,6 +272,48 @@ class Tournoi
             // set the owning side to null (unless already changed)
             if ($combat->getTournoi() === $this) {
                 $combat->setTournoi(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isCombatGenerer(): ?bool
+    {
+        return $this->combatGenerer;
+    }
+
+    public function setCombatGenerer(?bool $combatGenerer): static
+    {
+        $this->combatGenerer = $combatGenerer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Groupe>
+     */
+    public function getGroupes(): Collection
+    {
+        return $this->groupes;
+    }
+
+    public function addGroupe(Groupe $groupe): static
+    {
+        if (!$this->groupes->contains($groupe)) {
+            $this->groupes->add($groupe);
+            $groupe->setTournoi($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupe(Groupe $groupe): static
+    {
+        if ($this->groupes->removeElement($groupe)) {
+            // set the owning side to null (unless already changed)
+            if ($groupe->getTournoi() === $this) {
+                $groupe->setTournoi(null);
             }
         }
 

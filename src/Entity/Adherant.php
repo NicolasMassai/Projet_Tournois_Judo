@@ -38,12 +38,19 @@ class Adherant extends User
     #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'combattant2')]
     private Collection $combattant2;
 
+    /**
+     * @var Collection<int, Groupe>
+     */
+    #[ORM\ManyToMany(targetEntity: Groupe::class, mappedBy: 'combattants')]
+    private Collection $groupes;
+
     public function __construct()
     {
         $this->tournois = new ArrayCollection();
         $this->poids = new ArrayCollection();
         $this->combattant1 = new ArrayCollection();
         $this->combattant2 = new ArrayCollection();
+        $this->groupes = new ArrayCollection();
     }
 
     public function getClub(): ?Club
@@ -164,6 +171,33 @@ class Adherant extends User
             if ($combattant2->getCombattant2() === $this) {
                 $combattant2->setCombattant2(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Groupe>
+     */
+    public function getGroupes(): Collection
+    {
+        return $this->groupes;
+    }
+
+    public function addGroupe(Groupe $groupe): static
+    {
+        if (!$this->groupes->contains($groupe)) {
+            $this->groupes->add($groupe);
+            $groupe->addCombattant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupe(Groupe $groupe): static
+    {
+        if ($this->groupes->removeElement($groupe)) {
+            $groupe->removeCombattant($this);
         }
 
         return $this;

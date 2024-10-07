@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Combat;
+use App\Entity\Groupe;
 use App\Entity\Tournoi;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,29 +26,170 @@ class CombatController extends AbstractController
     #[Route('/tournoi/{id}/groupes', name: 'afficher_groupes')]
     public function afficherGroupes(Tournoi $tournoi): Response
     {
-        // Récupérer les groupes pour ce tournoi
         $groupes = $this->creerGroupesParCategorie($tournoi);
 
-        // Rendre le template Twig et passer les groupes
+        // Récupérer les groupes du tournoi
+        $groupes = $tournoi->getGroupes();
+        
+        $resultats = [];
+    
+        // Parcourir chaque groupe
+        foreach ($groupes as $groupe) {
+            // Récupérer les combattants du groupe
+            $combattants = $groupe->getCombattants();
+    
+            // Préparer une liste des noms des combattants
+            $nomsCombattants = [];
+            foreach ($combattants as $combattant) {
+                $nomsCombattants[] = $combattant->getNom() . ' ' . $combattant->getPrenom();
+            }
+    
+            // Stocker le nom du groupe et les noms des combattants
+            $resultats[] = [
+                'groupe' => $groupe->getNom(),
+                'combattants' => $nomsCombattants,
+            ];
+        }
+    
+        // Rendre la vue avec les données des groupes et combattants
         return $this->render('combat/groupes.html.twig', [
-            'tournoi' => $tournoi,
-            'groupes' => $groupes,
+            'resultats' => $resultats,
         ]);
     }
-
+    
+    
     #[Route('/tournoi/{id}/combats', name: 'afficher_combats')]
     public function afficherCombats(Tournoi $tournoi): Response
     {
-        // Récupérer les combats pour ce tournoi
-        $combats = $this->genererCombatsPhaseDePoule($tournoi);
+        // Récupérer tous les combats du tournoi
+        $combats = $this->em->getRepository(Combat::class)->findBy(['tournoi' => $tournoi]);
 
-        // Rendre le template Twig et passer les combats
         return $this->render('combat/combats.html.twig', [
             'tournoi' => $tournoi,
             'combats' => $combats,
         ]);
     }
+    
+    public function creerGroupesParCategorie(Tournoi $tournoi): array
+{
+    // Vérifier si les groupes ont déjà été générés
+    if ($tournoi->getGroupes()->count() > 0) {
+        return []; // Si oui, on ne régénère pas les groupes
+    }
 
+    // Tableau pour stocker les groupes de toutes les catégories
+    $groupesParCategorie = [];
+    
+    // Récupérer toutes les catégories de poids du tournoi
+    $categories = $tournoi->getPoids();
+
+    foreach ($categories as $categorie) {
+        // Récupérer les combattants de la catégorie
+        $combattants = $categorie->getAdherants();
+
+        // Filtrer les combattants inscrits dans le tournoi
+        $combattantsTournoi = $combattants->filter(function($combattant) use ($tournoi) {
+            return $combattant->getTournois()->contains($tournoi);
+        });
+
+        // Si la catégorie a moins de 16 combattants, elle ne participe pas
+        if (count($combattantsTournoi) < 16) {
+            continue;
+        }
+
+        // Mélanger les combattants pour une sélection aléatoire
+        $combattantsTournoi = $combattantsTournoi instanceof \Doctrine\Common\Collections\Collection
+            ? $combattantsTournoi->toArray()
+            : $combattantsTournoi;
+        shuffle($combattantsTournoi);
+
+        // Prendre les 16 premiers combattants
+        $combattantsTournoi = array_slice($combattantsTournoi, 0, 16);
+
+        // Créer 4 groupes de 4 combattants
+        $groupes = array_chunk($combattantsTournoi, 4);
+
+        // Enregistrer les groupes en base de données
+        foreach ($groupes as $index => $groupeCombattants) {
+            $groupe = new Groupe();
+            $groupe->setNom("Groupe " . ($index + 1) . " - Catégorie " . $categorie->getCategoriePoids() . " kg");
+            $groupe->setTournoi($tournoi);
+            $groupe->setCategorie($categorie);
+
+            foreach ($groupeCombattants as $combattant) {
+                $groupe->addCombattant($combattant);
+            }
+
+            $this->em->persist($groupe);
+            $tournoi->addGroupe($groupe);
+
+            // Créer les combats pour ce groupe
+            $this->creerCombatsPourGroupe($groupeCombattants, $tournoi);
+        }
+
+        $this->em->flush();
+    }
+
+    return $groupesParCategorie;
+}
+
+    
+// Méthode pour créer les combats entre les membres d'un groupe
+private function creerCombatsPourGroupe(array $groupe, Tournoi $tournoi): void
+{
+    // Créer les combats round-robin (chaque combattant affronte tous les autres)
+    for ($i = 0; $i < count($groupe); $i++) {
+        for ($j = $i + 1; $j < count($groupe); $j++) {
+            $combat = new Combat();
+            $combat->setCombattant1($groupe[$i]);
+            $combat->setCombattant2($groupe[$j]);
+            $combat->setTournoi($tournoi);
+
+            // Simuler le résultat du combat
+            $resultat = rand(0, 2); // 0: combattant1 gagne 10-0, 1: combattant2 gagne 10-0, 2: égalité 10-7 ou 7-10
+
+            switch ($resultat) {
+                case 0: // combattant1 gagne 10 à 0
+                    $combat->setScoreCombattant1(10);
+                    $combat->setScoreCombattant2(0);
+                    $combat->setResultat('combattant1'); // combattant1 gagne
+                    break;
+
+                case 1: // combattant2 gagne 10 à 0
+                    $combat->setScoreCombattant1(0);
+                    $combat->setScoreCombattant2(10);
+                    $combat->setResultat('combattant2'); // combattant2 gagne
+                    break;
+
+                case 2: // Simuler un score de 10-7 ou 7-10
+                    $scoreGagnant = 10;
+                    $scorePerdant = 7;
+                    $gagnant = rand(0, 1); // 0 pour combattant1, 1 pour combattant2
+
+                    if ($gagnant === 0) {
+                        $combat->setScoreCombattant1($scoreGagnant);
+                        $combat->setScoreCombattant2($scorePerdant);
+                        $combat->setResultat('combattant1'); // combattant1 gagne
+                    } else {
+                        $combat->setScoreCombattant1($scorePerdant);
+                        $combat->setScoreCombattant2($scoreGagnant);
+                        $combat->setResultat('combattant2'); // combattant2 gagne
+                    }
+                    break;
+            }
+
+            // Enregistrer le combat (Doctrine ou autre)
+            $this->em->persist($combat);
+        }
+    }
+
+    // Sauvegarder tous les combats
+    $this->em->flush();
+}
+
+
+
+/*
     // Dans votre contrôleur ou service pour gérer la phase de poules
 public function creerGroupesParCategorie(Tournoi $tournoi)
 {
@@ -99,7 +241,7 @@ public function genererCombatsPhaseDePoule(Tournoi $tournoi)
     $this->em->flush();
 }
 
-
+*/
  
     
     /*

@@ -1,22 +1,14 @@
-{# templates/phase_poule/groupes.html.twig #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Groupes de la phase de poule - {{ tournoi.nom }}{% endblock %}
-
 {% block body %}
-    <h1>Groupes de la phase de poule pour le tournoi {{ tournoi.nom }}</h1>
+    <h1>Groupes du Tournoi</h1>
 
-    {% for categorie, groupes in groupes %}
-        <h2>Catégorie de poids: {{ categorie }} kg</h2>
-
-        {% for groupe in groupes %}
-            <h3>Groupe {{ loop.index }}</h3>
-            <ul>
-                {% for combattant in groupe %}
-                    <li>{{ combattant.nom }} {{ combattant.prenom }} (Club: {{ combattant.club }})</li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
+    {% for resultat in resultats %}
+        <h2>{{ resultat.groupe }}</h2>
+        <ul>
+            {% for combattant in resultat.combattants %}
+                <li>{{ combattant }}</li>
+            {% endfor %}
+        </ul>
     {% endfor %}
 {% endblock %}
