@@ -37,6 +37,12 @@ class Combat
     #[ORM\ManyToOne(inversedBy: 'combats')]
     private ?Categorie $categorie = null;
 
+    #[ORM\ManyToOne(inversedBy: 'combats')]
+    private ?Groupe $groupe = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Phase = null;
+
 
 
     public function __construct()
@@ -128,6 +134,30 @@ class Combat
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getGroupe(): ?Groupe
+    {
+        return $this->groupe;
+    }
+
+    public function setGroupe(?Groupe $groupe): static
+    {
+        $this->groupe = $groupe;
+
+        return $this;
+    }
+
+    public function getPhase(): ?string
+    {
+        return $this->Phase;
+    }
+
+    public function setPhase(string $Phase): static
+    {
+        $this->Phase = $Phase;
 
         return $this;
     }

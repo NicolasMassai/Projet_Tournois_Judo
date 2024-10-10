@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Classement du tournoi {{ tournoi.nom }}</h1>
+
+    {% for groupe, classement in classements %}
+        <h2>{{ groupe }}</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Classement</th>
+                    <th>Combattant</th>
+                    <th>Points</th>
+                    <th>Combats Gagnés</th>
+                    <th>Combats Perdus</th>
+                    <th>Score Total</th> <!-- Nouvelle colonne pour le score total -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in classement %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ entry.combattant.nom }} {{ entry.combattant.prenom }}</td>
+                        <td>{{ entry.points }}</td>
+                        <td>{{ entry.combats_gagnes }}</td>
+                        <td>{{ entry.combats_perdus }}</td>
+                        <td>{{ entry.score_total }}</td> <!-- Affichage du score total -->
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+{% endblock %}

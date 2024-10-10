@@ -30,9 +30,16 @@ class Groupe
     #[ORM\ManyToOne(inversedBy: 'groupes')]
     private ?Categorie $categorie = null;
 
+    /**
+     * @var Collection<int, Combat>
+     */
+    #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'groupe')]
+    private Collection $combats;
+
     public function __construct()
     {
         $this->combattants = new ArrayCollection();
+        $this->combats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,6 +103,36 @@ class Groupe
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Combat>
+     */
+    public function getCombats(): Collection
+    {
+        return $this->combats;
+    }
+
+    public function addCombat(Combat $combat): static
+    {
+        if (!$this->combats->contains($combat)) {
+            $this->combats->add($combat);
+            $combat->setGroupe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCombat(Combat $combat): static
+    {
+        if ($this->combats->removeElement($combat)) {
+            // set the owning side to null (unless already changed)
+            if ($combat->getGroupe() === $this) {
+                $combat->setGroupe(null);
+            }
+        }
 
         return $this;
     }
