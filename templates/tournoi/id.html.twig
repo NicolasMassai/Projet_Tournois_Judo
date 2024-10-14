@@ -17,11 +17,12 @@
 <ul>
     {% for combattant in combattants %}
         <li>{{ combattant.nom }} {{ combattant.prenom }} - Club: {{ combattant.club }}
-            {% if combattant.poids is not empty %}
-                - Poids: {{ combattant.poids|join(', ') }} kg
+            {% if combattant.categorie is not empty %}
+                - Poids: {{ combattant.categorie.getCategoriePoids }} kg
             {% else %}
                 - Poids: Non attribué
             {% endif %}
+
         </li>
     {% else %}
         <li>Aucun combattant engagé.</li>
@@ -31,7 +32,7 @@
 <h2>Catégories de poids</h2>
 <ul>
     {% for categorie in categories %}
-        <li>{{ categorie.getCategoriePoids }} kg</li>
+        <li>{{ categorie}} kg</li>
     {% else %}
         <li>Aucune catégorie associée à ce tournoi.</li>
     {% endfor %}

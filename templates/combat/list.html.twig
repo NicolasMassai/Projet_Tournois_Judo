@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Liste des combats</h1>
+    <ul>
+    {% for combat in combats %}
+        <li>
+            {{ combat.combattant1.nom }} vs {{ combat.combattant2.nom }} 
+            <a href="{{ path('edit_combat', {id: combat.id}) }}">Saisir le résultat</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

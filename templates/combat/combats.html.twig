@@ -13,6 +13,9 @@
                 <th>Combattant 2</th>
                 <th>Score Combattant 1</th>
                 <th>Score Combattant 2</th>
+                <th>Catégorie</th>
+                <th>Phase</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -23,9 +26,15 @@
                 <td>{{ combat.combattant2.nom }} {{ combat.combattant2.prenom }}</td>
                 <td>{{ combat.scoreCombattant1 }}</td>
                 <td>{{ combat.scoreCombattant2 }}</td>
+                <td>{{ combat.categorie }} kg</td>
+                <td>{{ combat.phase }}</td>
+                <td>
+                    <a href="{{ path('edit_combat', {id: combat.id}) }}">Saisir le résultat</a>
+                </td>
+            </tr>
         {% else %}
             <tr>
-                <td colspan="7">Aucun combat disponible pour ce tournoi.</td>
+                <td colspan="8">Aucun combat disponible pour ce tournoi.</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -25,12 +25,6 @@ class Categorie
     private Collection $tournois;
 
     /**
-     * @var Collection<int, Adherant>
-     */
-    #[ORM\ManyToMany(targetEntity: Adherant::class, mappedBy: 'poids')]
-    private Collection $adherants;
-
-    /**
      * @var Collection<int, Groupe>
      */
     #[ORM\OneToMany(targetEntity: Groupe::class, mappedBy: 'categorie')]
@@ -42,12 +36,18 @@ class Categorie
     #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'categorie')]
     private Collection $combats;
 
+    /**
+     * @var Collection<int, Adherant>
+     */
+    #[ORM\OneToMany(targetEntity: Adherant::class, mappedBy: 'categorie')]
+    private Collection $adherants;
+
     public function __construct()
     {
         $this->tournois = new ArrayCollection();
-        $this->adherants = new ArrayCollection();
         $this->groupes = new ArrayCollection();
         $this->combats = new ArrayCollection();
+        $this->adherants = new ArrayCollection();
     }
 
 
@@ -94,33 +94,7 @@ class Categorie
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Adherant>
-     */
-    public function getAdherants(): Collection
-    {
-        return $this->adherants;
-    }
-
-    public function addAdherant(Adherant $adherant): static
-    {
-        if (!$this->adherants->contains($adherant)) {
-            $this->adherants->add($adherant);
-            $adherant->addPoid($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAdherant(Adherant $adherant): static
-    {
-        if ($this->adherants->removeElement($adherant)) {
-            $adherant->removePoid($this);
-        }
-
-        return $this;
-    }
+  
         // Ajout de la méthode __toString pour permettre la conversion en chaîne
         public function __toString(): string
         {
@@ -181,6 +155,36 @@ class Categorie
                 // set the owning side to null (unless already changed)
                 if ($combat->getCategorie() === $this) {
                     $combat->setCategorie(null);
+                }
+            }
+
+            return $this;
+        }
+
+        /**
+         * @return Collection<int, Adherant>
+         */
+        public function getAdherants(): Collection
+        {
+            return $this->adherants;
+        }
+
+        public function addAdherant(Adherant $adherant): static
+        {
+            if (!$this->adherants->contains($adherant)) {
+                $this->adherants->add($adherant);
+                $adherant->setCategorie($this);
+            }
+
+            return $this;
+        }
+
+        public function removeAdherant(Adherant $adherant): static
+        {
+            if ($this->adherants->removeElement($adherant)) {
+                // set the owning side to null (unless already changed)
+                if ($adherant->getCategorie() === $this) {
+                    $adherant->setCategorie(null);
                 }
             }
 

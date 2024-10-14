@@ -168,63 +168,63 @@ class TournoiController extends AbstractController
         EntityManagerInterface $em, AdherantRepository $adherantRepository): Response {
 
 
-    // Récupérer l'utilisateur connecté
-    $user = $this->getUser();
-    // Récupérer le club du président
-    $club = $user->getPresidentClub();
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+        // Récupérer le club du président
+        $club = $user->getPresidentClub();
 
-    // Récupérer les adhérents du club déjà inscrits au tournoi
-       
-    $tournoiID = $tournoi->getId();
+        // Récupérer les adhérents du club déjà inscrits au tournoi
+        
+        $tournoiID = $tournoi->getId();
 
-    // Récupérer les adhérents déjà inscrits au tournoi
-    $adherantsInscrits = $adherantRepository->findAdherantsInscritsDansTournoi($tournoiID, $club->getId());
+        // Récupérer les adhérents déjà inscrits au tournoi
+        $adherantsInscrits = $adherantRepository->findAdherantsInscritsDansTournoi($tournoiID, $club->getId());
 
-    // Créer le formulaire pour associer les adhérents à une catégorie de poids
-    $form = $this->createFormBuilder()
-        ->add('adherants', EntityType::class, [
-            'class' => Adherant::class,
-            'choices' => $adherantsInscrits, // Seuls les adhérents inscrits au tournoi
-            'choice_label' => 'nom',
-            'multiple' => true,
-            'expanded' => true,
-        ])
-        ->add('poids', EntityType::class, [
-            'class' => Categorie::class,
-            'choices' => $tournoi->getPoids(), // Seules les catégories de poids disponibles pour ce tournoi
-            'choice_label' => 'categorie_poids',
-            'multiple' => false,
-            'expanded' => false,
-        ])
-        ->add('Assigner', SubmitType::class)
-        ->getForm();
+        // Créer le formulaire pour associer les adhérents à une catégorie de poids
+        $form = $this->createFormBuilder()
+            ->add('adherants', EntityType::class, [
+                'class' => Adherant::class,
+                'choices' => $adherantsInscrits, // Seuls les adhérents inscrits au tournoi
+                'choice_label' => 'nom',
+                'multiple' => true,
+                'expanded' => true,
+            ])
+            ->add('poids', EntityType::class, [
+                'class' => Categorie::class,
+                'choices' => $tournoi->getPoids(), // Seules les catégories de poids disponibles pour ce tournoi
+                'choice_label' => 'categorie_poids',
+                'multiple' => false,
+                'expanded' => false,
+            ])
+            ->add('Assigner', SubmitType::class)
+            ->getForm();
 
-    $form->handleRequest($request);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        // Récupérer les adhérents sélectionnés
-        $selectedAdherants = $form->get('adherants')->getData();
-        // Récupérer la catégorie de poids sélectionnée
-        $categoriePoids = $form->get('poids')->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupérer les adhérents sélectionnés
+            $selectedAdherants = $form->get('adherants')->getData();
+            // Récupérer la catégorie de poids sélectionnée
+            $categoriePoids = $form->get('poids')->getData();
 
-        // Assigner la catégorie de poids à chaque adhérent
-        foreach ($selectedAdherants as $adherant) {
-            $adherant->addPoid($categoriePoids);
-            $em->persist($adherant);
+            // Assigner la catégorie de poids à chaque adhérent
+            foreach ($selectedAdherants as $adherant) {
+                $adherant->setCategorie($categoriePoids);
+                $em->persist($adherant);
+            }
+
+            // Sauvegarder les modifications
+            $em->flush();
+
+            // Rediriger vers la page de détails du tournoi
+            return $this->redirectToRoute('app_tournoi_show', ['id' => $tournoi->getId()]); 
         }
 
-        // Sauvegarder les modifications
-        $em->flush();
-
-        // Rediriger vers la page de détails du tournoi
-        return $this->redirectToRoute('app_tournoi_show', ['id' => $tournoi->getId()]); 
+        return $this->render('tournoi/categorie_poids.html.twig', [
+            'form' => $form->createView(),
+            'tournoi' => $tournoi,
+        ]);
     }
-
-    return $this->render('tournoi/categorie_poids.html.twig', [
-        'form' => $form->createView(),
-        'tournoi' => $tournoi,
-    ]);
-}
 
 
 }

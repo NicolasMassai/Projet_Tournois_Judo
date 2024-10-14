@@ -21,12 +21,6 @@ class Adherant extends User
     private Collection $tournois;
 
     /**
-     * @var Collection<int, Categorie>
-     */
-    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'adherants')]
-    private Collection $poids;
-
-    /**
      * @var Collection<int, Combat>
      */
     #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'combattant1')]
@@ -44,10 +38,12 @@ class Adherant extends User
     #[ORM\ManyToMany(targetEntity: Groupe::class, mappedBy: 'combattants')]
     private Collection $groupes;
 
+    #[ORM\ManyToOne(inversedBy: 'adherants')]
+    private ?Categorie $categorie = null;
+
     public function __construct()
     {
         $this->tournois = new ArrayCollection();
-        $this->poids = new ArrayCollection();
         $this->combattant1 = new ArrayCollection();
         $this->combattant2 = new ArrayCollection();
         $this->groupes = new ArrayCollection();
@@ -92,29 +88,6 @@ class Adherant extends User
         return $this;
     }
 
-    /**
-     * @return Collection<int, Categorie>
-     */
-    public function getPoids(): Collection
-    {
-        return $this->poids;
-    }
-
-    public function addPoid(Categorie $poid): static
-    {
-        if (!$this->poids->contains($poid)) {
-            $this->poids->add($poid);
-        }
-
-        return $this;
-    }
-
-    public function removePoid(Categorie $poid): static
-    {
-        $this->poids->removeElement($poid);
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Combat>
@@ -202,4 +175,22 @@ class Adherant extends User
 
         return $this;
     }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): static
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->categorie ? (string) $this->categorie : 'Aucune catégorie';
+    }
+    
 }
