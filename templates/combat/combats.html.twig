@@ -29,8 +29,9 @@
                 <td>{{ combat.categorie }} kg</td>
                 <td>{{ combat.phase }}</td>
                 <td>
-                    <a href="{{ path('edit_combat', {id: combat.id}) }}">Saisir le résultat</a>
+                    <a href="{{ path('edit_combat', {id: combat.tournoi.id, idC: combat.id}) }}">Saisir le résultat</a>
                 </td>
+
             </tr>
         {% else %}
             <tr>

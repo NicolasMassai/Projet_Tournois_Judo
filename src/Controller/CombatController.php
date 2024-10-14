@@ -226,15 +226,18 @@ private function creerCombatsPourGroupeManuel(array $groupe, Groupe $groupes, To
     $this->em->flush();
 }
 
-#[Route('/tournoi/combats/{id}/edit', name: 'edit_combat')]
-public function editCombat(Combat $combat,int $id, Request $request, EntityManagerInterface $em): Response
-    {
 
-        $combat = $em->getRepository(Combat::class)->find($id);
-        
+#[Route('/tournoi/{id}/combats/{idC}/edit', name: 'edit_combat')]
+public function editCombat(int $id, int $idC, Request $request): Response
+{
+
+        $combat = $this->em->getRepository(Combat::class)->find($idC);
+
         if (!$combat) {
             throw $this->createNotFoundException('Combat non trouvé.');
-        }   
+        }  
+
+        $tournoi = $combat->getTournoi();
 
         $form = $this->createForm(CombatType::class, $combat);
 
@@ -252,21 +255,22 @@ public function editCombat(Combat $combat,int $id, Request $request, EntityManag
             } else {
                 $combat->setResultat('egalite');
             }
-
+            
             // Sauvegarder les résultats dans la base de données
-            $em->flush();
+            $this->em->flush();
 
             // Message flash ou redirection après sauvegarde
             $this->addFlash('success', 'Le résultat du combat a été mis à jour.');
-            return $this->redirectToRoute('app_home');
+                return $this->redirectToRoute('afficher_combats', [
+                'id' => $tournoi->getId(),
+                ]);
         }
 
         return $this->render('combat/edit.html.twig', [
             'combat' => $combat,
             'form' => $form->createView(),
         ]);
-    }
-
+}
 
 
 private function genererClassementPourGroupe(Groupe $groupe): array
@@ -324,6 +328,206 @@ private function genererClassementPourGroupe(Groupe $groupe): array
     return $classement;
 }
 
+#[Route('/tournoi/{id}/quarts', name: 'creer_quarts')]
+public function creerQuarts(Tournoi $tournoi): Response
+{
+    // Vérifier si des combats de quart de finale existent déjà pour ce tournoi
+    $combatsQuartFinaleExistants = $this->em->getRepository(Combat::class)->findBy([
+        'tournoi' => $tournoi,
+        'Phase' => 'Quart_de_finale'
+    ]);
+
+    // Si des combats existent déjà, les afficher
+    if ($combatsQuartFinaleExistants) {
+        return $this->render('combat/quart_final.html.twig', [
+            'combats' => $combatsQuartFinaleExistants,
+        ]);
+    }
+
+    // Récupérer tous les groupes du tournoi
+    $groupes = $tournoi->getGroupes();
+    $combattantsParCategorie = [];
+
+    // Parcourir les groupes pour générer le classement et les qualifiés par catégorie
+    foreach ($groupes as $groupe) {
+        $classement = $this->genererClassementPourGroupe($groupe);
+
+        // Ajouter les qualifiés (les deux premiers) à la liste des qualifiés par catégorie
+        if (count($classement) >= 2) {
+            $categorie = $groupe->getCategorie();
+            $combattantsParCategorie[$categorie->getId()][] = $classement[0]['combattant']; // Premier
+            $combattantsParCategorie[$categorie->getId()][] = $classement[1]['combattant']; // Deuxième
+        }
+    }
+
+    // Créer les combats pour chaque catégorie
+    foreach ($combattantsParCategorie as $categorieId => $combattantsQualifies) {
+        // Séparer les qualifiés en deux groupes : les premiers et les deuxièmes
+        $combattantsQualifies1 = [];
+        $combattantsQualifies2 = [];
+
+        // Parcourir les qualifiés et les classer en fonction de leur rang (1er ou 2ème)
+        for ($i = 0; $i < count($combattantsQualifies); $i++) {
+            if ($i % 2 === 0) {
+                // Index pair => premier
+                $combattantsQualifies1[] = $combattantsQualifies[$i];
+            } else {
+                // Index impair => deuxième
+                $combattantsQualifies2[] = $combattantsQualifies[$i];
+            }
+        }
+
+        // Créer les combats de quart de finale
+        for ($i = 0; $i < count($combattantsQualifies1); $i++) {
+            $combat = new Combat();
+            $combat->setCombattant1($combattantsQualifies1[$i]);
+            $combat->setCombattant2($combattantsQualifies2[$i]);
+            $combat->setTournoi($tournoi);
+            $combat->setPhase('Quart_de_finale');
+            $combat->setCategorie($combattantsQualifies1[$i]->getCategorie());
+
+            // Ajouter le combat à la base de données sans générer de résultats
+            $this->em->persist($combat);
+        }
+    }
+
+    // Sauvegarder tous les combats
+    $this->em->flush();
+
+    // Rediriger vers la page des quarts de finale
+    return $this->redirectToRoute('app_home'); // ou toute autre route que vous utilisez
+}
+
+#[Route('/tournoi/{id}/demi', name: 'creer_demi_finales')]
+public function creerDemiFinales(Tournoi $tournoi): Response
+{
+    // Vérifier si des combats de demi-finale existent déjà pour ce tournoi
+    $combatsDemiFinaleExistants = $this->em->getRepository(Combat::class)->findBy([
+        'tournoi' => $tournoi,
+        'Phase' => 'Demi_finale'
+    ]);
+
+    // Si des combats existent déjà, les afficher
+    if ($combatsDemiFinaleExistants) {
+        return $this->render('combat/quart_final.html.twig', [
+            'combats' => $combatsDemiFinaleExistants,
+        ]);
+    }
+
+    // Récupérer les gagnants des quarts de finale
+    $gagnantsQuart = $this->em->getRepository(Combat::class)->findBy([
+        'tournoi' => $tournoi,
+        'Phase' => 'Quart_de_finale',
+        'resultat' => ['combattant1', 'combattant2'] // On ne garde que les combats qui ont un gagnant
+    ]);
+
+    // Organiser les gagnants par catégorie
+    $combattantsParCategorie = [];
+    foreach ($gagnantsQuart as $combat) {
+        if ($combat->getResultat() === 'combattant1') {
+            $combattantsParCategorie[$combat->getCategorie()->getId()][] = $combat->getCombattant1();
+        } elseif ($combat->getResultat() === 'combattant2') {
+            $combattantsParCategorie[$combat->getCategorie()->getId()][] = $combat->getCombattant2();
+        }
+    }
+
+    // Créer les combats de demi-finale pour chaque catégorie
+    foreach ($combattantsParCategorie as $categorieId => $combattantsQualifies) {
+        // Séparer les qualifiés en deux groupes : les premiers et les deuxièmes
+        $combattantsQualifies1 = [];
+        $combattantsQualifies2 = [];
+
+        // Parcourir les qualifiés et les classer en fonction de leur rang (1er ou 2ème)
+        for ($i = 0; $i < count($combattantsQualifies); $i++) {
+            if ($i % 2 === 0) {
+                // Index pair => premier
+                $combattantsQualifies1[] = $combattantsQualifies[$i];
+            } else {
+                // Index impair => deuxième
+                $combattantsQualifies2[] = $combattantsQualifies[$i];
+            }
+        }
+
+        // Créer les combats de demi-finale
+        for ($i = 0; $i < count($combattantsQualifies1); $i++) { // Deux combats de demi-finale
+            $combat = new Combat();
+            $combat->setCombattant1($combattantsQualifies1[$i]);
+            $combat->setCombattant2($combattantsQualifies2[$i]);
+            $combat->setTournoi($tournoi);
+            $combat->setPhase('Demi_finale');
+            $combat->setCategorie($combattantsQualifies1[$i]->getCategorie());
+
+            // Ajouter le combat à la base de données sans générer de résultats
+            $this->em->persist($combat);
+        }
+    }
+
+    // Sauvegarder tous les combats
+    $this->em->flush();
+
+    // Rediriger vers la page des demi-finales
+    return $this->redirectToRoute('app_home'); // ou toute autre route que vous utilisez
+}
+
+#[Route('/tournoi/{id}/finale', name: 'creer_finales')]
+public function creerFinales(Tournoi $tournoi): Response
+{
+    // Vérifier si des combats de finale existent déjà pour ce tournoi
+    $combatFinaleExistant = $this->em->getRepository(Combat::class)->findOneBy([
+        'tournoi' => $tournoi,
+        'Phase' => 'Finale'
+    ]);
+
+    // Si des combats existent déjà, les afficher
+    if ($combatFinaleExistant) {
+        return $this->render('combat/final.html.twig', [
+            'combats' => $combatFinaleExistant,
+        ]);
+    }
+
+    // Récupérer les gagnants des demi-finales
+    $gagnantsDemiFinale = $this->em->getRepository(Combat::class)->findBy([
+        'tournoi' => $tournoi,
+        'Phase' => 'Demi_finale',
+        'resultat' => ['combattant1', 'combattant2'] // On ne garde que les combats qui ont un gagnant
+    ]);
+
+    // Organiser les gagnants par catégorie
+    $combattantsParCategorie = [];
+    foreach ($gagnantsDemiFinale as $combat) {
+        if ($combat->getResultat() === 'combattant1') {
+            $combattantsParCategorie[$combat->getCategorie()->getId()][] = $combat->getCombattant1();
+        } elseif ($combat->getResultat() === 'combattant2') {
+            $combattantsParCategorie[$combat->getCategorie()->getId()][] = $combat->getCombattant2();
+        }
+    }
+
+    // Créer les combats de finale pour chaque catégorie
+    foreach ($combattantsParCategorie as $categorieId => $combattantsQualifies) {
+        // On s'assure qu'il n'y a que deux qualifiés pour la finale
+        if (count($combattantsQualifies) == 2) {
+            $combat = new Combat();
+            $combat->setCombattant1($combattantsQualifies[0]);
+            $combat->setCombattant2($combattantsQualifies[1]);
+            $combat->setTournoi($tournoi);
+            $combat->setPhase('Finale');
+            $combat->setCategorie($combattantsQualifies[0]->getCategorie());
+
+            // Ajouter le combat à la base de données sans générer de résultats
+            $this->em->persist($combat);
+        }
+    }
+
+    // Sauvegarder tous les combats
+    $this->em->flush();
+
+    // Rediriger vers la page de la finale
+    return $this->redirectToRoute('app_home'); // ou toute autre route que vous utilisez
+}
+
+
+
+/*
 #[Route('/tournoi/{id}/quarts', name: 'creer_quarts')]
 public function creerQuarts(Tournoi $tournoi): Response
 {
@@ -429,7 +633,10 @@ public function creerQuarts(Tournoi $tournoi): Response
         'combats' => $combat,
     ]);
 }
+*/
 
+
+/*
 #[Route('/tournoi/{id}/demi', name: 'creer_demi_finales')]
 public function creerDemiFinales(Tournoi $tournoi): Response
 {
@@ -535,9 +742,9 @@ public function creerDemiFinales(Tournoi $tournoi): Response
     return $this->render('combat/quart_final.html.twig', [
         'combats' => $combatDemiFinaleExistant,
     ]);
-}
+}*/
 
-
+/*
 #[Route('/tournoi/{id}/finale', name: 'creer_finales')]
 public function creerFinales(Tournoi $tournoi): Response
 {
@@ -646,7 +853,7 @@ public function creerFinales(Tournoi $tournoi): Response
     return $this->render('combat/final.html.twig', [
         'combats' => $combats,
     ]);
-}
+}*/
 
 
 }

@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Édition du combat entre {{ combat.combattant1.nom }} et {{ combat.combattant2.nom }}</h1>
+    <h1>Édition du combat entre {{ combat.combattant1.nom }} {{ combat.combattant1.prenom }} et 
+        {{ combat.combattant2.nom }} {{ combat.combattant2.prenom }}
+    </h1>
 
     {{ form_start(form) }}
         {{ form_row(form.scoreCombattant1) }}
