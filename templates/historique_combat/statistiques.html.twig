@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques de {{ adherant.nom }}{% endblock %}
+
+{% block body %}
+    <h1>Statistiques de {{ adherant.nom }} {{ adherant.prenom }}</h1>
+    <p>Total des combats : {{ totalCombats }}</p>
+    <p>Victoires : {{ victoires }}</p>
+    <p>Défaites : {{ defaites }}</p>
+{% endblock %}

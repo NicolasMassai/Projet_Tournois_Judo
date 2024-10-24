@@ -31,11 +31,6 @@ class Tournoi
     #[ORM\OneToOne(mappedBy: 'tournoi', cascade: ['persist', 'remove'])]
     private ?Inscription $inscription = null;
 
-    #[ORM\OneToOne(mappedBy: 'tournoi', cascade: ['persist', 'remove'])]
-    private ?HistoriqueCombat $historiqueCombat = null;
-
-
-
     /**
      * @var Collection<int, Categorie>
      */
@@ -150,28 +145,6 @@ class Tournoi
         }
 
         $this->inscription = $inscription;
-
-        return $this;
-    }
-
-    public function getHistoriqueCombat(): ?HistoriqueCombat
-    {
-        return $this->historiqueCombat;
-    }
-
-    public function setHistoriqueCombat(?HistoriqueCombat $historiqueCombat): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($historiqueCombat === null && $this->historiqueCombat !== null) {
-            $this->historiqueCombat->setTournoi(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($historiqueCombat !== null && $historiqueCombat->getTournoi() !== $this) {
-            $historiqueCombat->setTournoi($this);
-        }
-
-        $this->historiqueCombat = $historiqueCombat;
 
         return $this;
     }

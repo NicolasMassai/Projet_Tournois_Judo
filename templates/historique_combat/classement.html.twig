@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Classement des Catégories{% endblock %}
+
+{% block body %}
+    <h1>Classement des Catégories</h1>
+
+    <div class="categorie-liste">
+        <h2>Liste des Catégories</h2>
+        <ul>
+            {# Boucle sur les catégories passées depuis le contrôleur #}
+            {% for cat in categorie %}
+                <li>
+                    <a href="{{ path('classement_categorie', { 'id': cat.id }) }}">
+                        {{ cat.getCategoriePoids }} kg
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

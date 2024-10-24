@@ -4,10 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Club;
 use App\Form\ClubType;
-use App\Repository\ClubRepository;
 use App\Service\Service;
+use App\Repository\ClubRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\ByteString;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -47,6 +48,37 @@ class Club2Controller extends AbstractController
         ]);
     }
 
+    #[Route('/clubUser', name: 'app_club_User')]
+    public function clubUser(Security $security): Response
+    {
+        /** @var User $user */
+        $user = $security->getUser();
+    
+        // Récupérer le club associé à l'utilisateur
+        $club = $user->getClub();
+    
+        // Vérifier s'il existe un club
+        if ($club) {
+            // Récupérer les adhérents du club
+            $adherants = $club->getAdherant();
+    
+            // Créer un tableau avec les données du club
+            $clubData = [
+                'club' => $club,
+                'count' => $adherants->count(),
+                'adherants' => $adherants
+            ];
+            
+            return $this->render('club/clubUser.html.twig', [
+                'club' => $clubData,
+            ]);
+        }
+    
+        return $this->redirectToRoute('app_home');
+    }
+    
+
+
     #[Route('/clubs/JSON', name: 'app_clubs2')]
     public function clubJSON(ClubRepository $clubRepository): Response
     {
@@ -62,13 +94,6 @@ class Club2Controller extends AbstractController
             ];
         }
         return $this->json($clubs, 200);
-    }
-
-    #[Route('/clubs', name: 'app_clubs')]
-    public function montre(): Response
-    {
-
-        return $this->render('club2/index.html.twig');
     }
 
 

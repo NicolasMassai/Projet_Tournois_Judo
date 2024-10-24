@@ -11,8 +11,31 @@
             <li><a href="{{ path('app_login') }}">Se connecter</a></li>
             <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
             <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
-            <li><a href="{{ path('app_tournoi') }}">Tournois</a></li>
-            <li><a href="{{ path('app_club') }}">Clubs</a></li>
         </ul>
     </div>
+
+
+    {% if is_granted('ROLE_ADHERANT') %}
+        <div class="adherant-links">
+            <h2>Liens pour Adhérents</h2>
+            <ul>
+                <li><a href="{{ path('statistiques_combattant') }}">Statistiques</a></li>
+                <li><a href="{{ path('classement') }}">Classement</a></li>
+                <li><a href="{{ path('app_tournoiUser') }}">Tournoi</a></li>
+                <li><a href="{{ path('app_club_User') }}">Club</a></li>
+            </ul>
+        </div>
+    {% endif %}
+
+    {# Affichage conditionnel pour les utilisateurs ayant le rôle ROLE_ARBITRE #}
+    {% if is_granted('ROLE_PRESIDENT') %}
+        <div class="arbitre-links">
+            <h2>Liens pour les Présidents</h2>
+            <ul>
+                {# Tu pourras définir ici les liens spécifiques aux arbitres #}
+                <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
+                <li><a href="{{ path('app_club_User') }}">Club</a></li>
+            </ul>
+        </div>
+    {% endif %}
 {% endblock %}

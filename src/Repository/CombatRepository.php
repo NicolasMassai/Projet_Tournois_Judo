@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Combat;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Tournoi;
+use App\Entity\Adherant;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Combat>
@@ -15,6 +18,30 @@ class CombatRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Combat::class);
     }
+
+
+    public function findByUserAndTournoi(User $user, Tournoi $tournoi): array
+    {
+
+        return $this->createQueryBuilder('c')
+            ->where('c.combattant1 = :user OR c.combattant2 = :user')
+            ->andWhere('c.tournoi = :tournoi')
+            ->setParameter('user', $user)
+            ->setParameter('tournoi', $tournoi)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByCombattant(Adherant $adherant)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.combattant1 = :adherant')
+            ->orWhere('c.combattant2 = :adherant')
+            ->setParameter('adherant', $adherant)
+            ->getQuery()
+            ->getResult();
+    }
+
 
     //    /**
     //     * @return Combat[] Returns an array of Combat objects

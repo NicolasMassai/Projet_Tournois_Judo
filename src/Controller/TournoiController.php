@@ -15,6 +15,7 @@ use App\Repository\TournoiRepository;
 use App\Repository\AdherantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\ByteString;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -43,6 +44,18 @@ class TournoiController extends AbstractController
 
         return $this->render('tournoi/tournoi.html.twig', [
             'tournois' => $tournoi
+        ]);
+    }
+
+    #[Route('/tournoiUser', name: 'app_tournoiUser')]
+    public function tournoiUser(TournoiRepository $tournoiRepository, Security $security): Response
+    {
+        $user = $security->getUser();
+
+        $tournois = $tournoiRepository->findByUserParticipation($user);
+
+        return $this->render('tournoi/tournoiUser.html.twig', [
+            'tournois' => $tournois,
         ]);
     }
 
@@ -209,7 +222,7 @@ class TournoiController extends AbstractController
 
             // Assigner la catégorie de poids à chaque adhérent
             foreach ($selectedAdherants as $adherant) {
-                $adherant->setCategorie($categoriePoids);
+                $adherant->addCategorie($categoriePoids);
                 $em->persist($adherant);
             }
 
@@ -225,6 +238,7 @@ class TournoiController extends AbstractController
             'tournoi' => $tournoi,
         ]);
     }
+
 
 
 }

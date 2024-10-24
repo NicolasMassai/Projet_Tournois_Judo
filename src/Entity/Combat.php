@@ -43,6 +43,9 @@ class Combat
     #[ORM\Column(length: 255)]
     private ?string $Phase = null;
 
+    #[ORM\ManyToOne(inversedBy: 'combat')]
+    private ?HistoriqueCombat $historiqueCombat = null;
+
 
 
     public function __construct()
@@ -161,6 +164,30 @@ class Combat
 
         return $this;
     }
+
+    public function getHistoriqueCombat(): ?HistoriqueCombat
+    {
+        return $this->historiqueCombat;
+    }
+
+    public function setHistoriqueCombat(?HistoriqueCombat $historiqueCombat): static
+    {
+        $this->historiqueCombat = $historiqueCombat;
+
+        return $this;
+    }
+
+    public function Vainqueur(Adherant $adherant): bool
+    {
+        if ($this->resultat === 'combattant1' && $this->combattant1 === $adherant) {
+            return true;
+        }
+        if ($this->resultat === 'combattant2' && $this->combattant2 === $adherant) {
+            return true;
+        }
+        return false;
+    }
+
 
     
 }

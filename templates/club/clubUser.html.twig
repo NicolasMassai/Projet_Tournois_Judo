@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Club de l'utilisateur{% endblock %}
+
+{% block body %}
+    <h1>{{ club.club.nom }}</h1>
+
+    <p><strong>Ville :</strong> {{ club.club.ville }}</p>
+    <p><strong>Pays :</strong> {{ club.club.pays }}</p>
+    <p><strong>Email :</strong> {{ club.club.email }}</p>
+
+ {% if is_granted('ROLE_PRESIDENT') %}
+        <div class="">
+            <ul>
+                <li><a href="{{ path('app_club_update', {'club': club.club.id}) }}">Mettre à jour le club</a></li>
+                <li>
+                    <form action="{{ path('app_club_delete', {'club': club.club.id}) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce club ?');">
+                        <button type="submit">Supprimer le club</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+
+    <h2>Adhérents : {{ club.count }}</h2>
+
+    <ul>
+        {% for adherant in club.adherants %}
+            <li>{{ adherant.prenom }} {{ adherant.nom }}</li>
+        {% else %}
+            <li>Aucun adhérent n'est inscrit dans ce club pour le moment.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ path('app_home') }}">Retour à l'accueil</a>
+{% endblock %}

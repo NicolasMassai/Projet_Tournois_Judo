@@ -39,15 +39,23 @@ class Categorie
     /**
      * @var Collection<int, Adherant>
      */
+    #[ORM\ManyToMany(targetEntity: Adherant::class, mappedBy: 'categorie')]
+    private Collection $adherants;
+
+    /**
+     * @var Collection<int, Adherant>
+     */
+    /*
     #[ORM\OneToMany(targetEntity: Adherant::class, mappedBy: 'categorie')]
     private Collection $adherants;
+    */
 
     public function __construct()
     {
         $this->tournois = new ArrayCollection();
         $this->groupes = new ArrayCollection();
         $this->combats = new ArrayCollection();
-        $this->adherants = new ArrayCollection();
+        //$this->adherants = new ArrayCollection();
     }
 
 
@@ -164,6 +172,7 @@ class Categorie
         /**
          * @return Collection<int, Adherant>
          */
+        /*
         public function getAdherants(): Collection
         {
             return $this->adherants;
@@ -189,5 +198,33 @@ class Categorie
             }
 
             return $this;
-        }       
+        } 
+            */
+
+        /**
+         * @return Collection<int, Adherant>
+         */
+        public function getAdherants(): Collection
+        {
+            return $this->adherants;
+        }
+
+        public function addAdherant(Adherant $adherant): static
+        {
+            if (!$this->adherants->contains($adherant)) {
+                $this->adherants->add($adherant);
+                $adherant->addCategorie($this);
+            }
+
+            return $this;
+        }
+
+        public function removeAdherant(Adherant $adherant): static
+        {
+            if ($this->adherants->removeElement($adherant)) {
+                $adherant->removeCategorie($this);
+            }
+
+            return $this;
+        }   
 }

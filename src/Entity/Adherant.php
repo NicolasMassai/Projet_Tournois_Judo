@@ -38,8 +38,22 @@ class Adherant extends User
     #[ORM\ManyToMany(targetEntity: Groupe::class, mappedBy: 'combattants')]
     private Collection $groupes;
 
+    /**
+     * @var Collection<int, Categorie>
+     */
+    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'adherants')]
+    private Collection $categorie;
+
+    /**
+     * @var Collection<int, HistoriqueCombat>
+     */
+    #[ORM\OneToMany(targetEntity: HistoriqueCombat::class, mappedBy: 'combattant')]
+    private Collection $historiqueCombats;
+
+    /*
+
     #[ORM\ManyToOne(inversedBy: 'adherants')]
-    private ?Categorie $categorie = null;
+    private ?Categorie $categorie = null;*/
 
     public function __construct()
     {
@@ -47,6 +61,8 @@ class Adherant extends User
         $this->combattant1 = new ArrayCollection();
         $this->combattant2 = new ArrayCollection();
         $this->groupes = new ArrayCollection();
+        $this->categorie = new ArrayCollection();
+        $this->historiqueCombats = new ArrayCollection();
     }
 
     public function getClub(): ?Club
@@ -175,6 +191,7 @@ class Adherant extends User
 
         return $this;
     }
+    /*
 
     public function getCategorie(): ?Categorie
     {
@@ -186,11 +203,65 @@ class Adherant extends User
         $this->categorie = $categorie;
 
         return $this;
-    }
+    }*/
 
     public function __toString(): string
     {
         return $this->categorie ? (string) $this->categorie : 'Aucune catégorie';
+    }
+
+    /**
+     * @return Collection<int, Categorie>
+     */
+    public function getCategorie(): Collection
+    {
+        return $this->categorie;
+    }
+
+    public function addCategorie(Categorie $categorie): static
+    {
+        if (!$this->categorie->contains($categorie)) {
+            $this->categorie->add($categorie);
+        }
+
+        return $this;
+    }
+
+    public function removeCategorie(Categorie $categorie): static
+    {
+        $this->categorie->removeElement($categorie);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HistoriqueCombat>
+     */
+    public function getHistoriqueCombats(): Collection
+    {
+        return $this->historiqueCombats;
+    }
+
+    public function addHistoriqueCombat(HistoriqueCombat $historiqueCombat): static
+    {
+        if (!$this->historiqueCombats->contains($historiqueCombat)) {
+            $this->historiqueCombats->add($historiqueCombat);
+            $historiqueCombat->setCombattant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistoriqueCombat(HistoriqueCombat $historiqueCombat): static
+    {
+        if ($this->historiqueCombats->removeElement($historiqueCombat)) {
+            // set the owning side to null (unless already changed)
+            if ($historiqueCombat->getCombattant() === $this) {
+                $historiqueCombat->setCombattant(null);
+            }
+        }
+
+        return $this;
     }
     
 }

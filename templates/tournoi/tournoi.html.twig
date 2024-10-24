@@ -12,9 +12,10 @@
 
     {% for tournoi in tournois %}
         <ul>
-<a href="{{ path('app_tournoi_show', { id: tournoi.id }) }}">
+            <a href="{{ path('app_tournoi_show', { id: tournoi.id }) }}">
                 {{ tournoi.nom }}
-            </a>        <ul>
+            </a> 
+        <ul>
     {% endfor %}
 
 </div>

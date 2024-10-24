@@ -16,6 +16,19 @@ class TournoiRepository extends ServiceEntityRepository
         parent::__construct($registry, Tournoi::class);
     }
 
+    // Dans le repository TournoiRepository
+    public function findByUserParticipation($user)
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.combattant', 'a')  // Utilisation de 'combattant' au lieu de 'adherant'
+            ->where('a.id = :userId')
+            ->setParameter('userId', $user->getId())
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
     //    /**
     //     * @return Tournoi[] Returns an array of Tournoi objects
     //     */

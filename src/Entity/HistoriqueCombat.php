@@ -25,18 +25,25 @@ class HistoriqueCombat
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_combat = null;
 
-    /**
-     * @var Collection<int, Combattant>
-     */
-    #[ORM\OneToMany(targetEntity: Combattant::class, mappedBy: 'historiqueCombat')]
-    private Collection $combattant;
+    #[ORM\ManyToOne(inversedBy: 'historiqueCombats')]
+    private ?Adherant $combattant = null;
 
-    #[ORM\OneToOne(inversedBy: 'historiqueCombat', cascade: ['persist', 'remove'])]
-    private ?Tournoi $tournoi = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $victoire = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $defaite = null;
+
+    /**
+     * @var Collection<int, Combat>
+     */
+    #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'historiqueCombat')]
+    private Collection $combat;
+
 
     public function __construct()
     {
-        $this->combattant = new ArrayCollection();
+        $this->combat = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -80,45 +87,70 @@ class HistoriqueCombat
         return $this;
     }
 
-    /**
-     * @return Collection<int, Combattant>
-     */
-    public function getCombattant(): Collection
+    public function getCombattant(): ?Adherant
     {
         return $this->combattant;
     }
 
-    public function addCombattant(Combattant $combattant): static
+    public function setCombattant(?Adherant $combattant): static
     {
-        if (!$this->combattant->contains($combattant)) {
-            $this->combattant->add($combattant);
-            $combattant->setHistoriqueCombat($this);
+        $this->combattant = $combattant;
+
+        return $this;
+    }
+
+    public function getVictoire(): ?int
+    {
+        return $this->victoire;
+    }
+
+    public function setVictoire(?int $victoire): static
+    {
+        $this->victoire = $victoire;
+
+        return $this;
+    }
+
+    public function getDefaite(): ?int
+    {
+        return $this->defaite;
+    }
+
+    public function setDefaite(?int $defaite): static
+    {
+        $this->defaite = $defaite;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Combat>
+     */
+    public function getCombat(): Collection
+    {
+        return $this->combat;
+    }
+
+    public function addCombat(Combat $combat): static
+    {
+        if (!$this->combat->contains($combat)) {
+            $this->combat->add($combat);
+            $combat->setHistoriqueCombat($this);
         }
 
         return $this;
     }
 
-    public function removeCombattant(Combattant $combattant): static
+    public function removeCombat(Combat $combat): static
     {
-        if ($this->combattant->removeElement($combattant)) {
+        if ($this->combat->removeElement($combat)) {
             // set the owning side to null (unless already changed)
-            if ($combattant->getHistoriqueCombat() === $this) {
-                $combattant->setHistoriqueCombat(null);
+            if ($combat->getHistoriqueCombat() === $this) {
+                $combat->setHistoriqueCombat(null);
             }
         }
 
         return $this;
     }
 
-    public function getTournoi(): ?Tournoi
-    {
-        return $this->tournoi;
-    }
-
-    public function setTournoi(?Tournoi $tournoi): static
-    {
-        $this->tournoi = $tournoi;
-
-        return $this;
-    }
 }

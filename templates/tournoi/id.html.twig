@@ -13,21 +13,32 @@
     {% endfor %}
 </ul>
 
-<h2>Combattants engagés</h2>
-<ul>
-    {% for combattant in combattants %}
-        <li>{{ combattant.nom }} {{ combattant.prenom }} - Club: {{ combattant.club }}
-            {% if combattant.categorie is not empty %}
-                - Poids: {{ combattant.categorie.getCategoriePoids }} kg
-            {% else %}
-                - Poids: Non attribué
-            {% endif %}
 
-        </li>
-    {% else %}
-        <li>Aucun combattant engagé.</li>
-    {% endfor %}
-</ul>
+
+    {% if is_granted('ROLE_ADHERANT') %}
+        <div class="">
+            <ul>
+                <li><a href="{{ path('afficher_combat_User', { 'id': tournoi.id }) }}">Combat</a></li>
+                <li><a href="{{ path('afficher_classement', { 'id': tournoi.id }) }}">Classement</a></li>
+            </ul>
+        </div>
+    {% endif %}
+
+{% for combattant in combattants %}
+    <li>{{ combattant.nom }} {{ combattant.prenom }} - Club: {{ combattant.club.nom }}
+        {% if combattant.categorie is not empty %}
+            - Poids:
+            {% for categorie in combattant.categorie %}
+                {{ categorie.getCategoriePoids }} kg
+            {% endfor %}
+        {% else %}
+            - Poids: Non attribué
+        {% endif %}
+    </li>
+{% else %}
+    <li>Aucun combattant engagé.</li>
+{% endfor %}
+
 
 <h2>Catégories de poids</h2>
 <ul>

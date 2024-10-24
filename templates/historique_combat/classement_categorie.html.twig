@@ -1,0 +1,38 @@
+{# templates/historique/classement_categorie.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Classement - Catégorie {{ categorie.categoriePoids }}kg{% endblock %}
+
+{% block body %}
+    <h1>Classement des combattants - Catégorie {{ categorie.categoriePoids }}kg</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Club</th>
+                <th>Victoires</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for classement in classement %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ classement.adherant.nom }}</td>
+                    <td>{{ classement.adherant.prenom }}</td>
+                    <td>{{ classement.adherant.club.nom }}</td>
+                    <td>{{ classement.victoires }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucun combattant trouvé dans cette catégorie.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tournoi') }}" class="btn btn-primary">Retour aux tournoi</a>
+{% endblock %}

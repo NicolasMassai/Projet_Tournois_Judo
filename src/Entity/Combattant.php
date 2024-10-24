@@ -33,9 +33,6 @@ class Combattant
     #[ORM\OneToOne(mappedBy: 'combattant', cascade: ['persist', 'remove'])]
     private ?Inscription $inscription = null;
 
-    #[ORM\ManyToOne(inversedBy: 'combattant')]
-    private ?HistoriqueCombat $historiqueCombat = null;
-
 
     #[ORM\ManyToOne(inversedBy: 'combattant')]
     private ?Club $club = null;
@@ -127,18 +124,6 @@ class Combattant
         }
 
         $this->inscription = $inscription;
-
-        return $this;
-    }
-
-    public function getHistoriqueCombat(): ?HistoriqueCombat
-    {
-        return $this->historiqueCombat;
-    }
-
-    public function setHistoriqueCombat(?HistoriqueCombat $historiqueCombat): static
-    {
-        $this->historiqueCombat = $historiqueCombat;
 
         return $this;
     }
