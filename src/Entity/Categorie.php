@@ -39,8 +39,10 @@ class Categorie
     /**
      * @var Collection<int, Adherant>
      */
-    #[ORM\ManyToMany(targetEntity: Adherant::class, mappedBy: 'categorie')]
-    private Collection $adherants;
+    #[ORM\OneToMany(targetEntity: Adherant::class, mappedBy: 'categorie')]
+    private Collection $adherant;
+
+  
 
     /**
      * @var Collection<int, Adherant>
@@ -55,7 +57,7 @@ class Categorie
         $this->tournois = new ArrayCollection();
         $this->groupes = new ArrayCollection();
         $this->combats = new ArrayCollection();
-        //$this->adherants = new ArrayCollection();
+        $this->adherant = new ArrayCollection();
     }
 
 
@@ -204,16 +206,16 @@ class Categorie
         /**
          * @return Collection<int, Adherant>
          */
-        public function getAdherants(): Collection
+        public function getAdherant(): Collection
         {
-            return $this->adherants;
+            return $this->adherant;
         }
 
         public function addAdherant(Adherant $adherant): static
         {
-            if (!$this->adherants->contains($adherant)) {
-                $this->adherants->add($adherant);
-                $adherant->addCategorie($this);
+            if (!$this->adherant->contains($adherant)) {
+                $this->adherant->add($adherant);
+                $adherant->setCategorie($this);
             }
 
             return $this;
@@ -221,10 +223,15 @@ class Categorie
 
         public function removeAdherant(Adherant $adherant): static
         {
-            if ($this->adherants->removeElement($adherant)) {
-                $adherant->removeCategorie($this);
+            if ($this->adherant->removeElement($adherant)) {
+                // set the owning side to null (unless already changed)
+                if ($adherant->getCategorie() === $this) {
+                    $adherant->setCategorie(null);
+                }
             }
 
             return $this;
-        }   
+        }
+
+      
 }

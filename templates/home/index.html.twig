@@ -27,6 +27,15 @@
         </div>
     {% endif %}
 
+    {% if is_granted('ROLE_ARBITRE') %}
+        <div class="adherant-links">
+            <h2>Liens pour Arbitre</h2>
+            <ul>
+                <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
+            </ul>
+        </div>
+    {% endif %}
+
     {# Affichage conditionnel pour les utilisateurs ayant le rôle ROLE_ARBITRE #}
     {% if is_granted('ROLE_PRESIDENT') %}
         <div class="arbitre-links">

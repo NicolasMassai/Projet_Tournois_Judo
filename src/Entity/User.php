@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -44,6 +46,17 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(mappedBy: 'president', cascade: ['persist', 'remove'])]
     private ?Club $president_club = null;
+
+    /**
+     * @var Collection<int, Tournoi>
+     */
+    #[ORM\OneToMany(targetEntity: Tournoi::class, mappedBy: 'president')]
+    private Collection $tournoi_president;
+
+    public function __construct()
+    {
+        $this->tournoi_president = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -175,5 +188,35 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function isPresident(): bool
     {
         return in_array('ROLE_PRESIDENT', $this->roles);
+    }
+
+    /**
+     * @return Collection<int, Tournoi>
+     */
+    public function getTournoiPresident(): Collection
+    {
+        return $this->tournoi_president;
+    }
+
+    public function addTournoiPresident(Tournoi $tournoiPresident): static
+    {
+        if (!$this->tournoi_president->contains($tournoiPresident)) {
+            $this->tournoi_president->add($tournoiPresident);
+            $tournoiPresident->setPresident($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTournoiPresident(Tournoi $tournoiPresident): static
+    {
+        if ($this->tournoi_president->removeElement($tournoiPresident)) {
+            // set the owning side to null (unless already changed)
+            if ($tournoiPresident->getPresident() === $this) {
+                $tournoiPresident->setPresident(null);
+            }
+        }
+
+        return $this;
     }
 }

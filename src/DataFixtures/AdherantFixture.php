@@ -3,13 +3,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\Adherant;
+use App\Entity\Categorie;
 use App\Entity\Club;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Faker\Factory as FakerFactory;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdherantFixture extends Fixture
 {
@@ -24,6 +23,14 @@ class AdherantFixture extends Fixture
     {
         $faker = FakerFactory::create(); // Initialize Faker
 
+        // Récupérer toutes les catégories existantes
+        $categories = $manager->getRepository(Categorie::class)->findAll();
+
+        if (empty($categories)) {
+            throw new \Exception("Aucune catégorie trouvée en base. Veuillez en créer au préalable.");
+        }
+
+        // Créer des adhérents
         for ($i = 0; $i < 50; $i++) {
             // Créer un nouvel adhérant
             $adherant = new Adherant();
@@ -35,12 +42,16 @@ class AdherantFixture extends Fixture
             $password = $this->passwordHasher->hashPassword($adherant, 'test12');
             $adherant->setPassword($password);
 
-            // Assigner un club_id aléatoire (1, 2 ou 3)
+            // Assigner un club_id aléatoire (1, 5 ou 6)
             $clubId = [1, 5, 6][array_rand([1, 5, 6])];
             $club = $manager->getRepository(Club::class)->find($clubId);
             if ($club) {
                 $adherant->setClub($club);
             }
+
+            // Assigner une catégorie aléatoire
+            $categorie = $categories[array_rand($categories)];
+            $adherant->setCategorie($categorie);
 
             // Ajouter un rôle (optionnel)
             $adherant->setRoles(['ROLE_ADHERANT']);
@@ -49,7 +60,7 @@ class AdherantFixture extends Fixture
             $manager->persist($adherant);
         }
 
-        // Sauvegarder les adhérants en base
+        // Sauvegarder les adhérents en base
         $manager->flush();
     }
 }

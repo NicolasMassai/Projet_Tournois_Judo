@@ -7,6 +7,7 @@ use App\Entity\Groupe;
 use App\Entity\Tournoi;
 use App\Form\CombatType;
 use App\Entity\Categorie;
+use App\Service\CombatService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,14 +91,14 @@ class CombatController extends AbstractController
 
 
     #[Route('/tournoi/{id}/classement', name: 'afficher_classement')]
-    public function afficherClassement(Tournoi $tournoi): Response
+    public function afficherClassement(Tournoi $tournoi, CombatService $service): Response
     {
         $classements = [];
 
         // Parcourir tous les groupes du tournoi
         foreach ($tournoi->getGroupes() as $groupe) {
             // Générer le classement pour chaque groupe
-            $classements[$groupe->getNom()] = $this->genererClassementPourGroupe($groupe);
+            $classements[$groupe->getNom()] = $service->genererClassementPourGroupe($groupe);
         }
 
         return $this->render('combat/classement.html.twig', [
@@ -119,9 +120,10 @@ class CombatController extends AbstractController
         // Récupérer toutes les catégories de poids du tournoi
         $categories = $tournoi->getPoids();
 
+
         foreach ($categories as $categorie) {
             // Récupérer les combattants de la catégorie
-            $combattants = $categorie->getAdherants();
+            $combattants = $categorie->getAdherant();
 
             // Filtrer les combattants inscrits dans le tournoi
             $combattantsTournoi = $combattants->filter(function($combattant) use ($tournoi) {
@@ -170,63 +172,8 @@ class CombatController extends AbstractController
         return $groupesParCategorie;
     }
 
-        
-    // Méthode pour créer les combats entre les membres d'un groupe
-    private function creerCombatsPourGroupe(array $groupe, Groupe $groupes, Tournoi $tournoi, Categorie $categorie): void{
-        // Créer les combats round-robin (chaque combattant affronte tous les autres)
-        for ($i = 0; $i < count($groupe); $i++) {
-            for ($j = $i + 1; $j < count($groupe); $j++) {
-                $combat = new Combat();
-                $combat->setCombattant1($groupe[$i]);
-                $combat->setCombattant2($groupe[$j]);
-                $combat->setTournoi($tournoi);
-                $combat->setGroupe($groupes);
-                $combat->setPhase('Phase_de_Poule');
-                $combat->setCategorie($categorie);
-
-                // Simuler le résultat du combat
-                $resultat = rand(0, 2); // 0: combattant1 gagne 10-0, 1: combattant2 gagne 10-0, 2: égalité 10-7 ou 7-10
-
-                switch ($resultat) {
-                    case 0: // combattant1 gagne 10 à 0
-                        $combat->setScoreCombattant1(10);
-                        $combat->setScoreCombattant2(0);
-                        $combat->setResultat('combattant1'); // combattant1 gagne
-                        break;
-
-                    case 1: // combattant2 gagne 10 à 0
-                        $combat->setScoreCombattant1(0);
-                        $combat->setScoreCombattant2(10);
-                        $combat->setResultat('combattant2'); // combattant2 gagne
-                        break;
-
-                    case 2: // Simuler un score de 10-7 ou 7-10
-                        $scoreGagnant = 10;
-                        $scorePerdant = 7;
-                        $gagnant = rand(0, 1); // 0 pour combattant1, 1 pour combattant2
-
-                        if ($gagnant === 0) {
-                            $combat->setScoreCombattant1($scoreGagnant);
-                            $combat->setScoreCombattant2($scorePerdant);
-                            $combat->setResultat('combattant1'); // combattant1 gagne
-                        } else {
-                            $combat->setScoreCombattant1($scorePerdant);
-                            $combat->setScoreCombattant2($scoreGagnant);
-                            $combat->setResultat('combattant2'); // combattant2 gagne
-                        }
-                        break;
-                }
-
-                // Enregistrer le combat (Doctrine ou autre)
-                $this->em->persist($combat);
-            }
-        }
-
-        // Sauvegarder tous les combats
-        $this->em->flush();
-    }
-
-    private function creerCombatsPourGroupeManuel(array $groupe, Groupe $groupes, Tournoi $tournoi, Categorie $categorie): void{
+    private function creerCombatsPourGroupeManuel(array $groupe, Groupe $groupes, Tournoi $tournoi, Categorie $categorie): void
+    {
         // Créer les combats round-robin (chaque combattant affronte tous les autres)
         for ($i = 0; $i < count($groupe); $i++) {
             for ($j = $i + 1; $j < count($groupe); $j++) {
@@ -325,7 +272,7 @@ class CombatController extends AbstractController
 
             if (!$combat) {
                 throw $this->createNotFoundException('Combat non trouvé.');
-            }  
+            }
 
             $tournoi = $combat->getTournoi();
 
@@ -362,7 +309,27 @@ class CombatController extends AbstractController
             ]);
     }
     
-    private function genererClassementPourGroupe(Groupe $groupe): array
+
+    #[Route('/tournoi/{id}/quarts', name: 'creer_quarts')]
+    public function creerQuarts(Tournoi $tournoi, CombatService $service): Response
+    {
+        return $service->creerCombats($tournoi, 'Quart_de_finale');
+    }
+
+    #[Route('/tournoi/{id}/demi', name: 'creer_demi_finales')]
+    public function creerDemiFinales(Tournoi $tournoi, CombatService $service): Response
+    {
+        return $service->creerCombats($tournoi, 'Demi_finale', 'Quart_de_finale');
+    }
+
+    #[Route('/tournoi/{id}/finale', name: 'creer_finales')]
+    public function creerFinales(Tournoi $tournoi, CombatService $service): Response
+    {
+        return $service->creerCombats($tournoi, 'Finale', 'Demi_finale');
+    }
+        
+
+        /*private function genererClassementPourGroupe(Groupe $groupe): array
     {
         // Tableau pour stocker les points et scores de chaque combattant
         $classement = [];
@@ -415,9 +382,9 @@ class CombatController extends AbstractController
         });
 
         return $classement;
-    }
+    }*/
 
-    private function creerCombats(Tournoi $tournoi, string $phase, string $phasePrecedente = null): Response
+  /*  private function creerCombats(Tournoi $tournoi, string $phase, string $phasePrecedente = null): Response
     {
         // Vérifier si des combats existent déjà pour cette phase
         $combatsExistants = $this->em->getRepository(Combat::class)->findBy([
@@ -493,7 +460,6 @@ class CombatController extends AbstractController
                 $combat->setTournoi($tournoi);
                 $combat->setPhase($phase);
                 $combat->setCategorie($combattantsQualifies1[$i]->getCategorie()->first());
-
                 $this->em->persist($combat);
             }
         }
@@ -501,27 +467,8 @@ class CombatController extends AbstractController
         // Sauvegarder tous les combats
         $this->em->flush();
 
-        return $this->redirectToRoute('app_home'); // ou toute autre route que vous utilisez
-    }
-
-    #[Route('/tournoi/{id}/quarts', name: 'creer_quarts')]
-    public function creerQuarts(Tournoi $tournoi): Response
-    {
-        return $this->creerCombats($tournoi, 'Quart_de_finale');
-    }
-
-    #[Route('/tournoi/{id}/demi', name: 'creer_demi_finales')]
-    public function creerDemiFinales(Tournoi $tournoi): Response
-    {
-        return $this->creerCombats($tournoi, 'Demi_finale', 'Quart_de_finale');
-    }
-
-    #[Route('/tournoi/{id}/finale', name: 'creer_finales')]
-    public function creerFinales(Tournoi $tournoi): Response
-    {
-        return $this->creerCombats($tournoi, 'Finale', 'Demi_finale');
-    }
-        
+        return $this->redirectToRoute('app_home');
+    }*/
 
 
     /*

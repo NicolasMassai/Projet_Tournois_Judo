@@ -52,7 +52,7 @@ class HistoriqueCombatController extends AbstractController
     #[Route('/classement/categorie/{id}', name: 'classement_categorie')]
     public function classementCategorie(Categorie $categorie): Response
     {
-        $adherants = $categorie->getAdherants();
+        $adherants = $categorie->getAdherant();
 
         $classement = [];
         foreach ($adherants as $adherant) {
@@ -65,14 +65,35 @@ class HistoriqueCombatController extends AbstractController
             // Filtrer les combats gagnés
             $victoires = array_filter($combats, fn($combat) => $combat->Vainqueur($adherant));
 
+            $victoiresFinale = array_filter($victoires, fn($combat) => $combat->getPhase() === 'Finale');
+
             $classement[] = [
                 'adherant' => $adherant,
                 'victoires' => count($victoires),
+                'victoires_finale' => count($victoiresFinale),
             ];
         }
 
         // Tri par nombre de victoires
-        usort($classement, fn($a, $b) => $b['victoires'] <=> $a['victoires']);
+       // usort($classement, fn($a, $b) => $b['victoires'] <=> $a['victoires']);
+        usort($classement, function ($a, $b) {
+            // Priorité 1 : Comparer sur les victoires en finale
+            if ($a['victoires_finale'] > 0 && $b['victoires_finale'] === 0) {
+                return -1; // $a est prioritaire
+            }
+            if ($b['victoires_finale'] > 0 && $a['victoires_finale'] === 0) {
+                return 1; // $b est prioritaire
+            }
+            
+            // Priorité 2 : Comparer sur le nombre total de victoires
+            if ($b['victoires'] !== $a['victoires']) {
+                return $b['victoires'] <=> $a['victoires'];
+            }
+        
+            // Priorité 3 : Aucun critère supplémentaire, on considère une égalité
+            return 0;
+        });
+    
 
         return $this->render('historique_combat/classement_categorie.html.twig', [
             'categorie' => $categorie,

@@ -64,6 +64,9 @@ class Tournoi
     #[ORM\OneToMany(targetEntity: Groupe::class, mappedBy: 'tournoi')]
     private Collection $groupes;
 
+    #[ORM\ManyToOne(inversedBy: 'tournoi_president')]
+    private ?User $president = null;
+
     public function __construct()
     {
         $this->poids = new ArrayCollection();
@@ -289,6 +292,18 @@ class Tournoi
                 $groupe->setTournoi(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPresident(): ?User
+    {
+        return $this->president;
+    }
+
+    public function setPresident(?User $president): static
+    {
+        $this->president = $president;
 
         return $this;
     }

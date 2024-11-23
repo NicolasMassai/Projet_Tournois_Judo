@@ -38,17 +38,16 @@ class Adherant extends User
     #[ORM\ManyToMany(targetEntity: Groupe::class, mappedBy: 'combattants')]
     private Collection $groupes;
 
-    /**
-     * @var Collection<int, Categorie>
-     */
-    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'adherants')]
-    private Collection $categorie;
+
 
     /**
      * @var Collection<int, HistoriqueCombat>
      */
     #[ORM\OneToMany(targetEntity: HistoriqueCombat::class, mappedBy: 'combattant')]
     private Collection $historiqueCombats;
+
+    #[ORM\ManyToOne(inversedBy: 'adherant')]
+    private ?Categorie $categorie = null;
 
     /*
 
@@ -61,7 +60,6 @@ class Adherant extends User
         $this->combattant1 = new ArrayCollection();
         $this->combattant2 = new ArrayCollection();
         $this->groupes = new ArrayCollection();
-        $this->categorie = new ArrayCollection();
         $this->historiqueCombats = new ArrayCollection();
     }
 
@@ -207,32 +205,9 @@ class Adherant extends User
 
     public function __toString(): string
     {
-        return $this->categorie ? (string) $this->categorie : 'Aucune catégorie';
+        return $this->groupes ? (string) $this->groupes : 'Aucune catégorie';
     }
 
-    /**
-     * @return Collection<int, Categorie>
-     */
-    public function getCategorie(): Collection
-    {
-        return $this->categorie;
-    }
-
-    public function addCategorie(Categorie $categorie): static
-    {
-        if (!$this->categorie->contains($categorie)) {
-            $this->categorie->add($categorie);
-        }
-
-        return $this;
-    }
-
-    public function removeCategorie(Categorie $categorie): static
-    {
-        $this->categorie->removeElement($categorie);
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, HistoriqueCombat>
@@ -260,6 +235,18 @@ class Adherant extends User
                 $historiqueCombat->setCombattant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): static
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }

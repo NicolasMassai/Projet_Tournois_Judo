@@ -61,8 +61,10 @@ class TournoiController extends AbstractController
 
     #[Route('/tournoi/create', name: 'app_tournoi_create')]
     public function create(Request $request): Response
-    {
+    {        
+        $user = $this->getUser();
         $var = new Tournoi();
+        $var->setPresident($user);
         $form = $this->createForm(TournoiType::class, $var);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -140,8 +142,10 @@ class TournoiController extends AbstractController
             ->add('combattant', EntityType::class, [
                 'class' => Adherant::class,
                 'choices' => $adherants,  // Seuls les adhérents du club
-                'choice_label' => 'nom',
-                'multiple' => true,
+                'choice_label' => function (Adherant $adherant) {
+                    $categorie = $adherant->getCategorie();
+                    return sprintf('%s (%s)', $adherant->getNom(), $categorie ? $categorie->getCategoriePoids() : 'Pas de catégorie');
+                },                'multiple' => true,
                 'expanded' => true,
             ])
             ->add('Inscrire', SubmitType::class)

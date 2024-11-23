@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for C:\Users\nicol\Projects\Projet_Tournois_Judo\src\Entity</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css?v=9.2.32" rel="stylesheet" type="text/css">
+  <link href="../_css/nv.d3.min.css?v=9.2.32" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css?v=9.2.32" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">C:\Users\nicol\Projects\Projet_Tournois_Judo\src</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Entity</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Arbitre.php.html#8">App\Entity\Arbitre</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#10">App\Entity\Categorie</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#10">App\Entity\Club</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#10">App\Entity\Combattant</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#10">App\Entity\Groupe</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#11">App\Entity\HistoriqueCombat</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Inscription.php.html#9">App\Entity\Inscription</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Note.php.html#9">App\Entity\Note</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Spectateur.php.html#8">App\Entity\Spectateur</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#11">App\Entity\Tournoi</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#10">App\Entity\Adherant</a></td><td class="text-right">10%</td></tr>
+       <tr><td><a href="User.php.html#11">App\Entity\User</a></td><td class="text-right">44%</td></tr>
+       <tr><td><a href="Combat.php.html#11">App\Entity\Combat</a></td><td class="text-right">59%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Tournoi.php.html#11">App\Entity\Tournoi</a></td><td class="text-right">1806</td></tr>
+       <tr><td><a href="Adherant.php.html#10">App\Entity\Adherant</a></td><td class="text-right">1029</td></tr>
+       <tr><td><a href="Club.php.html#10">App\Entity\Club</a></td><td class="text-right">930</td></tr>
+       <tr><td><a href="Categorie.php.html#10">App\Entity\Categorie</a></td><td class="text-right">756</td></tr>
+       <tr><td><a href="Combattant.php.html#10">App\Entity\Combattant</a></td><td class="text-right">420</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#11">App\Entity\HistoriqueCombat</a></td><td class="text-right">420</td></tr>
+       <tr><td><a href="Groupe.php.html#10">App\Entity\Groupe</a></td><td class="text-right">342</td></tr>
+       <tr><td><a href="User.php.html#11">App\Entity\User</a></td><td class="text-right">95</td></tr>
+       <tr><td><a href="Combat.php.html#11">App\Entity\Combat</a></td><td class="text-right">75</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Adherant.php.html#68"><abbr title="App\Entity\Adherant::getClub">getClub</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#73"><abbr title="App\Entity\Adherant::setClub">setClub</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#83"><abbr title="App\Entity\Adherant::getTournois">getTournois</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#88"><abbr title="App\Entity\Adherant::addTournoi">addTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#98"><abbr title="App\Entity\Adherant::removeTournoi">removeTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#111"><abbr title="App\Entity\Adherant::getCombattant1">getCombattant1</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#116"><abbr title="App\Entity\Adherant::addCombattant1">addCombattant1</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#126"><abbr title="App\Entity\Adherant::removeCombattant1">removeCombattant1</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#141"><abbr title="App\Entity\Adherant::getCombattant2">getCombattant2</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#146"><abbr title="App\Entity\Adherant::addCombattant2">addCombattant2</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#156"><abbr title="App\Entity\Adherant::removeCombattant2">removeCombattant2</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#171"><abbr title="App\Entity\Adherant::getGroupes">getGroupes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#176"><abbr title="App\Entity\Adherant::addGroupe">addGroupe</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#186"><abbr title="App\Entity\Adherant::removeGroupe">removeGroupe</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#208"><abbr title="App\Entity\Adherant::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#216"><abbr title="App\Entity\Adherant::getCategorie">getCategorie</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#221"><abbr title="App\Entity\Adherant::addCategorie">addCategorie</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#230"><abbr title="App\Entity\Adherant::removeCategorie">removeCategorie</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#240"><abbr title="App\Entity\Adherant::getHistoriqueCombats">getHistoriqueCombats</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#245"><abbr title="App\Entity\Adherant::addHistoriqueCombat">addHistoriqueCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Adherant.php.html#255"><abbr title="App\Entity\Adherant::removeHistoriqueCombat">removeHistoriqueCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Arbitre.php.html#19"><abbr title="App\Entity\Arbitre::getQualification">getQualification</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Arbitre.php.html#24"><abbr title="App\Entity\Arbitre::setQualification">setQualification</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Arbitre.php.html#31"><abbr title="App\Entity\Arbitre::isDisponibilite">isDisponibilite</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Arbitre.php.html#36"><abbr title="App\Entity\Arbitre::setDisponibilite">setDisponibilite</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#53"><abbr title="App\Entity\Categorie::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#62"><abbr title="App\Entity\Categorie::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#67"><abbr title="App\Entity\Categorie::getCategoriePoids">getCategoriePoids</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#72"><abbr title="App\Entity\Categorie::setCategoriePoids">setCategoriePoids</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#82"><abbr title="App\Entity\Categorie::getTournois">getTournois</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#87"><abbr title="App\Entity\Categorie::addTournoi">addTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#97"><abbr title="App\Entity\Categorie::removeTournoi">removeTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#107"><abbr title="App\Entity\Categorie::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#115"><abbr title="App\Entity\Categorie::getGroupes">getGroupes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#120"><abbr title="App\Entity\Categorie::addGroupe">addGroupe</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#130"><abbr title="App\Entity\Categorie::removeGroupe">removeGroupe</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#145"><abbr title="App\Entity\Categorie::getCombats">getCombats</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#150"><abbr title="App\Entity\Categorie::addCombat">addCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#160"><abbr title="App\Entity\Categorie::removeCombat">removeCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#207"><abbr title="App\Entity\Categorie::getAdherants">getAdherants</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#212"><abbr title="App\Entity\Categorie::addAdherant">addAdherant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Categorie.php.html#222"><abbr title="App\Entity\Categorie::removeAdherant">removeAdherant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#52"><abbr title="App\Entity\Club::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#59"><abbr title="App\Entity\Club::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#64"><abbr title="App\Entity\Club::getNom">getNom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#69"><abbr title="App\Entity\Club::setNom">setNom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#76"><abbr title="App\Entity\Club::getVille">getVille</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#81"><abbr title="App\Entity\Club::setVille">setVille</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#88"><abbr title="App\Entity\Club::getPays">getPays</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#93"><abbr title="App\Entity\Club::setPays">setPays</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#100"><abbr title="App\Entity\Club::getEmail">getEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#105"><abbr title="App\Entity\Club::setEmail">setEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#115"><abbr title="App\Entity\Club::getCombattant">getCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#120"><abbr title="App\Entity\Club::addCombattant">addCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#130"><abbr title="App\Entity\Club::removeCombattant">removeCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#145"><abbr title="App\Entity\Club::getAdherant">getAdherant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#150"><abbr title="App\Entity\Club::addAdherant">addAdherant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#160"><abbr title="App\Entity\Club::removeAdherant">removeAdherant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#173"><abbr title="App\Entity\Club::__tostring">__tostring</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#180"><abbr title="App\Entity\Club::getTournois">getTournois</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#185"><abbr title="App\Entity\Club::addTournoi">addTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#195"><abbr title="App\Entity\Club::removeTournoi">removeTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#204"><abbr title="App\Entity\Club::getPresident">getPresident</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Club.php.html#209"><abbr title="App\Entity\Club::setPresident">setPresident</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combat.php.html#55"><abbr title="App\Entity\Combat::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combat.php.html#60"><abbr title="App\Entity\Combat::getCombattant1">getCombattant1</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combat.php.html#72"><abbr title="App\Entity\Combat::getCombattant2">getCombattant2</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combat.php.html#120"><abbr title="App\Entity\Combat::getTournoi">getTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combat.php.html#125"><abbr title="App\Entity\Combat::setTournoi">setTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combat.php.html#132"><abbr title="App\Entity\Combat::getCategorie">getCategorie</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combat.php.html#137"><abbr title="App\Entity\Combat::setCategorie">setCategorie</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combat.php.html#144"><abbr title="App\Entity\Combat::getGroupe">getGroupe</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combat.php.html#149"><abbr title="App\Entity\Combat::setGroupe">setGroupe</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combat.php.html#168"><abbr title="App\Entity\Combat::getHistoriqueCombat">getHistoriqueCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combat.php.html#173"><abbr title="App\Entity\Combat::setHistoriqueCombat">setHistoriqueCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#40"><abbr title="App\Entity\Combattant::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#44"><abbr title="App\Entity\Combattant::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#49"><abbr title="App\Entity\Combattant::getNom">getNom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#54"><abbr title="App\Entity\Combattant::setNom">setNom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#61"><abbr title="App\Entity\Combattant::getPrenom">getPrenom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#66"><abbr title="App\Entity\Combattant::setPrenom">setPrenom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#73"><abbr title="App\Entity\Combattant::getAge">getAge</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#78"><abbr title="App\Entity\Combattant::setAge">setAge</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#85"><abbr title="App\Entity\Combattant::getPoids">getPoids</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#90"><abbr title="App\Entity\Combattant::setPoids">setPoids</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#97"><abbr title="App\Entity\Combattant::getClassement">getClassement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#102"><abbr title="App\Entity\Combattant::setClassement">setClassement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#109"><abbr title="App\Entity\Combattant::getInscription">getInscription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#114"><abbr title="App\Entity\Combattant::setInscription">setInscription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#131"><abbr title="App\Entity\Combattant::getClub">getClub</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Combattant.php.html#136"><abbr title="App\Entity\Combattant::setClub">setClub</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#39"><abbr title="App\Entity\Groupe::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#45"><abbr title="App\Entity\Groupe::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#50"><abbr title="App\Entity\Groupe::getTournoi">getTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#55"><abbr title="App\Entity\Groupe::setTournoi">setTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#65"><abbr title="App\Entity\Groupe::getCombattants">getCombattants</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#70"><abbr title="App\Entity\Groupe::addCombattant">addCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#79"><abbr title="App\Entity\Groupe::removeCombattant">removeCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#86"><abbr title="App\Entity\Groupe::getNom">getNom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#91"><abbr title="App\Entity\Groupe::setNom">setNom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#98"><abbr title="App\Entity\Groupe::getCategorie">getCategorie</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#103"><abbr title="App\Entity\Groupe::setCategorie">setCategorie</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#113"><abbr title="App\Entity\Groupe::getCombats">getCombats</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#118"><abbr title="App\Entity\Groupe::addCombat">addCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Groupe.php.html#128"><abbr title="App\Entity\Groupe::removeCombat">removeCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#44"><abbr title="App\Entity\HistoriqueCombat::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#49"><abbr title="App\Entity\HistoriqueCombat::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#54"><abbr title="App\Entity\HistoriqueCombat::getResultat">getResultat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#59"><abbr title="App\Entity\HistoriqueCombat::setResultat">setResultat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#66"><abbr title="App\Entity\HistoriqueCombat::getPoints">getPoints</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#71"><abbr title="App\Entity\HistoriqueCombat::setPoints">setPoints</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#78"><abbr title="App\Entity\HistoriqueCombat::getDateCombat">getDateCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#83"><abbr title="App\Entity\HistoriqueCombat::setDateCombat">setDateCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#90"><abbr title="App\Entity\HistoriqueCombat::getCombattant">getCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#95"><abbr title="App\Entity\HistoriqueCombat::setCombattant">setCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#102"><abbr title="App\Entity\HistoriqueCombat::getVictoire">getVictoire</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#107"><abbr title="App\Entity\HistoriqueCombat::setVictoire">setVictoire</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#114"><abbr title="App\Entity\HistoriqueCombat::getDefaite">getDefaite</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#119"><abbr title="App\Entity\HistoriqueCombat::setDefaite">setDefaite</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#129"><abbr title="App\Entity\HistoriqueCombat::getCombat">getCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#134"><abbr title="App\Entity\HistoriqueCombat::addCombat">addCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#144"><abbr title="App\Entity\HistoriqueCombat::removeCombat">removeCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Inscription.php.html#29"><abbr title="App\Entity\Inscription::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Inscription.php.html#34"><abbr title="App\Entity\Inscription::getStatut">getStatut</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Inscription.php.html#39"><abbr title="App\Entity\Inscription::setStatut">setStatut</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Inscription.php.html#46"><abbr title="App\Entity\Inscription::getDateInscription">getDateInscription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Inscription.php.html#51"><abbr title="App\Entity\Inscription::setDateInscription">setDateInscription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Inscription.php.html#58"><abbr title="App\Entity\Inscription::getTournoi">getTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Inscription.php.html#63"><abbr title="App\Entity\Inscription::setTournoi">setTournoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Inscription.php.html#70"><abbr title="App\Entity\Inscription::getCombattant">getCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Inscription.php.html#75"><abbr title="App\Entity\Inscription::setCombattant">setCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Note.php.html#26"><abbr title="App\Entity\Note::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Note.php.html#31"><abbr title="App\Entity\Note::getNote">getNote</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Note.php.html#36"><abbr title="App\Entity\Note::setNote">setNote</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Note.php.html#43"><abbr title="App\Entity\Note::getCommentaire">getCommentaire</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Note.php.html#48"><abbr title="App\Entity\Note::setCommentaire">setCommentaire</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Note.php.html#55"><abbr title="App\Entity\Note::getDate">getDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Note.php.html#60"><abbr title="App\Entity\Note::setDate">setDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Spectateur.php.html#19"><abbr title="App\Entity\Spectateur::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Spectateur.php.html#24"><abbr title="App\Entity\Spectateur::getPrenom">getPrenom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Spectateur.php.html#29"><abbr title="App\Entity\Spectateur::setPrenom">setPrenom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#67"><abbr title="App\Entity\Tournoi::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#76"><abbr title="App\Entity\Tournoi::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#82"><abbr title="App\Entity\Tournoi::getNom">getNom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#87"><abbr title="App\Entity\Tournoi::setNom">setNom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#94"><abbr title="App\Entity\Tournoi::getDateDebut">getDateDebut</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#99"><abbr title="App\Entity\Tournoi::setDateDebut">setDateDebut</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#106"><abbr title="App\Entity\Tournoi::getDateFin">getDateFin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#111"><abbr title="App\Entity\Tournoi::setDateFin">setDateFin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#118"><abbr title="App\Entity\Tournoi::getLieu">getLieu</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#123"><abbr title="App\Entity\Tournoi::setLieu">setLieu</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#130"><abbr title="App\Entity\Tournoi::getInscription">getInscription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#135"><abbr title="App\Entity\Tournoi::setInscription">setInscription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#155"><abbr title="App\Entity\Tournoi::getPoids">getPoids</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#160"><abbr title="App\Entity\Tournoi::addPoid">addPoid</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#169"><abbr title="App\Entity\Tournoi::removePoid">removePoid</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#179"><abbr title="App\Entity\Tournoi::getClubs">getClubs</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#184"><abbr title="App\Entity\Tournoi::addClub">addClub</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#193"><abbr title="App\Entity\Tournoi::removeClub">removeClub</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#203"><abbr title="App\Entity\Tournoi::getCombattant">getCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#208"><abbr title="App\Entity\Tournoi::addCombattant">addCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#217"><abbr title="App\Entity\Tournoi::removeCombattant">removeCombattant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#227"><abbr title="App\Entity\Tournoi::getCombats">getCombats</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#232"><abbr title="App\Entity\Tournoi::addCombat">addCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#242"><abbr title="App\Entity\Tournoi::removeCombat">removeCombat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#254"><abbr title="App\Entity\Tournoi::isCombatGenerer">isCombatGenerer</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#259"><abbr title="App\Entity\Tournoi::setCombatGenerer">setCombatGenerer</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#269"><abbr title="App\Entity\Tournoi::getGroupes">getGroupes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#274"><abbr title="App\Entity\Tournoi::addGroupe">addGroupe</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tournoi.php.html#284"><abbr title="App\Entity\Tournoi::removeGroupe">removeGroupe</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#48"><abbr title="App\Entity\User::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#65"><abbr title="App\Entity\User::getPrenom">getPrenom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#70"><abbr title="App\Entity\User::setPrenom">setPrenom</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#126"><abbr title="App\Entity\User::getPassword">getPassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#131"><abbr title="App\Entity\User::setPassword">setPassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#138"><abbr title="App\Entity\User::getUsername">getUsername</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#147"><abbr title="App\Entity\User::eraseCredentials">eraseCredentials</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#153"><abbr title="App\Entity\User::getPresidentClub">getPresidentClub</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#158"><abbr title="App\Entity\User::setPresidentClub">setPresidentClub</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Combattant.php.html#114"><abbr title="App\Entity\Combattant::setInscription">setInscription</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Tournoi.php.html#135"><abbr title="App\Entity\Tournoi::setInscription">setInscription</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="User.php.html#158"><abbr title="App\Entity\User::setPresidentClub">setPresidentClub</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Adherant.php.html#126"><abbr title="App\Entity\Adherant::removeCombattant1">removeCombattant1</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Adherant.php.html#156"><abbr title="App\Entity\Adherant::removeCombattant2">removeCombattant2</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Adherant.php.html#255"><abbr title="App\Entity\Adherant::removeHistoriqueCombat">removeHistoriqueCombat</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Categorie.php.html#130"><abbr title="App\Entity\Categorie::removeGroupe">removeGroupe</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Categorie.php.html#160"><abbr title="App\Entity\Categorie::removeCombat">removeCombat</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Club.php.html#130"><abbr title="App\Entity\Club::removeCombattant">removeCombattant</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Club.php.html#160"><abbr title="App\Entity\Club::removeAdherant">removeAdherant</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Groupe.php.html#128"><abbr title="App\Entity\Groupe::removeCombat">removeCombat</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#144"><abbr title="App\Entity\HistoriqueCombat::removeCombat">removeCombat</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tournoi.php.html#242"><abbr title="App\Entity\Tournoi::removeCombat">removeCombat</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tournoi.php.html#284"><abbr title="App\Entity\Tournoi::removeGroupe">removeGroupe</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Adherant.php.html#88"><abbr title="App\Entity\Adherant::addTournoi">addTournoi</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Adherant.php.html#98"><abbr title="App\Entity\Adherant::removeTournoi">removeTournoi</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Adherant.php.html#116"><abbr title="App\Entity\Adherant::addCombattant1">addCombattant1</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Adherant.php.html#146"><abbr title="App\Entity\Adherant::addCombattant2">addCombattant2</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Adherant.php.html#176"><abbr title="App\Entity\Adherant::addGroupe">addGroupe</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Adherant.php.html#186"><abbr title="App\Entity\Adherant::removeGroupe">removeGroupe</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Adherant.php.html#208"><abbr title="App\Entity\Adherant::__toString">__toString</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Adherant.php.html#221"><abbr title="App\Entity\Adherant::addCategorie">addCategorie</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Adherant.php.html#245"><abbr title="App\Entity\Adherant::addHistoriqueCombat">addHistoriqueCombat</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Categorie.php.html#87"><abbr title="App\Entity\Categorie::addTournoi">addTournoi</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Categorie.php.html#97"><abbr title="App\Entity\Categorie::removeTournoi">removeTournoi</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Categorie.php.html#120"><abbr title="App\Entity\Categorie::addGroupe">addGroupe</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Categorie.php.html#150"><abbr title="App\Entity\Categorie::addCombat">addCombat</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Categorie.php.html#212"><abbr title="App\Entity\Categorie::addAdherant">addAdherant</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Categorie.php.html#222"><abbr title="App\Entity\Categorie::removeAdherant">removeAdherant</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Club.php.html#120"><abbr title="App\Entity\Club::addCombattant">addCombattant</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Club.php.html#150"><abbr title="App\Entity\Club::addAdherant">addAdherant</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Club.php.html#185"><abbr title="App\Entity\Club::addTournoi">addTournoi</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Club.php.html#195"><abbr title="App\Entity\Club::removeTournoi">removeTournoi</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Groupe.php.html#70"><abbr title="App\Entity\Groupe::addCombattant">addCombattant</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Groupe.php.html#118"><abbr title="App\Entity\Groupe::addCombat">addCombat</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="HistoriqueCombat.php.html#134"><abbr title="App\Entity\HistoriqueCombat::addCombat">addCombat</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tournoi.php.html#160"><abbr title="App\Entity\Tournoi::addPoid">addPoid</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tournoi.php.html#184"><abbr title="App\Entity\Tournoi::addClub">addClub</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tournoi.php.html#208"><abbr title="App\Entity\Tournoi::addCombattant">addCombattant</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tournoi.php.html#232"><abbr title="App\Entity\Tournoi::addCombat">addCombat</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tournoi.php.html#274"><abbr title="App\Entity\Tournoi::addGroupe">addGroupe</abbr></a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.32</a> using <a href="https://secure.php.net/" target="_top">PHP 8.2.0</a> and <a href="https://phpunit.de/">PHPUnit 9.6.21</a> at Fri Oct 25 10:30:18 UTC 2024.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../_js/jquery.min.js?v=9.2.32" type="text/javascript"></script>
+  <script src="../_js/d3.min.js?v=9.2.32" type="text/javascript"></script>
+  <script src="../_js/nv.d3.min.js?v=9.2.32" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([10,0,1,0,0,1,1,0,0,0,0,0], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([179,0,0,0,0,0,0,0,0,0,0,21], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[10.16949152542373,37,"<a href=\"Adherant.php.html#10\">App\\Entity\\Adherant<\/a>"],[0,4,"<a href=\"Arbitre.php.html#8\">App\\Entity\\Arbitre<\/a>"],[0,27,"<a href=\"Categorie.php.html#10\">App\\Entity\\Categorie<\/a>"],[0,30,"<a href=\"Club.php.html#10\">App\\Entity\\Club<\/a>"],[59.45945945945946,27,"<a href=\"Combat.php.html#11\">App\\Entity\\Combat<\/a>"],[0,20,"<a href=\"Combattant.php.html#10\">App\\Entity\\Combattant<\/a>"],[0,18,"<a href=\"Groupe.php.html#10\">App\\Entity\\Groupe<\/a>"],[0,20,"<a href=\"HistoriqueCombat.php.html#11\">App\\Entity\\HistoriqueCombat<\/a>"],[0,9,"<a href=\"Inscription.php.html#9\">App\\Entity\\Inscription<\/a>"],[0,7,"<a href=\"Note.php.html#9\">App\\Entity\\Note<\/a>"],[0,3,"<a href=\"Spectateur.php.html#8\">App\\Entity\\Spectateur<\/a>"],[0,42,"<a href=\"Tournoi.php.html#11\">App\\Entity\\Tournoi<\/a>"],[44.827586206896555,21,"<a href=\"User.php.html#11\">App\\Entity\\User<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Adherant.php.html#58\">App\\Entity\\Adherant::__construct<\/a>"],[0,1,"<a href=\"Adherant.php.html#68\">App\\Entity\\Adherant::getClub<\/a>"],[0,1,"<a href=\"Adherant.php.html#73\">App\\Entity\\Adherant::setClub<\/a>"],[0,1,"<a href=\"Adherant.php.html#83\">App\\Entity\\Adherant::getTournois<\/a>"],[0,2,"<a href=\"Adherant.php.html#88\">App\\Entity\\Adherant::addTournoi<\/a>"],[0,2,"<a href=\"Adherant.php.html#98\">App\\Entity\\Adherant::removeTournoi<\/a>"],[0,1,"<a href=\"Adherant.php.html#111\">App\\Entity\\Adherant::getCombattant1<\/a>"],[0,2,"<a href=\"Adherant.php.html#116\">App\\Entity\\Adherant::addCombattant1<\/a>"],[0,3,"<a href=\"Adherant.php.html#126\">App\\Entity\\Adherant::removeCombattant1<\/a>"],[0,1,"<a href=\"Adherant.php.html#141\">App\\Entity\\Adherant::getCombattant2<\/a>"],[0,2,"<a href=\"Adherant.php.html#146\">App\\Entity\\Adherant::addCombattant2<\/a>"],[0,3,"<a href=\"Adherant.php.html#156\">App\\Entity\\Adherant::removeCombattant2<\/a>"],[0,1,"<a href=\"Adherant.php.html#171\">App\\Entity\\Adherant::getGroupes<\/a>"],[0,2,"<a href=\"Adherant.php.html#176\">App\\Entity\\Adherant::addGroupe<\/a>"],[0,2,"<a href=\"Adherant.php.html#186\">App\\Entity\\Adherant::removeGroupe<\/a>"],[0,2,"<a href=\"Adherant.php.html#208\">App\\Entity\\Adherant::__toString<\/a>"],[0,1,"<a href=\"Adherant.php.html#216\">App\\Entity\\Adherant::getCategorie<\/a>"],[0,2,"<a href=\"Adherant.php.html#221\">App\\Entity\\Adherant::addCategorie<\/a>"],[0,1,"<a href=\"Adherant.php.html#230\">App\\Entity\\Adherant::removeCategorie<\/a>"],[0,1,"<a href=\"Adherant.php.html#240\">App\\Entity\\Adherant::getHistoriqueCombats<\/a>"],[0,2,"<a href=\"Adherant.php.html#245\">App\\Entity\\Adherant::addHistoriqueCombat<\/a>"],[0,3,"<a href=\"Adherant.php.html#255\">App\\Entity\\Adherant::removeHistoriqueCombat<\/a>"],[0,1,"<a href=\"Arbitre.php.html#19\">App\\Entity\\Arbitre::getQualification<\/a>"],[0,1,"<a href=\"Arbitre.php.html#24\">App\\Entity\\Arbitre::setQualification<\/a>"],[0,1,"<a href=\"Arbitre.php.html#31\">App\\Entity\\Arbitre::isDisponibilite<\/a>"],[0,1,"<a href=\"Arbitre.php.html#36\">App\\Entity\\Arbitre::setDisponibilite<\/a>"],[0,1,"<a href=\"Categorie.php.html#53\">App\\Entity\\Categorie::__construct<\/a>"],[0,1,"<a href=\"Categorie.php.html#62\">App\\Entity\\Categorie::getId<\/a>"],[0,1,"<a href=\"Categorie.php.html#67\">App\\Entity\\Categorie::getCategoriePoids<\/a>"],[0,1,"<a href=\"Categorie.php.html#72\">App\\Entity\\Categorie::setCategoriePoids<\/a>"],[0,1,"<a href=\"Categorie.php.html#82\">App\\Entity\\Categorie::getTournois<\/a>"],[0,2,"<a href=\"Categorie.php.html#87\">App\\Entity\\Categorie::addTournoi<\/a>"],[0,2,"<a href=\"Categorie.php.html#97\">App\\Entity\\Categorie::removeTournoi<\/a>"],[0,1,"<a href=\"Categorie.php.html#107\">App\\Entity\\Categorie::__toString<\/a>"],[0,1,"<a href=\"Categorie.php.html#115\">App\\Entity\\Categorie::getGroupes<\/a>"],[0,2,"<a href=\"Categorie.php.html#120\">App\\Entity\\Categorie::addGroupe<\/a>"],[0,3,"<a href=\"Categorie.php.html#130\">App\\Entity\\Categorie::removeGroupe<\/a>"],[0,1,"<a href=\"Categorie.php.html#145\">App\\Entity\\Categorie::getCombats<\/a>"],[0,2,"<a href=\"Categorie.php.html#150\">App\\Entity\\Categorie::addCombat<\/a>"],[0,3,"<a href=\"Categorie.php.html#160\">App\\Entity\\Categorie::removeCombat<\/a>"],[0,1,"<a href=\"Categorie.php.html#207\">App\\Entity\\Categorie::getAdherants<\/a>"],[0,2,"<a href=\"Categorie.php.html#212\">App\\Entity\\Categorie::addAdherant<\/a>"],[0,2,"<a href=\"Categorie.php.html#222\">App\\Entity\\Categorie::removeAdherant<\/a>"],[0,1,"<a href=\"Club.php.html#52\">App\\Entity\\Club::__construct<\/a>"],[0,1,"<a href=\"Club.php.html#59\">App\\Entity\\Club::getId<\/a>"],[0,1,"<a href=\"Club.php.html#64\">App\\Entity\\Club::getNom<\/a>"],[0,1,"<a href=\"Club.php.html#69\">App\\Entity\\Club::setNom<\/a>"],[0,1,"<a href=\"Club.php.html#76\">App\\Entity\\Club::getVille<\/a>"],[0,1,"<a href=\"Club.php.html#81\">App\\Entity\\Club::setVille<\/a>"],[0,1,"<a href=\"Club.php.html#88\">App\\Entity\\Club::getPays<\/a>"],[0,1,"<a href=\"Club.php.html#93\">App\\Entity\\Club::setPays<\/a>"],[0,1,"<a href=\"Club.php.html#100\">App\\Entity\\Club::getEmail<\/a>"],[0,1,"<a href=\"Club.php.html#105\">App\\Entity\\Club::setEmail<\/a>"],[0,1,"<a href=\"Club.php.html#115\">App\\Entity\\Club::getCombattant<\/a>"],[0,2,"<a href=\"Club.php.html#120\">App\\Entity\\Club::addCombattant<\/a>"],[0,3,"<a href=\"Club.php.html#130\">App\\Entity\\Club::removeCombattant<\/a>"],[0,1,"<a href=\"Club.php.html#145\">App\\Entity\\Club::getAdherant<\/a>"],[0,2,"<a href=\"Club.php.html#150\">App\\Entity\\Club::addAdherant<\/a>"],[0,3,"<a href=\"Club.php.html#160\">App\\Entity\\Club::removeAdherant<\/a>"],[0,1,"<a href=\"Club.php.html#173\">App\\Entity\\Club::__tostring<\/a>"],[0,1,"<a href=\"Club.php.html#180\">App\\Entity\\Club::getTournois<\/a>"],[0,2,"<a href=\"Club.php.html#185\">App\\Entity\\Club::addTournoi<\/a>"],[0,2,"<a href=\"Club.php.html#195\">App\\Entity\\Club::removeTournoi<\/a>"],[0,1,"<a href=\"Club.php.html#204\">App\\Entity\\Club::getPresident<\/a>"],[0,1,"<a href=\"Club.php.html#209\">App\\Entity\\Club::setPresident<\/a>"],[100,1,"<a href=\"Combat.php.html#51\">App\\Entity\\Combat::__construct<\/a>"],[0,1,"<a href=\"Combat.php.html#55\">App\\Entity\\Combat::getId<\/a>"],[0,1,"<a href=\"Combat.php.html#60\">App\\Entity\\Combat::getCombattant1<\/a>"],[100,1,"<a href=\"Combat.php.html#65\">App\\Entity\\Combat::setCombattant1<\/a>"],[0,1,"<a href=\"Combat.php.html#72\">App\\Entity\\Combat::getCombattant2<\/a>"],[100,1,"<a href=\"Combat.php.html#77\">App\\Entity\\Combat::setCombattant2<\/a>"],[100,1,"<a href=\"Combat.php.html#84\">App\\Entity\\Combat::getScoreCombattant1<\/a>"],[100,1,"<a href=\"Combat.php.html#89\">App\\Entity\\Combat::setScoreCombattant1<\/a>"],[100,1,"<a href=\"Combat.php.html#96\">App\\Entity\\Combat::getScoreCombattant2<\/a>"],[100,1,"<a href=\"Combat.php.html#101\">App\\Entity\\Combat::setScoreCombattant2<\/a>"],[100,1,"<a href=\"Combat.php.html#108\">App\\Entity\\Combat::getResultat<\/a>"],[100,1,"<a href=\"Combat.php.html#113\">App\\Entity\\Combat::setResultat<\/a>"],[0,1,"<a href=\"Combat.php.html#120\">App\\Entity\\Combat::getTournoi<\/a>"],[0,1,"<a href=\"Combat.php.html#125\">App\\Entity\\Combat::setTournoi<\/a>"],[0,1,"<a href=\"Combat.php.html#132\">App\\Entity\\Combat::getCategorie<\/a>"],[0,1,"<a href=\"Combat.php.html#137\">App\\Entity\\Combat::setCategorie<\/a>"],[0,1,"<a href=\"Combat.php.html#144\">App\\Entity\\Combat::getGroupe<\/a>"],[0,1,"<a href=\"Combat.php.html#149\">App\\Entity\\Combat::setGroupe<\/a>"],[100,1,"<a href=\"Combat.php.html#156\">App\\Entity\\Combat::getPhase<\/a>"],[100,1,"<a href=\"Combat.php.html#161\">App\\Entity\\Combat::setPhase<\/a>"],[0,1,"<a href=\"Combat.php.html#168\">App\\Entity\\Combat::getHistoriqueCombat<\/a>"],[0,1,"<a href=\"Combat.php.html#173\">App\\Entity\\Combat::setHistoriqueCombat<\/a>"],[100,5,"<a href=\"Combat.php.html#180\">App\\Entity\\Combat::Vainqueur<\/a>"],[0,1,"<a href=\"Combattant.php.html#40\">App\\Entity\\Combattant::__construct<\/a>"],[0,1,"<a href=\"Combattant.php.html#44\">App\\Entity\\Combattant::getId<\/a>"],[0,1,"<a href=\"Combattant.php.html#49\">App\\Entity\\Combattant::getNom<\/a>"],[0,1,"<a href=\"Combattant.php.html#54\">App\\Entity\\Combattant::setNom<\/a>"],[0,1,"<a href=\"Combattant.php.html#61\">App\\Entity\\Combattant::getPrenom<\/a>"],[0,1,"<a href=\"Combattant.php.html#66\">App\\Entity\\Combattant::setPrenom<\/a>"],[0,1,"<a href=\"Combattant.php.html#73\">App\\Entity\\Combattant::getAge<\/a>"],[0,1,"<a href=\"Combattant.php.html#78\">App\\Entity\\Combattant::setAge<\/a>"],[0,1,"<a href=\"Combattant.php.html#85\">App\\Entity\\Combattant::getPoids<\/a>"],[0,1,"<a href=\"Combattant.php.html#90\">App\\Entity\\Combattant::setPoids<\/a>"],[0,1,"<a href=\"Combattant.php.html#97\">App\\Entity\\Combattant::getClassement<\/a>"],[0,1,"<a href=\"Combattant.php.html#102\">App\\Entity\\Combattant::setClassement<\/a>"],[0,1,"<a href=\"Combattant.php.html#109\">App\\Entity\\Combattant::getInscription<\/a>"],[0,5,"<a href=\"Combattant.php.html#114\">App\\Entity\\Combattant::setInscription<\/a>"],[0,1,"<a href=\"Combattant.php.html#131\">App\\Entity\\Combattant::getClub<\/a>"],[0,1,"<a href=\"Combattant.php.html#136\">App\\Entity\\Combattant::setClub<\/a>"],[0,1,"<a href=\"Groupe.php.html#39\">App\\Entity\\Groupe::__construct<\/a>"],[0,1,"<a href=\"Groupe.php.html#45\">App\\Entity\\Groupe::getId<\/a>"],[0,1,"<a href=\"Groupe.php.html#50\">App\\Entity\\Groupe::getTournoi<\/a>"],[0,1,"<a href=\"Groupe.php.html#55\">App\\Entity\\Groupe::setTournoi<\/a>"],[0,1,"<a href=\"Groupe.php.html#65\">App\\Entity\\Groupe::getCombattants<\/a>"],[0,2,"<a href=\"Groupe.php.html#70\">App\\Entity\\Groupe::addCombattant<\/a>"],[0,1,"<a href=\"Groupe.php.html#79\">App\\Entity\\Groupe::removeCombattant<\/a>"],[0,1,"<a href=\"Groupe.php.html#86\">App\\Entity\\Groupe::getNom<\/a>"],[0,1,"<a href=\"Groupe.php.html#91\">App\\Entity\\Groupe::setNom<\/a>"],[0,1,"<a href=\"Groupe.php.html#98\">App\\Entity\\Groupe::getCategorie<\/a>"],[0,1,"<a href=\"Groupe.php.html#103\">App\\Entity\\Groupe::setCategorie<\/a>"],[0,1,"<a href=\"Groupe.php.html#113\">App\\Entity\\Groupe::getCombats<\/a>"],[0,2,"<a href=\"Groupe.php.html#118\">App\\Entity\\Groupe::addCombat<\/a>"],[0,3,"<a href=\"Groupe.php.html#128\">App\\Entity\\Groupe::removeCombat<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#44\">App\\Entity\\HistoriqueCombat::__construct<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#49\">App\\Entity\\HistoriqueCombat::getId<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#54\">App\\Entity\\HistoriqueCombat::getResultat<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#59\">App\\Entity\\HistoriqueCombat::setResultat<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#66\">App\\Entity\\HistoriqueCombat::getPoints<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#71\">App\\Entity\\HistoriqueCombat::setPoints<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#78\">App\\Entity\\HistoriqueCombat::getDateCombat<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#83\">App\\Entity\\HistoriqueCombat::setDateCombat<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#90\">App\\Entity\\HistoriqueCombat::getCombattant<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#95\">App\\Entity\\HistoriqueCombat::setCombattant<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#102\">App\\Entity\\HistoriqueCombat::getVictoire<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#107\">App\\Entity\\HistoriqueCombat::setVictoire<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#114\">App\\Entity\\HistoriqueCombat::getDefaite<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#119\">App\\Entity\\HistoriqueCombat::setDefaite<\/a>"],[0,1,"<a href=\"HistoriqueCombat.php.html#129\">App\\Entity\\HistoriqueCombat::getCombat<\/a>"],[0,2,"<a href=\"HistoriqueCombat.php.html#134\">App\\Entity\\HistoriqueCombat::addCombat<\/a>"],[0,3,"<a href=\"HistoriqueCombat.php.html#144\">App\\Entity\\HistoriqueCombat::removeCombat<\/a>"],[0,1,"<a href=\"Inscription.php.html#29\">App\\Entity\\Inscription::getId<\/a>"],[0,1,"<a href=\"Inscription.php.html#34\">App\\Entity\\Inscription::getStatut<\/a>"],[0,1,"<a href=\"Inscription.php.html#39\">App\\Entity\\Inscription::setStatut<\/a>"],[0,1,"<a href=\"Inscription.php.html#46\">App\\Entity\\Inscription::getDateInscription<\/a>"],[0,1,"<a href=\"Inscription.php.html#51\">App\\Entity\\Inscription::setDateInscription<\/a>"],[0,1,"<a href=\"Inscription.php.html#58\">App\\Entity\\Inscription::getTournoi<\/a>"],[0,1,"<a href=\"Inscription.php.html#63\">App\\Entity\\Inscription::setTournoi<\/a>"],[0,1,"<a href=\"Inscription.php.html#70\">App\\Entity\\Inscription::getCombattant<\/a>"],[0,1,"<a href=\"Inscription.php.html#75\">App\\Entity\\Inscription::setCombattant<\/a>"],[0,1,"<a href=\"Note.php.html#26\">App\\Entity\\Note::getId<\/a>"],[0,1,"<a href=\"Note.php.html#31\">App\\Entity\\Note::getNote<\/a>"],[0,1,"<a href=\"Note.php.html#36\">App\\Entity\\Note::setNote<\/a>"],[0,1,"<a href=\"Note.php.html#43\">App\\Entity\\Note::getCommentaire<\/a>"],[0,1,"<a href=\"Note.php.html#48\">App\\Entity\\Note::setCommentaire<\/a>"],[0,1,"<a href=\"Note.php.html#55\">App\\Entity\\Note::getDate<\/a>"],[0,1,"<a href=\"Note.php.html#60\">App\\Entity\\Note::setDate<\/a>"],[0,1,"<a href=\"Spectateur.php.html#19\">App\\Entity\\Spectateur::getId<\/a>"],[0,1,"<a href=\"Spectateur.php.html#24\">App\\Entity\\Spectateur::getPrenom<\/a>"],[0,1,"<a href=\"Spectateur.php.html#29\">App\\Entity\\Spectateur::setPrenom<\/a>"],[0,1,"<a href=\"Tournoi.php.html#67\">App\\Entity\\Tournoi::__construct<\/a>"],[0,1,"<a href=\"Tournoi.php.html#76\">App\\Entity\\Tournoi::getId<\/a>"],[0,1,"<a href=\"Tournoi.php.html#82\">App\\Entity\\Tournoi::getNom<\/a>"],[0,1,"<a href=\"Tournoi.php.html#87\">App\\Entity\\Tournoi::setNom<\/a>"],[0,1,"<a href=\"Tournoi.php.html#94\">App\\Entity\\Tournoi::getDateDebut<\/a>"],[0,1,"<a href=\"Tournoi.php.html#99\">App\\Entity\\Tournoi::setDateDebut<\/a>"],[0,1,"<a href=\"Tournoi.php.html#106\">App\\Entity\\Tournoi::getDateFin<\/a>"],[0,1,"<a href=\"Tournoi.php.html#111\">App\\Entity\\Tournoi::setDateFin<\/a>"],[0,1,"<a href=\"Tournoi.php.html#118\">App\\Entity\\Tournoi::getLieu<\/a>"],[0,1,"<a href=\"Tournoi.php.html#123\">App\\Entity\\Tournoi::setLieu<\/a>"],[0,1,"<a href=\"Tournoi.php.html#130\">App\\Entity\\Tournoi::getInscription<\/a>"],[0,5,"<a href=\"Tournoi.php.html#135\">App\\Entity\\Tournoi::setInscription<\/a>"],[0,1,"<a href=\"Tournoi.php.html#155\">App\\Entity\\Tournoi::getPoids<\/a>"],[0,2,"<a href=\"Tournoi.php.html#160\">App\\Entity\\Tournoi::addPoid<\/a>"],[0,1,"<a href=\"Tournoi.php.html#169\">App\\Entity\\Tournoi::removePoid<\/a>"],[0,1,"<a href=\"Tournoi.php.html#179\">App\\Entity\\Tournoi::getClubs<\/a>"],[0,2,"<a href=\"Tournoi.php.html#184\">App\\Entity\\Tournoi::addClub<\/a>"],[0,1,"<a href=\"Tournoi.php.html#193\">App\\Entity\\Tournoi::removeClub<\/a>"],[0,1,"<a href=\"Tournoi.php.html#203\">App\\Entity\\Tournoi::getCombattant<\/a>"],[0,2,"<a href=\"Tournoi.php.html#208\">App\\Entity\\Tournoi::addCombattant<\/a>"],[0,1,"<a href=\"Tournoi.php.html#217\">App\\Entity\\Tournoi::removeCombattant<\/a>"],[0,1,"<a href=\"Tournoi.php.html#227\">App\\Entity\\Tournoi::getCombats<\/a>"],[0,2,"<a href=\"Tournoi.php.html#232\">App\\Entity\\Tournoi::addCombat<\/a>"],[0,3,"<a href=\"Tournoi.php.html#242\">App\\Entity\\Tournoi::removeCombat<\/a>"],[0,1,"<a href=\"Tournoi.php.html#254\">App\\Entity\\Tournoi::isCombatGenerer<\/a>"],[0,1,"<a href=\"Tournoi.php.html#259\">App\\Entity\\Tournoi::setCombatGenerer<\/a>"],[0,1,"<a href=\"Tournoi.php.html#269\">App\\Entity\\Tournoi::getGroupes<\/a>"],[0,2,"<a href=\"Tournoi.php.html#274\">App\\Entity\\Tournoi::addGroupe<\/a>"],[0,3,"<a href=\"Tournoi.php.html#284\">App\\Entity\\Tournoi::removeGroupe<\/a>"],[0,1,"<a href=\"User.php.html#48\">App\\Entity\\User::getId<\/a>"],[100,1,"<a href=\"User.php.html#53\">App\\Entity\\User::getNom<\/a>"],[100,1,"<a href=\"User.php.html#58\">App\\Entity\\User::setNom<\/a>"],[0,1,"<a href=\"User.php.html#65\">App\\Entity\\User::getPrenom<\/a>"],[0,1,"<a href=\"User.php.html#70\">App\\Entity\\User::setPrenom<\/a>"],[100,1,"<a href=\"User.php.html#77\">App\\Entity\\User::getEmail<\/a>"],[100,1,"<a href=\"User.php.html#82\">App\\Entity\\User::setEmail<\/a>"],[100,1,"<a href=\"User.php.html#94\">App\\Entity\\User::getUserIdentifier<\/a>"],[100,1,"<a href=\"User.php.html#104\">App\\Entity\\User::getRoles<\/a>"],[100,1,"<a href=\"User.php.html#116\">App\\Entity\\User::setRoles<\/a>"],[0,1,"<a href=\"User.php.html#126\">App\\Entity\\User::getPassword<\/a>"],[0,1,"<a href=\"User.php.html#131\">App\\Entity\\User::setPassword<\/a>"],[0,1,"<a href=\"User.php.html#138\">App\\Entity\\User::getUsername<\/a>"],[0,1,"<a href=\"User.php.html#147\">App\\Entity\\User::eraseCredentials<\/a>"],[0,1,"<a href=\"User.php.html#153\">App\\Entity\\User::getPresidentClub<\/a>"],[0,5,"<a href=\"User.php.html#158\">App\\Entity\\User::setPresidentClub<\/a>"],[100,1,"<a href=\"User.php.html#175\">App\\Entity\\User::isPresident<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>
