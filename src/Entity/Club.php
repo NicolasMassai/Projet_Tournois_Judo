@@ -27,16 +27,11 @@ class Club
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    /**
-     * @var Collection<int, Combattant>
-     */
-    #[ORM\OneToMany(targetEntity: Combattant::class, mappedBy: 'club')]
-    private Collection $combattant;
 
     /**
      * @var Collection<int, Adherant>
      */
-    #[ORM\OneToMany(targetEntity: Adherant::class, mappedBy: 'club')]
+    #[ORM\OneToMany(targetEntity: Adherant::class, mappedBy: 'club', cascade:["remove"])]
     private Collection $adherant;
 
     /**
@@ -51,7 +46,6 @@ class Club
 
     public function __construct()
     {
-        $this->combattant = new ArrayCollection();
         $this->adherant = new ArrayCollection();
         $this->tournois = new ArrayCollection();
     }
@@ -109,35 +103,6 @@ class Club
         return $this;
     }
 
-    /**
-     * @return Collection<int, Combattant>
-     */
-    public function getCombattant(): Collection
-    {
-        return $this->combattant;
-    }
-
-    public function addCombattant(Combattant $combattant): static
-    {
-        if (!$this->combattant->contains($combattant)) {
-            $this->combattant->add($combattant);
-            $combattant->setClub($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCombattant(Combattant $combattant): static
-    {
-        if ($this->combattant->removeElement($combattant)) {
-            // set the owning side to null (unless already changed)
-            if ($combattant->getClub() === $this) {
-                $combattant->setClub(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Adherant>

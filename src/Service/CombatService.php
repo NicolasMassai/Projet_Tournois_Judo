@@ -4,12 +4,9 @@ namespace App\Service;
 use App\Entity\Combat;
 use App\Entity\Groupe;
 use App\Entity\Tournoi;
-use App\Form\CombatType;
-use App\Entity\Categorie;
+use App\Entity\CategorieTournoi;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CombatService extends AbstractController
@@ -21,6 +18,7 @@ class CombatService extends AbstractController
     {
         $this->em = $em;
     }
+
 
     public function creerCombats(Tournoi $tournoi, string $phase, string $phasePrecedente = null): Response
     {
@@ -45,40 +43,42 @@ class CombatService extends AbstractController
                 'resultat' => ['combattant1', 'combattant2']
             ]);
 
-            // Organiser les gagnants par catégorie
-            $combattantsParCategorie = [];
+            // Organiser les gagnants par catégorie_tournoi
+            $combattantsParCategorieTournoi = [];
             foreach ($combatsPrecedents as $combat) {
+                $categorieTournoi = $combat->getCategorieTournoi();
                 if ($combat->getResultat() === 'combattant1') {
-                    $combattantsParCategorie[$combat->getCategorie()->getId()][] = $combat->getCombattant1();
+                    $combattantsParCategorieTournoi[$categorieTournoi->getId()][] = $combat->getCombattant1();
                 } elseif ($combat->getResultat() === 'combattant2') {
-                    $combattantsParCategorie[$combat->getCategorie()->getId()][] = $combat->getCombattant2();
+                    $combattantsParCategorieTournoi[$categorieTournoi->getId()][] = $combat->getCombattant2();
                 }
             }
         } else {
             // Récupérer tous les groupes du tournoi
             $groupes = $tournoi->getGroupes();
-            $combattantsParCategorie = [];
+            $combattantsParCategorieTournoi = [];
 
-            // Parcourir les groupes pour générer le classement et les qualifiés par catégorie
+            // Parcourir les groupes pour générer le classement et les qualifiés par catégorie_tournoi
             foreach ($groupes as $groupe) {
                 $classement = $this->genererClassementPourGroupe($groupe);
 
-                // Ajouter les qualifiés (les deux premiers) à la liste des qualifiés par catégorie
+                // Ajouter les qualifiés (les deux premiers) à la liste des qualifiés par catégorie_tournoi
                 if (count($classement) >= 2) {
-                    $categorie = $groupe->getCategorie();
-                    $combattantsParCategorie[$categorie->getId()][] = $classement[0]['combattant']; // Premier
-                    $combattantsParCategorie[$categorie->getId()][] = $classement[1]['combattant']; // Deuxième
+                    $categorieTournoi = $groupe->getCategorieTournoi();
+                    $combattantsParCategorieTournoi[$categorieTournoi->getId()][] = $classement[0]['combattant']; // Premier
+                    $combattantsParCategorieTournoi[$categorieTournoi->getId()][] = $classement[1]['combattant']; // Deuxième
                 }
             }
         }
 
-        // Créer les combats pour chaque catégorie
-        foreach ($combattantsParCategorie as $categorieId => $combattantsQualifies) {
+        // Créer les combats pour chaque catégorie_tournoi
+        foreach ($combattantsParCategorieTournoi as $categorieTournoiId => $combattantsQualifies) {
+            $categorieTournoi = $this->em->getRepository(CategorieTournoi::class)->find($categorieTournoiId);
+
             // Séparer les qualifiés en deux groupes : les premiers et les deuxièmes
             $combattantsQualifies1 = [];
             $combattantsQualifies2 = [];
 
-            // Parcourir les qualifiés et les classer en fonction de leur rang (1er ou 2ème)
             for ($i = 0; $i < count($combattantsQualifies); $i++) {
                 if ($i % 2 === 0) {
                     $combattantsQualifies1[] = $combattantsQualifies[$i];
@@ -97,7 +97,7 @@ class CombatService extends AbstractController
                 $combat->setCombattant2($combattantsQualifies2[$i]);
                 $combat->setTournoi($tournoi);
                 $combat->setPhase($phase);
-                $combat->setCategorie($combattantsQualifies1[$i]->getCategorie());
+                $combat->setCategorieTournoi($categorieTournoi);
                 $this->em->persist($combat);
             }
         }
@@ -105,8 +105,9 @@ class CombatService extends AbstractController
         // Sauvegarder tous les combats
         $this->em->flush();
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('afficher_combats', ['id' => $tournoi->getId()]);
     }
+   
 
     public function genererClassementPourGroupe(Groupe $groupe): array
     {
@@ -161,5 +162,86 @@ class CombatService extends AbstractController
             return $b['score_total'] <=> $a['score_total'];
         });
         return $classement;
+    }
+
+    public function creerGroupesParCategorie(Tournoi $tournoi): array
+    {
+        // Vérifier si les groupes ont déjà été générés
+        if ($tournoi->getGroupes()->count() > 0) {
+            return []; // Si oui, on ne régénère pas les groupes
+        }
+
+        // Tableau pour stocker les groupes de toutes les catégories
+        $groupesParCategorie = [];
+
+        // Récupérer les relations CategorieTournoi du tournoi
+        $categoriesTournoi = $tournoi->getCategorieTournois();
+
+
+        foreach ($categoriesTournoi as $categorieTournoi) {
+            // Récupérer les combattants de la catégorie-tournoi
+            $combattants = $categorieTournoi->getCombattants();
+            // Si la catégorie a moins de 16 combattants, elle ne participe pas
+            if (count($combattants) < 16) {
+                continue;
+            }
+
+
+            // Mélanger les combattants pour une sélection aléatoire
+            $combattants = $combattants instanceof \Doctrine\Common\Collections\Collection
+                ? $combattants->toArray()
+                : $combattants;
+            shuffle($combattants);
+
+            // Prendre les 16 premiers combattants
+            $combattants = array_slice($combattants, 0, 16);
+
+
+            // Créer 4 groupes de 4 combattants
+            $groupes = array_chunk($combattants, 4);
+
+            // Enregistrer les groupes en base de données
+            foreach ($groupes as $index => $groupeCombattants) {
+                $groupe = new Groupe();
+                $groupe->setNom("Groupe " . ($index + 1) . " - Catégorie " . $categorieTournoi->getCategorie()->getCategoriePoids() . " kg");
+                $groupe->setTournoi($tournoi);
+                $groupe->setCategorieTournoi($categorieTournoi);
+
+                foreach ($groupeCombattants as $combattant) {
+                    $groupe->addCombattant($combattant);
+                }
+
+                $this->em->persist($groupe);
+                $tournoi->addGroupe($groupe);
+
+                // Créer les combats pour ce groupe
+                $this->creerCombatsPourGroupeManuel($groupeCombattants, $groupe, $tournoi, $categorieTournoi);
+            }
+
+            $this->em->flush();
+        }
+
+        return $groupesParCategorie;
+    }
+
+
+    private function creerCombatsPourGroupeManuel(array $groupe, Groupe $groupes, Tournoi $tournoi, CategorieTournoi $categorieTournoi): void
+    {
+        for ($i = 0; $i < count($groupe); $i++) {
+            for ($j = $i + 1; $j < count($groupe); $j++) {
+                $combat = new Combat();
+                $combat->setCombattant1($groupe[$i]);
+                $combat->setCombattant2($groupe[$j]);
+                $combat->setTournoi($tournoi);
+                $combat->setGroupe($groupes);
+                $combat->setPhase('Phase_de_Poule');
+                $combat->setCategorieTournoi($categorieTournoi);
+
+                $this->em->persist($combat);
+            }
+        }
+
+        // Sauvegarder tous les combats (sans résultats pour l'instant)
+        $this->em->flush();
     }
 }

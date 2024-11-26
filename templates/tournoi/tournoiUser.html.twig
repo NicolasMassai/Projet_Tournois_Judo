@@ -13,13 +13,15 @@
 
     {% if tournois is not empty %}
         <ul>
-        {% for tournoi in tournois %}
-            <li>
-                <a href="{{ path('app_tournoi_show', { id: tournoi.id }) }}">
-                    {{ tournoi.nom }} - {{ tournoi.dateDebut|date('d/m/Y') }} à {{ tournoi.dateFin|date('d/m/Y') }}
-                </a>
-            </li>
-        {% endfor %}
+            {% for categorieTournoi in tournois %}
+                <li>
+                    <a href="{{ path('app_tournoi_show', { id: categorieTournoi.tournoi.id }) }}">
+                        {{ categorieTournoi.tournoi.nom }} - 
+                        {{ categorieTournoi.tournoi.dateDebut|date('d/m/Y') }} à 
+                        {{ categorieTournoi.tournoi.dateFin|date('d/m/Y') }}
+                    </a>
+                </li>
+            {% endfor %}
         </ul>
     {% else %}
         <p>Vous n'avez participé à aucun tournoi.</p>

@@ -27,14 +27,14 @@ class Groupe
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\ManyToOne(inversedBy: 'groupes')]
-    private ?Categorie $categorie = null;
-
     /**
      * @var Collection<int, Combat>
      */
     #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'groupe')]
     private Collection $combats;
+
+    #[ORM\ManyToOne(inversedBy: 'groupes')]
+    private ?CategorieTournoi $CategorieTournoi = null;
 
     public function __construct()
     {
@@ -95,18 +95,6 @@ class Groupe
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): static
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Combat>
      */
@@ -133,6 +121,18 @@ class Groupe
                 $combat->setGroupe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategorieTournoi(): ?CategorieTournoi
+    {
+        return $this->CategorieTournoi;
+    }
+
+    public function setCategorieTournoi(?CategorieTournoi $CategorieTournoi): static
+    {
+        $this->CategorieTournoi = $CategorieTournoi;
 
         return $this;
     }

@@ -26,29 +26,48 @@
         </div>
     {% endif %}
 
-{% for combattant in combattants %}
-    <li>{{ combattant.nom }} {{ combattant.prenom }} - Club: {{ combattant.club.nom }}
-        {% if combattant.categorie is not null %}
-            - Poids : {{ combattant.categorie.getCategoriePoids }} kg
-        {% else %}
-            - Poids : Non attribué
-        {% endif %}
-    </li>
-{% else %}
-    <li>Aucun combattant engagé.</li>
-{% endfor %}
+<h2>Combattants inscrits</h2>
+<ul>
+    {% for combattant in combattants %}
+        <li>{{ combattant.nom }} {{ combattant.prenom }}
+            {% if combattant.categorie is not null %}
+                - Poids : {{ combattant.categorie.getCategoriePoids }} kg
+            {% else %}
+                - Poids : Non attribué
+            {% endif %}
+        </li>
+    {% else %}
+        <li>Aucun combattant inscrit.</li>
+    {% endfor %}
+</ul>
+
 
 
 
 <h2>Catégories de poids</h2>
 <ul>
-    {% for categorie in categories %}
-        <li>{{ categorie}} kg</li>
+    {% for categorieTournoi in categoriesTournoi %}
+        <li>{{ categorieTournoi.categorie.categoriePoids }} kg</li>
     {% else %}
         <li>Aucune catégorie associée à ce tournoi.</li>
     {% endfor %}
 </ul>
 
+<h3>Arbitres par catégorie</h3>
+<ul>
+    {% for categorieTournoi in categoriesTournoi %}
+        <li>
+            {{ categorieTournoi.categorie.categoriePoids }} kg :
+            <ul>
+                {% for arbitre in categorieTournoi.arbitres %}
+                    <li>{{ arbitre.nom }}</li>
+                {% else %}
+                    <li>Aucun arbitre assigné.</li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
 
 
 <a href="{{ path('app_tournoi') }}">Retour à la liste des tournois</a>

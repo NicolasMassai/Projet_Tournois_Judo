@@ -35,16 +35,13 @@ class Combat
     private ?Tournoi $tournoi = null;
 
     #[ORM\ManyToOne(inversedBy: 'combats')]
-    private ?Categorie $categorie = null;
-
-    #[ORM\ManyToOne(inversedBy: 'combats')]
     private ?Groupe $groupe = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Phase = null;
 
-    #[ORM\ManyToOne(inversedBy: 'combat')]
-    private ?HistoriqueCombat $historiqueCombat = null;
+    #[ORM\ManyToOne(inversedBy: 'combats')]
+    private ?CategorieTournoi $categorieTournoi = null;
 
 
 
@@ -129,18 +126,6 @@ class Combat
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): static
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
     public function getGroupe(): ?Groupe
     {
         return $this->groupe;
@@ -165,18 +150,6 @@ class Combat
         return $this;
     }
 
-    public function getHistoriqueCombat(): ?HistoriqueCombat
-    {
-        return $this->historiqueCombat;
-    }
-
-    public function setHistoriqueCombat(?HistoriqueCombat $historiqueCombat): static
-    {
-        $this->historiqueCombat = $historiqueCombat;
-
-        return $this;
-    }
-
     public function Vainqueur(Adherant $adherant): bool
     {
         if ($this->resultat === 'combattant1' && $this->combattant1 === $adherant) {
@@ -186,6 +159,18 @@ class Combat
             return true;
         }
         return false;
+    }
+
+    public function getCategorieTournoi(): ?CategorieTournoi
+    {
+        return $this->categorieTournoi;
+    }
+
+    public function setCategorieTournoi(?CategorieTournoi $categorieTournoi): static
+    {
+        $this->categorieTournoi = $categorieTournoi;
+
+        return $this;
     }
 
 

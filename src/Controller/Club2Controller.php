@@ -53,10 +53,9 @@ class Club2Controller extends AbstractController
     {
         /** @var User $user */
         $user = $security->getUser();
-    
         // Récupérer le club associé à l'utilisateur
         $club = $user->getClub();
-    
+        
         // Vérifier s'il existe un club
         if ($club) {
             // Récupérer les adhérents du club
@@ -76,27 +75,24 @@ class Club2Controller extends AbstractController
     
         return $this->redirectToRoute('app_home');
     }
-    
 
-
-    #[Route('/clubs/JSON', name: 'app_clubs2')]
-    public function clubJSON(ClubRepository $clubRepository): Response
+        #[Route('/club/create', name: 'app_club_create')]
+    public function create(Service $myService, Request $request): Response
     {
-        $Club = $clubRepository->findAll();
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
 
-
-        $clubs = [];
-        foreach ($Club as $club) {
-            $clubs[] = [
-                'id' => $club->getId(),
-                'nom' => $club->getNom(),
-                'ville' => $club->getVille()
-            ];
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour créer un club.');
         }
-        return $this->json($clubs, 200);
+
+        return $myService->createClubWithPresident($request, $user);
     }
 
 
+
+    
+/*
     #[Route('/club/create', name: 'app_club_create')]
     public function create(Service $myService, Request $request): Response
     {
@@ -110,7 +106,7 @@ class Club2Controller extends AbstractController
         );
 
         return $form;
-    }
+    }*/
 
     #[Route('/club/update/{club}', name: 'app_club_update')]
     public function update(Service $myService, Club $club, Request $request): Response
@@ -131,13 +127,24 @@ class Club2Controller extends AbstractController
 
     #[Route('/club/delete/{club}', name: 'app_club_delete')]
     public function delete(Club $club): Response
-
     {
-               
+        
+        // Casser la relation entre le club et son président
+        if ($club->getPresident()) {
+            $club->getPresident()->setPresidentClub(null);
+        }
+    
+        // Supprimer les relations avec les adhérents
+        foreach ($club->getAdherant() as $adherant) {
+            $adherant->setClub(null);
+        }
+    
+        // Supprimer le club
         $this->em->remove($club);
         $this->em->flush();
-
+    
         return $this->redirectToRoute("app_club");
-        }
+    }
+    
 }  
 

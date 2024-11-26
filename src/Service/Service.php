@@ -1,11 +1,14 @@
 <?php
 namespace App\Service;
 
+use App\Entity\Club;
+use App\Entity\User;
+use App\Form\ClubType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class Service extends AbstractController
 {   
@@ -15,6 +18,32 @@ class Service extends AbstractController
     {
         $this->em = $em;        
     }
+
+    public function createClubWithPresident(Request $request, User $user): Response
+    {
+        $club = new Club();
+        $form = $this->createForm(ClubType::class, $club);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Définir l'utilisateur comme président du club
+            $club->setPresident($user);
+    
+            // Effacer tous les rôles existants et attribuer uniquement ROLE_PRESIDENT
+            $user->setRoles(['ROLE_PRESIDENT']);
+    
+            $this->em->persist($club);
+            $this->em->persist($user); // Persist les changements de rôle
+            $this->em->flush();
+    
+            return $this->redirectToRoute('app_club');
+        }
+    
+        return $this->render('club/club_create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    
     
     public function create(Request $request,$Class, $ClassType, $string ,$string2, $string3 ): Response
     {

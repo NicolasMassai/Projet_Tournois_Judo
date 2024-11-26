@@ -15,12 +15,6 @@ class Adherant extends User
     private ?Club $club = null;
 
     /**
-     * @var Collection<int, Tournoi>
-     */
-    #[ORM\ManyToMany(targetEntity: Tournoi::class, mappedBy: 'combattant')]
-    private Collection $tournois;
-
-    /**
      * @var Collection<int, Combat>
      */
     #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'combattant1')]
@@ -39,15 +33,14 @@ class Adherant extends User
     private Collection $groupes;
 
 
-
-    /**
-     * @var Collection<int, HistoriqueCombat>
-     */
-    #[ORM\OneToMany(targetEntity: HistoriqueCombat::class, mappedBy: 'combattant')]
-    private Collection $historiqueCombats;
-
     #[ORM\ManyToOne(inversedBy: 'adherant')]
     private ?Categorie $categorie = null;
+
+    /**
+     * @var Collection<int, CategorieTournoi>
+     */
+    #[ORM\ManyToMany(targetEntity: CategorieTournoi::class, mappedBy: 'combattants')]
+    private Collection $categorieTournois;
 
     /*
 
@@ -56,11 +49,10 @@ class Adherant extends User
 
     public function __construct()
     {
-        $this->tournois = new ArrayCollection();
         $this->combattant1 = new ArrayCollection();
         $this->combattant2 = new ArrayCollection();
         $this->groupes = new ArrayCollection();
-        $this->historiqueCombats = new ArrayCollection();
+        $this->categorieTournois = new ArrayCollection();
     }
 
     public function getClub(): ?Club
@@ -74,34 +66,6 @@ class Adherant extends User
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Tournoi>
-     */
-    public function getTournois(): Collection
-    {
-        return $this->tournois;
-    }
-
-    public function addTournoi(Tournoi $tournoi): static
-    {
-        if (!$this->tournois->contains($tournoi)) {
-            $this->tournois->add($tournoi);
-            $tournoi->addCombattant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTournoi(Tournoi $tournoi): static
-    {
-        if ($this->tournois->removeElement($tournoi)) {
-            $tournoi->removeCombattant($this);
-        }
-
-        return $this;
-    }
-
 
     /**
      * @return Collection<int, Combat>
@@ -189,56 +153,12 @@ class Adherant extends User
 
         return $this;
     }
-    /*
-
-    public function getCategorie(): ?Categorie
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): static
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }*/
 
     public function __toString(): string
     {
         return $this->groupes ? (string) $this->groupes : 'Aucune catégorie';
     }
 
-
-    /**
-     * @return Collection<int, HistoriqueCombat>
-     */
-    public function getHistoriqueCombats(): Collection
-    {
-        return $this->historiqueCombats;
-    }
-
-    public function addHistoriqueCombat(HistoriqueCombat $historiqueCombat): static
-    {
-        if (!$this->historiqueCombats->contains($historiqueCombat)) {
-            $this->historiqueCombats->add($historiqueCombat);
-            $historiqueCombat->setCombattant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHistoriqueCombat(HistoriqueCombat $historiqueCombat): static
-    {
-        if ($this->historiqueCombats->removeElement($historiqueCombat)) {
-            // set the owning side to null (unless already changed)
-            if ($historiqueCombat->getCombattant() === $this) {
-                $historiqueCombat->setCombattant(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCategorie(): ?Categorie
     {
         return $this->categorie;
@@ -247,6 +167,33 @@ class Adherant extends User
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CategorieTournoi>
+     */
+    public function getCategorieTournois(): Collection
+    {
+        return $this->categorieTournois;
+    }
+
+    public function addCategorieTournoi(CategorieTournoi $categorieTournoi): static
+    {
+        if (!$this->categorieTournois->contains($categorieTournoi)) {
+            $this->categorieTournois->add($categorieTournoi);
+            $categorieTournoi->addCombattant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategorieTournoi(CategorieTournoi $categorieTournoi): static
+    {
+        if ($this->categorieTournois->removeElement($categorieTournoi)) {
+            $categorieTournoi->removeCombattant($this);
+        }
 
         return $this;
     }

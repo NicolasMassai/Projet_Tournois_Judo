@@ -2,22 +2,35 @@
 
 namespace App\Repository;
 
-use App\Entity\Combattant;
+use App\Entity\CategorieTournoi;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Combattant>
+ * @extends ServiceEntityRepository<CategorieTournoi>
  */
-class CombattantRepository extends ServiceEntityRepository
+class CategorieTournoiRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Combattant::class);
+        parent::__construct($registry, CategorieTournoi::class);
     }
 
+
+    public function findByUserParticipation($user)
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.combattants', 'a')
+            ->where('a.id = :userId')
+            ->setParameter('userId', $user->getId())
+            ->getQuery()
+            ->getResult();
+    }
+    
+
+
     //    /**
-    //     * @return Combattant[] Returns an array of Combattant objects
+    //     * @return CategorieTournoi[] Returns an array of CategorieTournoi objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +44,7 @@ class CombattantRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Combattant
+    //    public function findOneBySomeField($value): ?CategorieTournoi
     //    {
     //        return $this->createQueryBuilder('c')
     //            ->andWhere('c.exampleField = :val')

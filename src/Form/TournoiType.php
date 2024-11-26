@@ -27,12 +27,11 @@ class TournoiType extends AbstractType
             ->add('poids', EntityType::class, [
                 'class' => Categorie::class,
                 'choice_label' => 'categorie_poids',
-                'multiple' => true,
-                'expanded' => true,
+                'multiple' => true, // Permet la sélection multiple
+                'expanded' => true, // Affiche sous forme de case à cocher
+                'mapped' => false,
             ])
-            ->add('Creer',SubmitType::class)
-
-        ;
+            ->add('Creer', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

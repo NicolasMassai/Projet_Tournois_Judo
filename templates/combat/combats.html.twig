@@ -26,11 +26,14 @@
                 <td>{{ combat.combattant2.nom }} {{ combat.combattant2.prenom }}</td>
                 <td>{{ combat.scoreCombattant1 }}</td>
                 <td>{{ combat.scoreCombattant2 }}</td>
-                <td>{{ combat.categorie }} kg</td>
+                <td>{{ combat.categorieTournoi.categorie.categoriePoids }} kg</td>
                 <td>{{ combat.phase }}</td>
                 <td>
-                    <a href="{{ path('edit_combat', {id: combat.tournoi.id, idC: combat.id}) }}">Saisir le résultat</a>
+                    {% if app.user in combat.categorieTournoi.arbitres %}
+                        <a href="{{ path('edit_combat', {id: combat.tournoi.id, idC: combat.id}) }}">Saisir le résultat</a>
+                    {% endif %}
                 </td>
+
 
             </tr>
         {% else %}

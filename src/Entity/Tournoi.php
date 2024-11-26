@@ -28,15 +28,6 @@ class Tournoi
     #[ORM\Column(length: 255)]
     private ?string $lieu = null;
 
-    #[ORM\OneToOne(mappedBy: 'tournoi', cascade: ['persist', 'remove'])]
-    private ?Inscription $inscription = null;
-
-    /**
-     * @var Collection<int, Categorie>
-     */
-    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'tournois')]
-    private Collection $poids;
-
     /**
      * @var Collection<int, Club>
      */
@@ -44,19 +35,10 @@ class Tournoi
     private Collection $clubs;
 
     /**
-     * @var Collection<int, Adherant>
-     */
-    #[ORM\ManyToMany(targetEntity: Adherant::class, inversedBy: 'tournois')]
-    private Collection $combattant;
-
-    /**
      * @var Collection<int, Combat>
      */
     #[ORM\OneToMany(targetEntity: Combat::class, mappedBy: 'tournoi')]
     private Collection $combats;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $combatGenerer = false;
 
     /**
      * @var Collection<int, Groupe>
@@ -67,13 +49,18 @@ class Tournoi
     #[ORM\ManyToOne(inversedBy: 'tournoi_president')]
     private ?User $president = null;
 
+    /**
+     * @var Collection<int, CategorieTournoi>
+     */
+    #[ORM\OneToMany(targetEntity: CategorieTournoi::class, mappedBy: 'tournoi')]
+    private Collection $categorieTournois;
+
     public function __construct()
     {
-        $this->poids = new ArrayCollection();
         $this->clubs = new ArrayCollection();
-        $this->combattant = new ArrayCollection();
         $this->combats = new ArrayCollection();
         $this->groupes = new ArrayCollection();
+        $this->categorieTournois = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -130,52 +117,6 @@ class Tournoi
         return $this;
     }
 
-    public function getInscription(): ?Inscription
-    {
-        return $this->inscription;
-    }
-
-    public function setInscription(?Inscription $inscription): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($inscription === null && $this->inscription !== null) {
-            $this->inscription->setTournoi(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($inscription !== null && $inscription->getTournoi() !== $this) {
-            $inscription->setTournoi($this);
-        }
-
-        $this->inscription = $inscription;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Categorie>
-     */
-    public function getPoids(): Collection
-    {
-        return $this->poids;
-    }
-
-    public function addPoid(Categorie $poid): static
-    {
-        if (!$this->poids->contains($poid)) {
-            $this->poids->add($poid);
-        }
-
-        return $this;
-    }
-
-    public function removePoid(Categorie $poid): static
-    {
-        $this->poids->removeElement($poid);
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Club>
      */
@@ -200,29 +141,6 @@ class Tournoi
         return $this;
     }
 
-    /**
-     * @return Collection<int, Adherant>
-     */
-    public function getCombattant(): Collection
-    {
-        return $this->combattant;
-    }
-
-    public function addCombattant(Adherant $combattant): static
-    {
-        if (!$this->combattant->contains($combattant)) {
-            $this->combattant->add($combattant);
-        }
-
-        return $this;
-    }
-
-    public function removeCombattant(Adherant $combattant): static
-    {
-        $this->combattant->removeElement($combattant);
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Combat>
@@ -254,17 +172,6 @@ class Tournoi
         return $this;
     }
 
-    public function isCombatGenerer(): ?bool
-    {
-        return $this->combatGenerer;
-    }
-
-    public function setCombatGenerer(?bool $combatGenerer): static
-    {
-        $this->combatGenerer = $combatGenerer;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Groupe>
@@ -304,6 +211,36 @@ class Tournoi
     public function setPresident(?User $president): static
     {
         $this->president = $president;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CategorieTournoi>
+     */
+    public function getCategorieTournois(): Collection
+    {
+        return $this->categorieTournois;
+    }
+
+    public function addCategorieTournoi(CategorieTournoi $categorieTournoi): static
+    {
+        if (!$this->categorieTournois->contains($categorieTournoi)) {
+            $this->categorieTournois->add($categorieTournoi);
+            $categorieTournoi->setTournoi($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategorieTournoi(CategorieTournoi $categorieTournoi): static
+    {
+        if ($this->categorieTournois->removeElement($categorieTournoi)) {
+            // set the owning side to null (unless already changed)
+            if ($categorieTournoi->getTournoi() === $this) {
+                $categorieTournoi->setTournoi(null);
+            }
+        }
 
         return $this;
     }
