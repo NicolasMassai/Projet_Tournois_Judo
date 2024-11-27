@@ -3,32 +3,68 @@
 namespace App\Entity;
 
 use App\Repository\SpectateurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SpectateurRepository::class)]
-class Spectateur
+class Spectateur extends User
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
+ 
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $note = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $prenom = null;
+    /**
+     * @var Collection<int, Note>
+     */
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'spectateur')]
+    private Collection $notes;
 
-    public function getId(): ?int
+    public function __construct()
     {
-        return $this->id;
+        parent::__construct();
+        $this->notes = new ArrayCollection();
     }
 
-    public function getPrenom(): ?string
+
+    public function getNote(): ?int
     {
-        return $this->prenom;
+        return $this->note;
     }
 
-    public function setPrenom(string $prenom): static
+    public function setNote(int $note): static
     {
-        $this->prenom = $prenom;
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): static
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setSpectateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): static
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getSpectateur() === $this) {
+                $note->setSpectateur(null);
+            }
+        }
 
         return $this;
     }

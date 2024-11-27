@@ -6,6 +6,7 @@ use App\Entity\Club;
 use App\Entity\User;
 use App\Entity\Arbitre;
 use App\Entity\Adherant;
+use App\Entity\Spectateur;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -39,6 +40,8 @@ class RegistrationController extends AbstractController
                 }
             } elseif ($role === 'ROLE_ARBITRE') {
                 $user = new Arbitre();
+            } elseif ($role === 'ROLE_SPECTATEUR') {
+                $user = new Spectateur();
             }
 
             $user->setPrenom($form->get('prenom')->getData());

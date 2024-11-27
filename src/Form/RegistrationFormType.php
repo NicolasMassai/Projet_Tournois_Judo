@@ -32,6 +32,7 @@ class RegistrationFormType extends AbstractType
                 'choices'  => [
                     'Adherant' => 'ROLE_ADHERANT',
                     'Arbitre'  => 'ROLE_ARBITRE',
+                    'Spectateur'  => 'ROLE_SPECTATEUR',
                 ],
                 'mapped' => false,
                 'label' => 'Inscription en tant que',

@@ -43,11 +43,18 @@ class Combat
     #[ORM\ManyToOne(inversedBy: 'combats')]
     private ?CategorieTournoi $categorieTournoi = null;
 
+    /**
+     * @var Collection<int, Note>
+     */
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'combat')]
+    private Collection $notes;
+
 
 
     public function __construct()
     {
-       }
+        $this->notes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -169,6 +176,36 @@ class Combat
     public function setCategorieTournoi(?CategorieTournoi $categorieTournoi): static
     {
         $this->categorieTournoi = $categorieTournoi;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): static
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setCombat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): static
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getCombat() === $this) {
+                $note->setCombat(null);
+            }
+        }
 
         return $this;
     }

@@ -3,36 +3,38 @@
 {% block title %}Combats du Tournoi {{ tournoi.nom }}{% endblock %}
 
 {% block body %}
-    <h1>Combats du Tournoi {{ tournoi.nom }}</h1>
+    <h2 class="titreH2">Combats du Tournoi {{ tournoi.nom }}</h2>
 
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Combattant 1</th>
-                <th>Combattant 2</th>
-                <th>Score Combattant 1</th>
-                <th>Score Combattant 2</th>
-                <th>Catégorie</th>
-                <th>Phase</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for combat in combats %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ combat.combattant1.nom }} {{ combat.combattant1.prenom }}</td>
-                <td>{{ combat.combattant2.nom }} {{ combat.combattant2.prenom }}</td>
-                <td>{{ combat.scoreCombattant1 }}</td>
-                <td>{{ combat.scoreCombattant2 }}</td>
-                <td>{{ combat.categorieTournoi.categorie.categoriePoids }} kg</td>
-                <td>{{ combat.phase }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Aucun combat disponible pour ce tournoi.</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="marge">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Combattant 1</th>
+                    <th>Combattant 2</th>
+                    <th>Score Combattant 1</th>
+                    <th>Score Combattant 2</th>
+                    <th>Catégorie</th>
+                    <th>Phase</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for combat in combats %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ combat.combattant1.nom }} {{ combat.combattant1.prenom }}</td>
+                    <td>{{ combat.combattant2.nom }} {{ combat.combattant2.prenom }}</td>
+                    <td>{{ combat.scoreCombattant1 }}</td>
+                    <td>{{ combat.scoreCombattant2 }}</td>
+                    <td>{{ combat.categorieTournoi.categorie.categoriePoids }} kg</td>
+                    <td>{{ combat.phase }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucun combat disponible pour ce tournoi.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Classement du tournoi {{ tournoi.nom }}</h1>
+    <h2 class="titreH2">Classement du tournoi {{ tournoi.nom }}</h2>
 
     {% for groupe, classement in classements %}
-        <h2>{{ groupe }}</h2>
+        <h3>{{ groupe }}</h3>
         <table>
             <thead>
                 <tr>

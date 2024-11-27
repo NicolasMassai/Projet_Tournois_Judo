@@ -10,24 +10,26 @@ use App\Form\CombatType;
 use App\Entity\Categorie;
 use App\Service\CombatService;
 use App\Entity\CategorieTournoi;
+use App\Service\NoteMoyenneService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 
 class CombatController extends AbstractController
 {
 
     private EntityManagerInterface $em;
+    private NoteMoyenneService $note;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, NoteMoyenneService $note)
     {
         $this->em = $em;
+        $this->note= $note;
     }
-
     #[Route('/tournoi/{id}/groupes', name: 'afficher_groupes')]
     public function afficherGroupes(Tournoi $tournoi, CombatService $service): Response
     {
@@ -67,6 +69,12 @@ class CombatController extends AbstractController
     {
         // Récupérer tous les combats du tournoi
         $combats = $this->em->getRepository(Combat::class)->findBy(['tournoi' => $tournoi]);
+
+        foreach ($combats as $combat) {
+            $resultats = $this->note->NoteMoyenneEtNombreVotants($combat);
+            $combat->moyenneNote = $resultats['moyenne'];
+            $combat->totalVotants = $resultats['totalVotants'];
+        }
 
         return $this->render('combat/combats.html.twig', [
             'tournoi' => $tournoi,

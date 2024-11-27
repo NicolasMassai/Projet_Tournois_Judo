@@ -1,73 +1,108 @@
-<h1>Détails du tournoi : {{ tournoi.nom }}</h1>
-<p>ID du tournoi : {{ id }}</p>
-<p>Date de début : {{ tournoi.dateDebut|date('d/m/Y') }}</p>
-<p>Date de fin : {{ tournoi.dateFin|date('d/m/Y') }}</p>
-<p>Lieu : {{ tournoi.lieu }}</p>
-<p>Président du tournoi : {{ tournoi.president.nom }}</p>
+{% extends 'base.html.twig' %}
 
+{% block title %}Tournoi Détail{% endblock %}
 
-<h2>Clubs engagés</h2>
-<ul>
-    {% for club in clubs %}
-        <li>{{ club.nom }}</li>
-    {% else %}
-        <li>Aucun club engagé.</li>
-    {% endfor %}
-</ul>
+{% block body %}
 
+<a class="bouton_redirection" href="{{ path('app_tournoi') }}">Retour à la liste des tournois</a>
+{% if is_granted('ROLE_ADHERANT') %}
+<a class="bouton_redirection" href="{{ path('afficher_combat_User', { id: tournoi.id }) }}">Afficher les combats</a>
+{% else %}
+<a class="bouton_redirection" href="{{ path('afficher_combats', { id: tournoi.id }) }}">Afficher les combats</a>
+{% endif %}
 
+<div class="details-section">
+    <h2>Détails du tournoi : {{ tournoi.nom }}</h2>
+    <p>ID du tournoi : {{ id }}</p>
+    <p>Date de début : {{ tournoi.dateDebut|date('d/m/Y') }}</p>
+    <p>Date de fin : {{ tournoi.dateFin|date('d/m/Y') }}</p>
+    <p>Lieu : {{ tournoi.lieu }}</p>
+    <p>Président du tournoi : {{ tournoi.president.nom }}</p>
+</div>
 
-    {% if is_granted('ROLE_ADHERANT') %}
-        <div class="">
-            <ul>
-                <li><a href="{{ path('afficher_combat_User', { 'id': tournoi.id }) }}">Combat</a></li>
-                <li><a href="{{ path('afficher_classement', { 'id': tournoi.id }) }}">Classement</a></li>
-            </ul>
-        </div>
-    {% endif %}
-
-<h2>Combattants inscrits</h2>
-<ul>
-    {% for combattant in combattants %}
-        <li>{{ combattant.nom }} {{ combattant.prenom }}
-            {% if combattant.categorie is not null %}
-                - Poids : {{ combattant.categorie.getCategoriePoids }} kg
+<!-- Conteneur flex pour les sections 2 et 3 -->
+<div class="flex-container">
+    <div class="details-section">
+        <h3>Clubs engagés</h3>
+        <ul class="clubs-list">
+            {% for club in clubs %}
+                <li>{{ club.nom }}</li>
             {% else %}
-                - Poids : Non attribué
-            {% endif %}
-        </li>
-    {% else %}
-        <li>Aucun combattant inscrit.</li>
-    {% endfor %}
-</ul>
+                <li>Aucun club engagé.</li>
+            {% endfor %}
+        </ul>
+    </div>
 
-
-
-
-<h2>Catégories de poids</h2>
-<ul>
-    {% for categorieTournoi in categoriesTournoi %}
-        <li>{{ categorieTournoi.categorie.categoriePoids }} kg</li>
-    {% else %}
-        <li>Aucune catégorie associée à ce tournoi.</li>
-    {% endfor %}
-</ul>
-
-<h3>Arbitres par catégorie</h3>
-<ul>
-    {% for categorieTournoi in categoriesTournoi %}
-        <li>
-            {{ categorieTournoi.categorie.categoriePoids }} kg :
-            <ul>
-                {% for arbitre in categorieTournoi.arbitres %}
-                    <li>{{ arbitre.nom }}</li>
+    <div class="details-section">
+        <h3>Combattants inscrits</h3>
+            <ul class="combattants-list" id="combattantsList">
+                {% for combattant in combattants %}
+                    <li>{{ combattant.nom }} {{ combattant.prenom }}
+                        {% if combattant.categorie is not null %}
+                            - Poids : {{ combattant.categorie.getCategoriePoids }} kg
+                        {% else %}
+                            - Poids : Non attribué
+                        {% endif %}
+                    </li>
                 {% else %}
-                    <li>Aucun arbitre assigné.</li>
+                    <li>Aucun combattant inscrit.</li>
                 {% endfor %}
             </ul>
-        </li>
-    {% endfor %}
-</ul>
+           <button id="toggleButtonCombattant" class="circle-button">
+                <span id="arrow" class="arrow">&#x25BC;</span> <!-- Flèche vers le bas -->
+            </button>
+
+    </div>
+</div>
+<script>
+document.getElementById('toggleButtonCombattant').addEventListener('click', function() {
+    const arrow = document.getElementById('arrow');
+    arrow.classList.toggle('up'); // Ajoute ou retire la classe 'up'
+    
+    const list = document.querySelector('.combattants-list');
+    if (list.style.maxHeight) {
+        list.style.maxHeight = null; // Masque la liste
+    } else {
+        list.style.maxHeight = list.scrollHeight + "px"; // Déplie la liste
+    }
+});
+
+</script>
 
 
-<a href="{{ path('app_tournoi') }}">Retour à la liste des tournois</a>
+
+<!-- Conteneur flex pour les sections 4 et 5 -->
+<div class="flex-container">
+    <div class="details-section">
+        <h3>Catégories de poids</h3>
+        <ul class="categories-list">
+            {% for categorieTournoi in categoriesTournoi %}
+                <li>{{ categorieTournoi.categorie.categoriePoids }} kg</li>
+            {% else %}
+                <li>Aucune catégorie associée à ce tournoi.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="details-section">
+        <h3>Arbitres par catégorie</h3>
+        <ul class="arbitres-list">
+            {% for categorieTournoi in categoriesTournoi %}
+                <li>
+                    {{ categorieTournoi.categorie.categoriePoids }} kg :
+                    <ul>
+                        {% for arbitre in categorieTournoi.arbitres %}
+                            <li>{{ arbitre.nom }}</li>
+                        {% else %}
+                            <li>Aucun arbitre assigné.</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
+
+

@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\InheritanceType("SINGLE_TABLE")]
 #[ORM\DiscriminatorColumn(name: "discr", type: "string")]
-#[ORM\DiscriminatorMap(["user" => "User", "adherant" => "Adherant", "arbitre" => "Arbitre"])]
+#[ORM\DiscriminatorMap(["user" => "User", "adherant" => "Adherant", "arbitre" => "Arbitre", "spectateur" => "Spectateur"])]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 abstract class User implements UserInterface, PasswordAuthenticatedUserInterface

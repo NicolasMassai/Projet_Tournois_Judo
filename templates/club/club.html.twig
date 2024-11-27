@@ -3,21 +3,23 @@
 {% block title %}Clubs{% endblock %}
 
 {% block body %}
-    <h1>Liste des Clubs</h1>
+    <h2 class="titreH2">Liste des Clubs</h2>
 
-    <ul>
-        {% for item in clubs %}
-            <li>
-                <h2>{{ item.club.nom }}</h2>
-                <p>Nombre d'adhérents: {{ item.count }}</p>
+    <div class="clubs-container">
+        <ul class="clubs-liste">
+            {% for item in clubs %}
+                <li class="club-item">
+                    <h3 class="club-nom">{{ item.club.nom }}</h3>
+                    <p class="club-adherants-count">Nombre d'adhérents: {{ item.count }}</p>
 
-                <h3>Liste des Adhérents:</h3>
-                <ul>
-                    {% for adherant in item.adherants %}
-                        <li>{{ adherant.prenom }} {{ adherant.nom }}</li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% endfor %}
-    </ul>
+                    <h4 class="club-adherants-titre">Liste des Adhérents:</h4>
+                    <ul class="club-adherants-liste">
+                        {% for adherant in item.adherants %}
+                            <li class="club-adherant-item">{{ adherant.prenom }} {{ adherant.nom }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

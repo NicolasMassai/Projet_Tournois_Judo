@@ -5,36 +5,37 @@
 {% block title %}Classement - Catégorie {{ categorie.categoriePoids }}kg{% endblock %}
 
 {% block body %}
-    <h1>Classement des combattants - Catégorie {{ categorie.categoriePoids }}kg</h1>
+    <h2 class="titreH2">Classement des combattants - Catégorie {{ categorie.categoriePoids }}kg</h2>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Club</th>
-                <th>Victoires</th>
-                <th>Victoires en Finale</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for classement in classement %}
+    <div class="marge">
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ classement.adherant.nom }}</td>
-                    <td>{{ classement.adherant.prenom }}</td>
-                    <td>{{ classement.adherant.club.nom }}</td>
-                    <td>{{ classement.victoires }}</td>
-                    <td>{{ classement.victoires_finale }}</td>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Club</th>
+                    <th>Victoires</th>
+                    <th>Victoires en Finale</th>
                 </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5" class="text-center">Aucun combattant trouvé dans cette catégorie.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
+            </thead>
+            <tbody>
+                {% for classement in classement %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ classement.adherant.nom }}</td>
+                        <td>{{ classement.adherant.prenom }}</td>
+                        <td>{{ classement.adherant.club.nom }}</td>
+                        <td>{{ classement.victoires }}</td>
+                        <td>{{ classement.victoires_finale }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">Aucun combattant trouvé dans cette catégorie.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     <a href="{{ path('app_tournoi') }}" class="btn btn-primary">Retour aux tournoi</a>
 {% endblock %}

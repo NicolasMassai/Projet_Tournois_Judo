@@ -1,4 +1,909 @@
-/* assets/styles/app.css */
+/* Global styles */
 body {
-    background-color: rgb(255, 255, 255);
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding-top: 50px;   
+}
+
+.marge{
+    margin: 10px;
+}
+
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #CC3333;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    height: 50px; /* Hauteur de la navbar */
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Conteneur pour les liens "Tournoi" et "Club" */
+.navbar-links-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1; /* Prend toute la largeur restante */
+    justify-content: flex-start; /* Aligne les éléments à gauche */
+}
+
+.navbar-links-left li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+
+.navbar-links-left a {
+    text-decoration: none;
+    color: white;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/* Liens de connexion */
+.navbar-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 15px;
+    box-sizing: border-box;
+}
+
+.navbar-links li {
+    margin: 0;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    display: block;
+}
+
+.navbar-links a:hover {
+    background-color: #555;
+}
+
+/* Logo de la navbar */
+.navbar-logo a {
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Hero section */
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: calc(100vh - 58px);
+    margin-top: 58px;
+    overflow: hidden; 
+}
+
+.hero-logo {
+    max-width: 300px; /* Ajustez la largeur maximale du logo */
+    width: 100%; /* Pour que le logo soit responsive */
+    margin: 20px 0; /* Espace autour du logo */
+}
+
+
+.hero-content {
+    display: flex;
+    flex-direction: column; /* Organise le titre et le logo en colonne */
+    align-items: center; /* Centre les éléments horizontalement */
+    text-align: center; /* Centre le texte à l'intérieur */
+    flex: 1; /* Prend toute la largeur disponible */
+    padding: 0 20px;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    color: #333;
+    margin: 0;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Remplit toute la hauteur de la section */
+}
+
+.image-container img {
+    max-width: 100%; /* S'adapte à la largeur */
+    max-height: 100%; /* S'adapte à la hauteur */
+    object-fit: contain; /* Affiche l'image entière sans la déformer */
+    width: auto; /* Conserve le ratio largeur/hauteur */
+    height: auto; /* Conserve le ratio largeur/hauteur */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optionnel : ajoute une ombre */
+}
+
+
+/*Tournoi*/
+
+/* Conteneur de la liste des tournois */
+.tournament-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    margin-top: 50px; /* Ajuster selon la hauteur de la navbar */
+}
+
+/* Titre de la liste */
+.titreH2 {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+}
+
+/* Liste des tournois */
+.tournament-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Élément de la liste */
+.tournament-list li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Liens des tournois */
+.tournament-list a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    background-color: #CC3333;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Effet au survol */
+.tournament-list a:hover {
+    background-color: #d9534f;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajouter une bordure entre les éléments sauf le dernier */
+.tournament-list li:not(:last-child) {
+    border-bottom: 2px solid #eee;
+}
+
+/* Style responsive pour les petits écrans */
+@media (max-width: 768px) {
+    .tournament-list {
+        padding: 15px;
+    }
+
+    .tournament-list a {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+
+/* Titre principal */
+h2 {
+    color: #CC3333;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    border-bottom: 2px solid #CC3333;
+    padding-bottom: 5px;
+}
+/* Conteneur flex pour organiser deux sections côte à côte */
+.flex-container {
+    display: flex;
+    gap: 20px; /* Espace entre les sections */
+    flex-wrap: wrap; /* Permet à la ligne de se plier si nécessaire */
+    margin-bottom: 20px; /* Marge en bas des conteneurs */
+}
+
+
+/* Section de détails */
+.details-section {
+    flex: 1; /* Prend une part égale de l'espace disponible */
+    min-width: 300px; /* Largeur minimale pour une meilleure réactivité */
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 10px;
+    
+}
+
+/* Paragraphes de détails */
+.details-section p {
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+/* Liste des clubs engagés */
+.clubs-list,
+.combattants-list,
+.categories-list,
+.arbitres-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.combattants-list {
+    overflow: hidden;
+    max-height: calc(6 * 2.5rem); /* Ajustez la valeur pour correspondre à la hauteur des éléments */
+    transition: max-height 0.3s ease;
+}
+
+.combattants-list.show-all {
+    max-height: none; /* Affiche tout le contenu lorsque la classe est ajoutée */
+}
+
+.circle-button {
+    width: 50px; /* Taille du bouton */
+    height: 50px;
+    border-radius: 50%; /* Pour rendre le bouton rond */
+    background-color: #CC3333; /* Couleur de fond */
+    color: white; /* Couleur de l'icône */
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem; /* Taille de l'icône */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.circle-button:hover {
+    background-color: #AA2626; /* Couleur de fond au survol */
+}
+
+.arrow {
+    transition: transform 0.3s ease; /* Animation de rotation */
+}
+
+/* Classe pour la flèche tournée vers le haut */
+.arrow.up {
+    transform: rotate(180deg);
+}
+
+
+
+.clubs-list li,
+.combattants-list li,
+.categories-list li,
+.arbitres-list li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.clubs-list li:last-child,
+.combattants-list li:last-child,
+.categories-list li:last-child,
+.arbitres-list li:last-child {
+    border-bottom: none;
+}
+
+.clubs-list li a,
+.combattants-list li a,
+.categories-list li a,
+.arbitres-list li a {
+    text-decoration: none;
+    color: #CC3333;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.clubs-list li a:hover,
+.combattants-list li a:hover,
+.categories-list li a:hover,
+.arbitres-list li a:hover {
+    color: #d9534f;
+}
+
+
+/* Liens de navigation */
+.bouton_redirection {
+    color: #CC3333;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    border: 2px solid #CC3333;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.bouton_redirection:hover {
+    background-color: #CC3333;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Style responsive */
+@media (max-width: 768px) {
+    .details-section,
+    .action-section {
+        padding: 15px;
+    }
+
+    .action-section ul {
+        flex-direction: column;
+    }
+
+    .action-section li {
+        margin-bottom: 10px;
+    }
+}
+
+
+/* Styles pour le titre de la page */
+h1 {
+    text-align: center;
+    color: #CC3333;
+    margin-bottom: 20px;
+}
+
+/* Styles pour la table des combats */
+table {
+    border: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #CC3333;
+    color: white;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Styles pour les liens et actions */
+a {
+    color: #CC3333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #a00;
+    text-decoration: underline;
+}
+
+/* Styles pour les formulaires */
+form {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+label {
+    margin-right: 10px;
+    color: #555;
+}
+
+input[type="number"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 5px 10px;
+    background-color: #CC3333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #a00;
+}
+
+/* Styles pour les alertes */
+.alert {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/*Etoile*/
+
+.rating {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 2rem;
+    gap: 5px;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating .star {
+    cursor: pointer;
+    color: #ccc; /* Étoile vide */
+    transition: color 0.3s ease;
+}
+
+/* Remplissage au survol */
+.rating .star:hover,
+.rating .star:hover ~ .star {
+    color: orange;
+}
+
+/* Remplissage au clic */
+.rating input:checked ~ .star {
+    color: gold;
+}
+
+
+/* Bouton soumettre */
+.rating-form button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #CC3333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.rating-form button:hover {
+    background-color: #a00;
+}
+
+.rating-display {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.rating-display .star {
+    font-size: 2rem; 
+    color: #ccc; 
+}
+
+.rating-display .star.filled {
+    color: gold;
+}
+
+/*Groupe*/
+
+/* Conteneur des groupes */
+.groupes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+/* Chaque groupe */
+.groupe {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-bottom: 10px;
+}
+
+/* Animation au survol d'un groupe */
+.groupe:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Titre d'un groupe */
+.groupe-titre {
+    font-size: 1.5rem;
+    color: #333333;
+    margin-bottom: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Liste des combattants */
+.groupe-liste {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Élément d'un combattant */
+.groupe-item {
+    font-size: 1rem;
+    color: #CC3333;
+    padding: 8px 10px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dernier élément sans bordure */
+.groupe-item:last-child {
+    border-bottom: none;
+}
+
+/* Animation au survol d'un combattant */
+.groupe-item:hover {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/*Club*/
+
+/* Conteneur principal */
+.clubs-container {
+    padding: 0 20px;
+}
+
+/* Liste des clubs */
+.clubs-liste {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+/* Un club individuel */
+.club-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Conteneur principal */
+.clubs-container-user {
+    list-style: none;
+    margin: 0 auto;
+    max-width: 800px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+
+
+/* Animation au survol d'un club */
+.club-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Nom du club */
+.club-nom {
+    font-size: 1.5rem;
+    color: #333333;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+/* Nombre d'adhérents */
+.club-adherants-count {
+    font-size: 1rem;
+    color: #535353;
+    margin-bottom: 15px;
+}
+
+/* Titre de la liste des adhérents */
+.club-adherants-titre {
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 10px;
+    text-decoration: underline;
+}
+
+/* Liste des adhérents */
+.club-adherants-liste {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Un adhérent individuel */
+.club-adherant-item {
+    font-size: 1rem;
+    color: #CC3333;
+    padding: 8px 10px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dernier adhérent sans bordure */
+.club-adherant-item:last-child {
+    border-bottom: none;
+}
+
+/* Animation au survol d'un adhérent */
+.club-adherant-item:hover {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+
+/* Conteneur des détails du club */
+.club-details {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Information du club */
+.club-info {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Section des actions */
+.club-actions {
+    margin-bottom: 30px;
+}
+
+/* Liste des actions */
+.actions-liste {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Un élément de la liste des actions */
+.action-item {
+    margin-bottom: 10px;
+}
+
+/* Lien des actions */
+.action-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.action-link:hover {
+    text-decoration: underline;
+}
+
+/* Bouton des actions */
+.action-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.action-btn:hover {
+    background-color: #c82333;
+}
+
+/* Titre des adhérents */
+.adherents-titre {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+    text-decoration: underline;
+}
+
+/* Liste des adhérents */
+.adherents-liste {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Un adhérent individuel */
+.adherant-item {
+    font-size: 1rem;
+    color: #666;
+    padding: 8px 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Dernier adhérent sans bordure */
+.adherant-item:last-child {
+    border-bottom: none;
+}
+
+/* Lien de retour */
+.retour-lien {
+    display: inline-block;
+    margin-top: 20px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.retour-lien:hover {
+    text-decoration: underline;
+}
+
+/*Formulaire*/
+
+/* Conteneur principal */
+.tournoi-container {
+    width: 80%;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre de la page */
+.tournoi-titre {
+    font-size: 2rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Conteneur du formulaire */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Style des champs du formulaire */
+.form-container input,
+.form-container select,
+.form-container textarea,
+.form-container button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* Style des champs du formulaire au survol */
+.form-container input:hover,
+.form-container select:hover,
+.form-container textarea:hover {
+    border-color: #CC3333;
+}
+
+/* Style du bouton du formulaire */
+.form-container button {
+    background-color: #CC3333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.form-container button:hover {
+    background-color: #f32929;
+}
+
+/* Style du formulaire soumis */
+.form-container .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+/* Style des labels */
+.form-container label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Style des messages d'erreur */
+.form-container .form-error {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+#tournoi_poids {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Ajustez l'espace entre les éléments selon vos besoins */
+}
+
+#tournoi_poids input[type="checkbox"] {
+    margin: 0;
+    vertical-align: middle;
+    display: inline;
+    width: auto;
+    margin-bottom: 10px;
+}
+
+#tournoi_poids label {
+    display: inline; 
+    margin: 0 5px 8px 0; 
+    cursor: pointer; 
 }

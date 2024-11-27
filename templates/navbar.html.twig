@@ -1,0 +1,33 @@
+<nav class="navbar">
+    <div class="navbar-logo">
+        <a href="{{ path('app_home') }}">JudokaConnect</a>
+    </div>
+    {% if is_granted('ROLE_PRESIDENT') %}
+        <ul class="navbar-links-left">
+            <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
+            <li><a href="{{ path('app_club_User') }}">Club</a></li>
+        </ul>
+    {% endif %}
+    {% if is_granted('ROLE_ARBITRE') %}
+        <ul class="navbar-links-left">
+            <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
+        </ul>
+    {% endif %}
+    {% if is_granted('ROLE_ADHERANT') %}
+        <ul class="navbar-links-left">
+            <li><a href="{{ path('statistiques_combattant') }}">Statistiques</a></li>
+            <li><a href="{{ path('classement') }}">Classement</a></li>
+            <li><a href="{{ path('app_tournoiUser') }}">Tournoi</a></li>
+            <li><a href="{{ path('app_club_User') }}">Club</a></li>
+        </ul>
+    {% endif %}
+
+    <ul class="navbar-links">
+        {% if app.user %}
+            <li><a href="{{ path('app_logout') }}" class="btn logout-btn">Se déconnecter</a></li>
+        {% else %}
+            <li><a href="{{ path('app_login') }}" class="btn login-btn">Se connecter</a></li>
+            <li><a href="{{ path('app_register') }}" class="btn register-btn">S'inscrire</a></li>
+        {% endif %}
+    </ul>
+</nav>

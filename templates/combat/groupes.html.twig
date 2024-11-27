@@ -1,14 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Groupes du Tournoi</h1>
+    <h2 class="titreH2">Groupes du Tournoi</h2>
 
-    {% for resultat in resultats %}
-        <h2>{{ resultat.groupe }}</h2>
-        <ul>
-            {% for combattant in resultat.combattants %}
-                <li>{{ combattant }}</li>
-            {% endfor %}
-        </ul>
-    {% endfor %}
+    <div class="groupes-container">
+        {% for resultat in resultats %}
+            <div class="groupe">
+                <h3 class="groupe-titre">{{ resultat.groupe }}</h3>
+                <ul class="groupe-liste">
+                    {% for combattant in resultat.combattants %}
+                        <li class="groupe-item">{{ combattant }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

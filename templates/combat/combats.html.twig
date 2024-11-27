@@ -3,23 +3,25 @@
 {% block title %}Combats du Tournoi {{ tournoi.nom }}{% endblock %}
 
 {% block body %}
-    <h1>Combats du Tournoi {{ tournoi.nom }}</h1>
+    <h2 class="titreH2">Combats du Tournoi {{ tournoi.nom }}</h2>
 
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Combattant 1</th>
-                <th>Combattant 2</th>
-                <th>Score Combattant 1</th>
-                <th>Score Combattant 2</th>
-                <th>Catégorie</th>
-                <th>Phase</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for combat in combats %}
+    <div class="marge">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Combattant 1</th>
+                    <th>Combattant 2</th>
+                    <th>Score Combattant 1</th>
+                    <th>Score Combattant 2</th>
+                    <th>Catégorie</th>
+                    <th>Phase</th>
+                    <th>Action</th>
+                    <th>Moyenne des notes</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for combat in combats %}
             <tr>
                 <td>{{ loop.index }}</td>
                 <td>{{ combat.combattant1.nom }} {{ combat.combattant1.prenom }}</td>
@@ -32,15 +34,126 @@
                     {% if app.user in combat.categorieTournoi.arbitres %}
                         <a href="{{ path('edit_combat', {id: combat.tournoi.id, idC: combat.id}) }}">Saisir le résultat</a>
                     {% endif %}
+                    {% if is_granted('ROLE_SPECTATEUR') %}
+                        {% set noteExist = false %}
+                        {% for note in combat.notes %}
+                          {% if note.spectateur == app.user %}
+                            <div class="rating-display">
+                                {% for i in 1..5 %}
+                                    {% if i <= note.note %}
+                                        <span class="star filled">&#9733;</span>
+                                    {% else %}
+                                        <span class="star empty">&#9733;</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% set noteExist = true %}
+                        {% endif %}
+
+                        {% endfor %}
+                        {% if not noteExist %}
+                            <form method="POST" action="{{ path('note_combat', { id: combat.id, tournoiId: tournoi.id }) }}" class="rating-form">
+                                <label for="note">Donnez une note :</label>
+                                <div class="rating" id="ratingStars_{{ combat.id }}">
+                                    <input type="radio" id="star1_{{ combat.id }}" name="note" value="1">
+                                    <label for="star1_{{ combat.id }}" class="star">&#9733;</label>
+                                    <input type="radio" id="star2_{{ combat.id }}" name="note" value="2">
+                                    <label for="star2_{{ combat.id }}" class="star">&#9733;</label>
+                                    <input type="radio" id="star3_{{ combat.id }}" name="note" value="3">
+                                    <label for="star3_{{ combat.id }}" class="star">&#9733;</label>
+                                    <input type="radio" id="star4_{{ combat.id }}" name="note" value="4">
+                                    <label for="star4_{{ combat.id }}" class="star">&#9733;</label>
+                                    <input type="radio" id="star5_{{ combat.id }}" name="note" value="5">
+                                    <label for="star5_{{ combat.id }}" class="star">&#9733;</label>
+                                </div>
+                                <button type="submit">Soumettre</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
                 </td>
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const ratingGroups = document.querySelectorAll(".rating");
 
+                        ratingGroups.forEach(group => {
+                            const stars = group.querySelectorAll(".star");
 
+                            stars.forEach((star, index) => {
+                                // Survol
+                                star.addEventListener("mouseover", () => {
+                                    resetStars(group);
+                                    fillStars(stars, index, "orange");
+                                });
+
+                                // Quitter le survol
+                                star.addEventListener("mouseout", () => {
+                                    resetStars(group);
+                                    const checkedIndex = getCheckedIndex(group);
+                                    if (checkedIndex !== -1) {
+                                        fillStars(stars, checkedIndex, "gold");
+                                    }
+                                });
+
+                                // Clic
+                                star.addEventListener("click", () => {
+                                    const radio = document.getElementById(star.htmlFor);
+                                    if (radio) {
+                                        radio.checked = true;
+                                    }
+                                    resetStars(group);
+                                    fillStars(stars, index, "gold");
+                                });
+                            });
+                        });
+
+                        // Réinitialiser les couleurs d'étoiles
+                        function resetStars(group) {
+                            const stars = group.querySelectorAll(".star");
+                            stars.forEach(star => {
+                                star.style.color = "#ccc"; // Couleur par défaut (étoiles vides)
+                            });
+                        }
+
+                        // Remplir les étoiles jusqu'à un index donné
+                        function fillStars(stars, index, color) {
+                            for (let i = 0; i <= index; i++) {
+                                stars[i].style.color = color;
+                            }
+                        }
+
+                        // Récupérer l'index de l'étoile actuellement cochée
+                        function getCheckedIndex(group) {
+                            const radios = group.querySelectorAll("input");
+                            for (let i = 0; i < radios.length; i++) {
+                                if (radios[i].checked) {
+                                    return i;
+                                }
+                            }
+                            return -1;
+                        }
+                    });
+                </script>
+                <td>
+                    {% if combat.moyenneNote is not null %}
+                        <p>Moyenne: {{ combat.moyenneNote | number_format(1) }} ({{ combat.totalVotants }} notes)</p>
+                    {% else %}
+                        <p>Aucune note encore</p>
+                    {% endif %}
+                </td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Aucun combat disponible pour ce tournoi.</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="9">Aucun combat disponible pour ce tournoi.</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

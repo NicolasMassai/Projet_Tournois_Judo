@@ -17,11 +17,11 @@ class Note
     #[ORM\Column]
     private ?int $note = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $commentaire = null;
+    #[ORM\ManyToOne(inversedBy: 'notes')]
+    private ?Spectateur $spectateur = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    #[ORM\ManyToOne(inversedBy: 'notes')]
+    private ?Combat $combat = null;
 
     public function getId(): ?int
     {
@@ -40,26 +40,27 @@ class Note
         return $this;
     }
 
-    public function getCommentaire(): ?string
+
+    public function getSpectateur(): ?Spectateur
     {
-        return $this->commentaire;
+        return $this->spectateur;
     }
 
-    public function setCommentaire(?string $commentaire): static
+    public function setSpectateur(?Spectateur $spectateur): static
     {
-        $this->commentaire = $commentaire;
+        $this->spectateur = $spectateur;
 
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getCombat(): ?Combat
     {
-        return $this->date;
+        return $this->combat;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function setCombat(?Combat $combat): static
     {
-        $this->date = $date;
+        $this->combat = $combat;
 
         return $this;
     }
