@@ -5,11 +5,19 @@
 {% block body %}
 
 <a class="bouton_redirection" href="{{ path('app_tournoi') }}">Retour à la liste des tournois</a>
+{% if is_granted('ROLE_PRESIDENT') %}
+<a class="bouton_redirection" href="{{ path('inscrire_club_tournoi', { id: tournoi.id }) }}">Inscrire ses combattants</a>
+<a class="bouton_redirection" href="{{ path('assign_arbitres', { id: tournoi.id }) }}">Assigner les arbitres</a>
+{% endif %}
 {% if is_granted('ROLE_ADHERANT') %}
 <a class="bouton_redirection" href="{{ path('afficher_combat_User', { id: tournoi.id }) }}">Afficher les combats</a>
 {% else %}
 <a class="bouton_redirection" href="{{ path('afficher_combats', { id: tournoi.id }) }}">Afficher les combats</a>
 {% endif %}
+<a class="bouton_redirection" href="{{ path('afficher_groupes', { id: tournoi.id }) }}">Afficher les groupes</a>
+<a class="bouton_redirection" href="{{ path('afficher_classement', { id: tournoi.id }) }}">Afficher le classement</a>
+
+
 
 <div class="details-section">
     <h2>Détails du tournoi : {{ tournoi.nom }}</h2>
@@ -20,7 +28,6 @@
     <p>Président du tournoi : {{ tournoi.president.nom }}</p>
 </div>
 
-<!-- Conteneur flex pour les sections 2 et 3 -->
 <div class="flex-container">
     <div class="details-section">
         <h3>Clubs engagés</h3>

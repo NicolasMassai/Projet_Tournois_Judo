@@ -6,6 +6,7 @@ use App\Entity\Club;
 use App\Entity\User;
 use App\Entity\Arbitre;
 use App\Entity\Adherant;
+use App\Entity\Categorie;
 use App\Entity\Spectateur;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,11 +33,16 @@ class RegistrationController extends AbstractController
             if ($role === 'ROLE_ADHERANT') {
                 $user = new Adherant();
                 $clubId = $form->get('club')->getData(); // Récupérer l'ID du club depuis le formulaire
+                $categorieId = $form->get('categorie')->getData();
                 $club = $entityManager->getRepository(Club::class)->find($clubId);
+                $categorie = $entityManager->getRepository(Categorie::class)->find($categorieId);
 
                 if ($club) {
-                    $user->setClub($club); // Associer le club
-                    $club->addAdherant($user); // Mise à jour inverse
+                    $user->setClub($club);
+                    $club->addAdherant($user);
+                }
+                if ($categorie) {
+                    $user->setCategorie($categorie);
                 }
             } elseif ($role === 'ROLE_ARBITRE') {
                 $user = new Arbitre();

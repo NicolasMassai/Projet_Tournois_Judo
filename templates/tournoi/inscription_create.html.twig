@@ -1,6 +1,14 @@
-<div class="">
-<h1>Inscription au tournoi {{ tournoi.nom }}</h1>
-    {{ form(form) }}
+{% extends 'base.html.twig' %}
+
+{% block title %}Tournoi Inscription{% endblock %}
+
+{% block body %}
+
+<div class="tournoi-container">
+    <h2 class="titreH2">Inscription au tournoi {{ tournoi.nom }}</h2>
+    <div class="form-container">
+        {{ form(form) }}
+    </div>
 </div>
 
-
+{% endblock %}

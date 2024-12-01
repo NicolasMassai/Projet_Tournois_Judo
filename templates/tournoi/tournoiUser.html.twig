@@ -3,28 +3,26 @@
 {% block title %}Mes Tournois{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Mes Tournois</h1>
+    <div class="tournoi-container-user">
+        <h2 class="titreH2">Mes Tournois</h2>
 
-    {% if tournois is not empty %}
-        <ul>
-            {% for categorieTournoi in tournois %}
-                <li>
-                    <a href="{{ path('app_tournoi_show', { id: categorieTournoi.tournoi.id }) }}">
-                        {{ categorieTournoi.tournoi.nom }} - 
-                        {{ categorieTournoi.tournoi.dateDebut|date('d/m/Y') }} à 
-                        {{ categorieTournoi.tournoi.dateFin|date('d/m/Y') }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Vous n'avez participé à aucun tournoi.</p>
-    {% endif %}
-</div>
+        {% if tournois is not empty %}
+            <ul class="tournoi-list">
+                {% for categorieTournoi in tournois %}
+                    <li class="tournoi-item">
+                        <a href="{{ path('app_tournoi_show', { id: categorieTournoi.tournoi.id }) }}" class="tournoi-link">
+                            <span class="tournoi-name">{{ categorieTournoi.tournoi.nom }}</span> - 
+                            <span class="tournoi-dates">
+                                {{ categorieTournoi.tournoi.dateDebut|date('d/m/Y') }} à 
+                                {{ categorieTournoi.tournoi.dateFin|date('d/m/Y') }}
+                            </span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="tournoi-empty">Vous n'avez participé à aucun tournoi.</p>
+        {% endif %}
+    </div>
 {% endblock %}

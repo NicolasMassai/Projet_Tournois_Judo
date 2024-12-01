@@ -5,10 +5,9 @@
 {% block body %}
     <h2 class="titreH2">Classement des Catégories</h2>
 
-    <div class="categorie-liste">
+    <div class="categorie-container">
         <h3>Liste des Catégories</h3>
-        <ul>
-            {# Boucle sur les catégories passées depuis le contrôleur #}
+        <ul class="categorie-list">
             {% for cat in categorie %}
                 <li>
                     <a href="{{ path('classement_categorie', { 'id': cat.id }) }}">

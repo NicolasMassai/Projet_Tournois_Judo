@@ -61,6 +61,7 @@ class CombatController extends AbstractController
         // Rendre la vue avec les données des groupes et combattants
         return $this->render('combat/groupes.html.twig', [
             'resultats' => $resultats,
+            'tournoi' => $tournoi,
         ]);
     }
      

@@ -14,25 +14,4 @@
     </div>
 </div>
 
-
-    {% if is_granted('ROLE_ADHERANT') %}
-        <div class="adherant-links">
-            <h2>Liens pour Adhérents</h2>
-            <ul>
-                <li><a href="{{ path('statistiques_combattant') }}">Statistiques</a></li>
-                <li><a href="{{ path('classement') }}">Classement</a></li>
-                <li><a href="{{ path('app_tournoiUser') }}">Tournoi</a></li>
-                <li><a href="{{ path('app_club_User') }}">Club</a></li>
-            </ul>
-        </div>
-    {% endif %}
-
-    {% if is_granted('ROLE_ARBITRE') %}
-        <div class="adherant-links">
-            <h2>Liens pour Arbitre</h2>
-            <ul>
-                <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
-            </ul>
-        </div>
-    {% endif %}
 {% endblock %}

@@ -53,6 +53,9 @@ body {
     justify-content: center;
 }
 
+.navbar-links-left a:hover{
+    color: #000000 !important;
+}
 
 
 /* Liens de connexion */
@@ -79,7 +82,7 @@ body {
 }
 
 .navbar-links a:hover {
-    background-color: #555;
+    color: #000000;
 }
 
 /* Logo de la navbar */
@@ -90,13 +93,19 @@ body {
     font-weight: bold;
 }
 
+.navbar-logo a:hover{
+    color: #000000 !important;
+}
+
+
 /* Hero section */
 .hero-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: calc(100vh - 58px);
-    margin-top: 58px;
+    height: calc(100vh - 20px);
+    margin-top: 20px;
+    margin-bottom: 3px;
     overflow: hidden; 
 }
 
@@ -128,16 +137,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%; /* Remplit toute la hauteur de la section */
+    height: 100%; 
 }
 
 .image-container img {
-    max-width: 100%; /* S'adapte à la largeur */
-    max-height: 100%; /* S'adapte à la hauteur */
-    object-fit: contain; /* Affiche l'image entière sans la déformer */
-    width: auto; /* Conserve le ratio largeur/hauteur */
-    height: auto; /* Conserve le ratio largeur/hauteur */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optionnel : ajoute une ombre */
+    max-width: 100%; 
+    max-height: 100%; 
+    object-fit: contain;
+    width: auto; 
+    height: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -149,7 +158,7 @@ body {
     flex-direction: column;
     gap: 15px;
     padding: 20px;
-    margin-top: 50px; /* Ajuster selon la hauteur de la navbar */
+    margin-top: 50px; 
 }
 
 /* Titre de la liste */
@@ -426,7 +435,7 @@ a:hover {
 
 /* Styles pour les formulaires */
 form {
-    display: inline-block;
+    /*display: inline-block;*/
     margin-top: 10px;
 }
 
@@ -781,7 +790,6 @@ button:hover {
     margin: 0;
 }
 
-/* Un adhérent individuel */
 .adherant-item {
     font-size: 1rem;
     color: #666;
@@ -789,12 +797,10 @@ button:hover {
     border-bottom: 1px solid #f0f0f0;
 }
 
-/* Dernier adhérent sans bordure */
 .adherant-item:last-child {
     border-bottom: none;
 }
 
-/* Lien de retour */
 .retour-lien {
     display: inline-block;
     margin-top: 20px;
@@ -817,14 +823,6 @@ button:hover {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Titre de la page */
-.tournoi-titre {
-    font-size: 2rem;
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 20px;
 }
 
 /* Conteneur du formulaire */
@@ -907,3 +905,605 @@ button:hover {
     margin: 0 5px 8px 0; 
     cursor: pointer; 
 }
+
+
+/*Tournoi Iscription*/
+
+/* Conteneur principal de la page */
+.tournoi-inscription-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre principal */
+.tournoi-inscription-title {
+    font-size: 2rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Formulaire */
+.tournoi-inscription-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Champs du formulaire */
+.tournoi-inscription-form input,
+.tournoi-inscription-form select,
+.tournoi-inscription-form textarea,
+.tournoi-inscription-form button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* Effet au survol des champs */
+.tournoi-inscription-form input:hover,
+.tournoi-inscription-form select:hover,
+.tournoi-inscription-form textarea:hover {
+    border-color: #CC3333;
+}
+
+/* Bouton du formulaire */
+.tournoi-inscription-form button {
+    background-color: #CC3333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Effet au survol du bouton */
+.tournoi-inscription-form button:hover {
+    background-color: #a00;
+}
+
+/* Groupes de champs */
+.tournoi-inscription-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+.tournoi-inscription-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* Messages d'erreur */
+.tournoi-inscription-form .form-error {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tournoi-inscription-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+   
+}
+
+
+/* Styles pour le formulaire de combat */
+.combat-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.combat-form .form-group {
+    margin-bottom: 15px;
+}
+
+.combat-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.combat-form .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.combat-form .form-control:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+.combat-form .form-actions {
+    text-align: right;
+}
+
+.combat-form .btn {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.combat-form .btn:hover {
+    background-color: #2980b9;
+}
+
+@media (max-width: 480px) {
+    .combat-form {
+        max-width: 90%;
+        padding: 30px;
+        font-size: 1.1em;
+    }
+
+    .combat-form .form-group {
+        margin-bottom: 25px;
+    }
+
+    .combat-form .form-control {
+        padding: 15px;
+        font-size: 1.2em;
+    }
+
+    .combat-form .btn {
+        width: 100%;
+        padding: 15px;
+        font-size: 1.2em;
+    }
+
+    h2.titreH2 {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+    }
+}
+
+/*Stat combattant*/
+
+
+.stats-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.stats-header {
+    background-color: #b9b9b9;
+    padding: 20px;
+    text-align: center;
+    color: #ffffff;
+}
+
+
+.stats-details {
+    padding: 20px;
+}
+
+.stats-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.stats-item:last-child {
+    border-bottom: none;
+}
+
+.stats-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.stats-value {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+@media (max-width: 480px) {
+    .stats-container {
+        margin: 20px;
+    }
+
+    .stats-title {
+        font-size: 1.5rem;
+    }
+
+    .stats-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stats-value {
+        margin-top: 5px;
+        font-size: 1.1rem;
+    }
+}
+
+
+/*TounoiUser*/
+
+.tournoi-container-user {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+
+/* Tournament list styling */
+.tournoi-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tournoi-item {
+    margin-bottom: 15px;
+}
+
+.tournoi-link {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+    transition: all 0.3s ease-in-out;
+}
+
+.tournoi-link:hover {
+    background: #b9b9b9;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tournoi-name {
+    font-weight: bold;
+}
+
+.tournoi-dates {
+    font-style: italic;
+    color: #414141;
+}
+
+.tournoi-empty {
+    text-align: center;
+    font-size: 16px;
+    color: #999;
+}
+
+@media (max-width: 600px) {
+    .tournoi-link {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    .tournoi-title {
+        font-size: 20px;
+    }
+}
+
+/* Classement Categorie */
+
+.categorie-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.categorie-container h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #CC3333;
+}
+
+/* Conteneur de liste des catégories */
+.categorie-list {
+    display: flex;
+    flex-wrap: wrap; /* Permet d'aller à la ligne si le contenu dépasse */
+    gap: 10px; /* Espacement entre les éléments */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center; /* Centre les éléments horizontalement */
+}
+
+/* Style des liens */
+.categorie-list li {
+    margin: 0; /* Supprime le margin vertical */
+}
+
+.categorie-list a {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #e9f5ff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: inline-block;
+    text-align: center; /* Centre le texte à l'intérieur des boutons */
+    min-width: 100px; /* Largeur minimale pour un alignement homogène */
+}
+
+.categorie-list a:hover {
+    background-color: #4a90e2;
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+    .categorie-container {
+        padding: 15px;
+    }
+
+    .categorie-list li {
+        font-size: 16px;
+    }
+
+    .categorie-list a {
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+}
+
+/* Conteneur principal */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0f0f0, #d9d9d9);
+    padding: 20px;
+    position: relative;
+    top: -80px;
+}
+
+
+/* Formulaire */
+.login-form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* Erreur */
+.login-error {
+    color: #fff;
+    background: #e74c3c;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Message utilisateur connecté */
+.login-message {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.logout-link {
+    color: #e74c3c;
+    text-decoration: underline;
+}
+
+/* Groupes de champs */
+.form-group-connexion {
+    margin-bottom: 20px;
+}
+
+/* Vise uniquement les labels à l'intérieur de .form-group-connexion */
+.form-group-connexion label {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Vise uniquement les inputs à l'intérieur de .form-group-connexion */
+.form-group-connexion input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* Effet de focus uniquement sur les inputs dans .form-group-connexion */
+.form-group-connexion input:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 4px rgba(74, 144, 226, 0.5);
+}
+
+/* Bouton de soumission */
+.btn-connexion {
+    width: 50%;
+    padding: 12px 15px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #CC3333;
+    background: #ffffff;
+    cursor: pointer;
+    border: 2px solid #CC3333;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: block;
+    margin: 1px auto; /* Centrage horizontal */
+}
+
+.btn-connexion:hover {
+    background: #CC3333;
+    color: #ffffff;
+}
+
+.btn-connexion:active {
+    transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .login-form {
+        padding: 20px;
+    }
+
+    .login-title {
+        font-size: 1.5em;
+    }
+
+    .form-input {
+        font-size: 0.9em;
+    }
+
+    .btn-submit {
+        font-size: 0.9em;
+    }
+}
+
+/* Formulaire */ 
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0f0f0, #d9d9d9);
+    padding: 20px;
+}
+
+.register-form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group-register {
+    margin-bottom: 20px;
+}
+
+.form-group-register label {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-group-register input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-group-register input:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 4px rgba(74, 144, 226, 0.5);
+}
+
+
+.register-form select{
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.register-form select:hover{
+    border-color: #CC3333;
+}
+
+#registration_form_role {
+    display: flex;
+    gap: 10px; 
+  }
+
+  #registration_form_role {
+    display: flex;
+    gap: 10px; 
+  }
+  
+  #registration_form_role label {
+    display: flex;
+    align-items: center; 
+    margin: 0 auto; 
+  }
+  
+  #registration_form_role input[type="radio"] {
+    margin: 0; 
+    vertical-align: middle;
+  }
+
+
+@media (max-width: 600px) {
+    .register-form {
+        padding: 20px;
+    }
+
+    .form-group-register input {
+        font-size: 0.9em;
+    }
+
+}
+

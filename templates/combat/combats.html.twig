@@ -4,7 +4,14 @@
 
 {% block body %}
     <h2 class="titreH2">Combats du Tournoi {{ tournoi.nom }}</h2>
+    
+    <a class="bouton_redirection" href="{{ path('app_tournoi_show', { id: tournoi.id }) }}">Retour au tournoi</a>
 
+    {% if is_granted('ROLE_PRESIDENT') %}
+        <a class="bouton_redirection" href="{{ path('creer_quarts', { id: tournoi.id }) }}">Générer les Quarts</a>
+        <a class="bouton_redirection" href="{{ path('creer_demi_finales', { id: tournoi.id }) }}">Générer les Demi</a>
+        <a class="bouton_redirection" href="{{ path('creer_finales', { id: tournoi.id }) }}">Générer les Finales</a>
+    {% endif %}
     <div class="marge">
         <table>
             <thead>

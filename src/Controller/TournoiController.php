@@ -16,6 +16,8 @@ use App\Repository\ClubRepository;
 use App\Repository\TournoiRepository;
 use App\Repository\AdherantRepository;
 use App\Repository\CategorieTournoiRepository;
+use App\Service\AssignArbitre;
+use App\Service\InscriptionTournoi;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\ByteString;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -159,11 +161,10 @@ class TournoiController extends AbstractController
         ]);
     }
     
-
+/*
     #[IsGranted("ROLE_PRESIDENT")]
     #[Route('/tournoi/{id}/inscription', name: 'inscrire_club_tournoi')]
-    public function inscrireClub(Tournoi $tournoi, Request $request, EntityManagerInterface $em, 
-        AdherantRepository $adherantRepository ): Response {
+    public function inscrireClub(Tournoi $tournoi, Request $request, AdherantRepository $adherantRepository ): Response {
         // Récupérer l'utilisateur connecté
         $user = $this->getUser();
 
@@ -225,8 +226,8 @@ class TournoiController extends AbstractController
             }
 
             // Sauvegarder les changements en base de données
-            $em->persist($categorieTournoi);
-            $em->flush();
+            $this->em->persist($categorieTournoi);
+            $this->em->flush();
 
             // Rediriger vers la page de détails du tournoi
             return $this->redirectToRoute('app_tournoi_show', ['id' => $tournoi->getId()]);
@@ -237,9 +238,9 @@ class TournoiController extends AbstractController
             'tournoi' => $tournoi,
         ]);
     }
+*/
 
-
-
+/*
     #[Route('/tournoi/{id}/arbitres', name: 'assign_arbitres')]
     public function assignArbitres(Tournoi $tournoi, Request $request, Security $security): Response
     {
@@ -296,9 +297,20 @@ class TournoiController extends AbstractController
             'tournoi' => $tournoi,
         ]);
     }
+    */
+
+    #[IsGranted("ROLE_PRESIDENT")]
+    #[Route('/tournoi/{id}/inscription', name: 'inscrire_club_tournoi')]
+    public function inscrireClub(Tournoi $tournoi, Request $request, AdherantRepository $adherantRepository, InscriptionTournoi $inscription): Response {
+       
+        return $inscription->inscrireClub($tournoi, $request, $adherantRepository);
+
+    }
     
-
-
-
-
+    #[Route('/tournoi/{id}/arbitres', name: 'assign_arbitres')]
+    public function assignArbitres(Tournoi $tournoi, Request $request, Security $security,AssignArbitre $arbitre): Response
+    {
+        return $arbitre->assignArbitres($tournoi, $request, $security);
+    }
+    
 }

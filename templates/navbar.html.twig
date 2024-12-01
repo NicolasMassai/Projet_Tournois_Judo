@@ -21,6 +21,12 @@
             <li><a href="{{ path('app_club_User') }}">Club</a></li>
         </ul>
     {% endif %}
+    {% if is_granted('ROLE_SPECTATEUR') %}
+        <ul class="navbar-links-left">
+            <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
+            <li><a href="{{ path('classement') }}">Classement</a></li>
+        </ul>
+    {% endif %}
 
     <ul class="navbar-links">
         {% if app.user %}

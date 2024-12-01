@@ -1,12 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Édition du combat entre {{ combat.combattant1.nom }} {{ combat.combattant1.prenom }} et 
-        {{ combat.combattant2.nom }} {{ combat.combattant2.prenom }}
-    </h1>
+{% block title %}Combat Edit{% endblock %}
 
-    {{ form_start(form) }}
-        {{ form_row(form.scoreCombattant1) }}
-        {{ form_row(form.scoreCombattant2) }}
+{% block body %}
+
+    <h2 class="titreH2">Édition du combat entre {{ combat.combattant1.nom }} {{ combat.combattant1.prenom }} et 
+        {{ combat.combattant2.nom }} {{ combat.combattant2.prenom }}
+    </h2>
+
+    {{ form_start(form, {'attr': {'class': 'combat-form'}}) }}
+        <div class="form-group">
+            {{ form_row(form.scoreCombattant1, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.scoreCombattant2, {'attr': {'class': 'form-control'}}) }}
+        </div>
     {{ form_end(form) }}
 {% endblock %}

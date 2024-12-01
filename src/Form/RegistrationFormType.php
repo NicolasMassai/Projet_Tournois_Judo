@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Club;
 use App\Entity\User;
+use App\Entity\Categorie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -44,6 +45,11 @@ class RegistrationFormType extends AbstractType
                 'choice_label' => 'nom', // Ou tout autre champ que tu veux afficher
                 'placeholder' => 'Sélectionnez un club',
                 'required' => false,
+            ])
+            ->add('categorie', EntityType::class, [
+                'class' => Categorie::class,
+                'choice_label' => 'categoriePoids', // afficher la catégorie de poids comme libellé
+                'required' => false, // optionnel, à afficher selon le rôle
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,

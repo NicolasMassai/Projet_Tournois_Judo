@@ -1,4 +1,14 @@
-<div class="">
-    <h1>Modifier un Club</h1>
-    {{ form(form) }}
+{% extends 'base.html.twig' %}
+
+{% block title %}Clubs Update{% endblock %}
+
+{% block body %}
+
+<div class="tournoi-container">
+    <h2 class="titreH2">Modifier le club</h2>
+    <div class="form-container">
+        {{ form(form) }}
+    </div>
 </div>
+
+{% endblock %}

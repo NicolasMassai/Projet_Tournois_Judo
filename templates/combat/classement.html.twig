@@ -2,7 +2,9 @@
 
 {% block body %}
     <h2 class="titreH2">Classement du tournoi {{ tournoi.nom }}</h2>
-
+    
+    <a class="bouton_redirection" href="{{ path('app_tournoi_show', { id: tournoi.id }) }}">Retour au tournoi</a>
+    <div class="marge">
     {% for groupe, classement in classements %}
         <h3>{{ groupe }}</h3>
         <table>
@@ -30,4 +32,5 @@
             </tbody>
         </table>
     {% endfor %}
+    </div>
 {% endblock %}

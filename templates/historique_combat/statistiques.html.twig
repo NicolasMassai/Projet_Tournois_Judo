@@ -3,8 +3,28 @@
 {% block title %}Statistiques de {{ adherant.nom }}{% endblock %}
 
 {% block body %}
-    <h1>Statistiques de {{ adherant.nom }} {{ adherant.prenom }}</h1>
-    <p>Total des combats : {{ totalCombats }}</p>
-    <p>Victoires : {{ victoires }}</p>
-    <p>Défaites : {{ defaites }}</p>
+    <section class="stats-container">
+        <header class="stats-header">
+            <h2 class="titreH2">Statistiques de {{ adherant.nom }} {{ adherant.prenom }}</h2>
+        </header>
+
+        <div class="stats-details">
+            <div class="stats-item">
+                <span class="stats-label">Total des combats :</span>
+                <span class="stats-value">{{ totalCombats }}</span>
+            </div>
+            <div class="stats-item">
+                <span class="stats-label">Tournoi Remporté :</span>
+                <span class="stats-value">{{ victoiresFinale }}</span>
+            </div>
+            <div class="stats-item">
+                <span class="stats-label">Victoires :</span>
+                <span class="stats-value">{{ victoires }}</span>
+            </div>
+            <div class="stats-item">
+                <span class="stats-label">Défaites :</span>
+                <span class="stats-value">{{ defaites }}</span>
+            </div>
+        </div>
+    </section>
 {% endblock %}

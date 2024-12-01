@@ -29,12 +29,17 @@ class HistoriqueCombatController extends AbstractController
         $victoires = array_filter($combats, fn($combat) => $combat->Vainqueur($adherant));
         $defaites = $totalCombats - count($victoires);
 
+        $finales = array_filter($combats, fn($combat) => $combat->getPhase() === 'Finale');
+
+        $victoiresFinale = array_filter($finales, fn($combat) => $combat->Vainqueur($adherant));
+
 
         return $this->render('historique_combat/statistiques.html.twig', [
             'adherant' => $adherant,
             'totalCombats' => $totalCombats,
             'victoires' => count($victoires),
             'defaites' => $defaites,
+            'victoiresFinale' => count($victoiresFinale),
         ]);
     }
 

@@ -3,43 +3,71 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
 
-    {{ form_errors(registrationForm) }}
+<div class="register-container">
+    <div class="register-form">
+        <h2 class="titreH2">Inscription</h2>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.prenom) }}
-        {{ form_row(registrationForm.nom) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
+        {{ form_errors(registrationForm) }}
 
-        {{ form_row(registrationForm.role, {
-            id: 'roleField'
-        }) }}
 
-        <div id="clubField" style="display: none;">  {# Champ pour le club masqué par défaut #}
-            {{ form_row(registrationForm.club, {
-                label: 'Sélectionnez un club'
-            }) }}
-        </div>
+        {{ form_start(registrationForm) }}
+            <div class="form-group-register">
+                {{ form_label(registrationForm.email) }}
+                {{ form_widget(registrationForm.email) }}
+            </div> 
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <div class="form-group-register">
+                {{ form_label(registrationForm.prenom) }}
+                {{ form_widget(registrationForm.prenom) }}
+            </div>
+
+            <div class="form-group-register">
+                {{ form_label(registrationForm.nom) }}
+                {{ form_widget(registrationForm.nom) }}
+            </div>
+
+            <div class="form-group-register">
+                {{ form_label(registrationForm.plainPassword, 'Mot de passe') }}
+                {{ form_widget(registrationForm.plainPassword) }}
+            </div>
+            
+            <div class="form-group-register">
+                {{ form_label(registrationForm.role) }}
+                {{ form_widget(registrationForm.role) }}
+            </div>
+
+            <div id="clubField" class="form-group-register" style="display: none;">
+                {{ form_label(registrationForm.club) }}
+                {{ form_widget(registrationForm.club) }}
+            </div>
+
+            <div id="categorieField" class="form-group-register" style="display: none;">
+                {{ form_label(registrationForm.categorie) }}
+                {{ form_widget(registrationForm.categorie) }}
+            </div>
+
+
+            <button type="submit" class="btn-connexion">S'inscrire</button>
+        {{ form_end(registrationForm) }}
+    </div>
+</div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const roleField = document.querySelector('input[name="registration_form[role]"]:checked'); // Sélection du champ rôle
             const clubField = document.getElementById('clubField');
+            const categorieField = document.getElementById('categorieField');
 
-            // Fonction pour afficher ou masquer le champ du club
-            function toggleClubField() {
+            // Fonction pour afficher ou masquer le champ du club et categorie
+                    function toggleClubField() {
                 const selectedRole = document.querySelector('input[name="registration_form[role]"]:checked');
                 if (selectedRole && selectedRole.value === 'ROLE_ADHERANT') {
-                    clubField.style.display = 'block';  // Afficher le champ du club
+                    clubField.style.display = 'block';
+                    categorieField.style.display = 'block';
                 } else {
-                    clubField.style.display = 'none';  // Masquer le champ du club
+                    clubField.style.display = 'none';
+                    categorieField.style.display = 'none';
                 }
             }
 
@@ -52,4 +80,5 @@
             });
         });
     </script>
+    
 {% endblock %}

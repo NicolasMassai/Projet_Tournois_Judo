@@ -3,9 +3,15 @@
 {% block title %}Assigner des arbitres{% endblock %}
 
 {% block body %}
-    <h1>Assigner des arbitres au tournoi : {{ tournoi.nom }}</h1>
+    
+    <div class="tournoi-container">
+        <h2 class="titreH2">Assigner des arbitres au tournoi : {{ tournoi.nom }}</h2>
+        <div class="form-container">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-    {{ form_end(form) }}
+
 {% endblock %}
