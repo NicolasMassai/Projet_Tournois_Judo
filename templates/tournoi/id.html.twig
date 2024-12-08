@@ -6,26 +6,43 @@
 
 <a class="bouton_redirection" href="{{ path('app_tournoi') }}">Retour à la liste des tournois</a>
 {% if is_granted('ROLE_PRESIDENT') %}
-<a class="bouton_redirection" href="{{ path('inscrire_club_tournoi', { id: tournoi.id }) }}">Inscrire ses combattants</a>
-<a class="bouton_redirection" href="{{ path('assign_arbitres', { id: tournoi.id }) }}">Assigner les arbitres</a>
+    {% if tournoi.inscriptionOuvertes %}
+        <a class="bouton_redirection" href="{{ path('app_tournoi_close', { id: tournoi.id }) }}">Fermer les Inscriptions</a>
+        <a class="bouton_redirection" href="{{ path('inscrire_club_tournoi', { id: tournoi.id }) }}">Inscrire ses combattants</a>
+        <a class="bouton_redirection" href="{{ path('assign_arbitres', { id: tournoi.id }) }}">Assigner les arbitres</a>
+    {% endif %} 
 {% endif %}
-{% if is_granted('ROLE_ADHERANT') %}
-<a class="bouton_redirection" href="{{ path('afficher_combat_User', { id: tournoi.id }) }}">Afficher les combats</a>
-{% else %}
-<a class="bouton_redirection" href="{{ path('afficher_combats', { id: tournoi.id }) }}">Afficher les combats</a>
-{% endif %}
-<a class="bouton_redirection" href="{{ path('afficher_groupes', { id: tournoi.id }) }}">Afficher les groupes</a>
-<a class="bouton_redirection" href="{{ path('afficher_classement', { id: tournoi.id }) }}">Afficher le classement</a>
 
+{% if not tournoi.inscriptionOuvertes %}
+    {% if is_granted('ROLE_ADHERANT') %}
+    <a class="bouton_redirection" href="{{ path('afficher_combat_User', { id: tournoi.id }) }}">Afficher les combats</a>
+    {% else %}
+    <a class="bouton_redirection" href="{{ path('afficher_combats', { id: tournoi.id }) }}">Afficher les combats</a>
+    {% endif %}
+
+    <a class="bouton_redirection" href="{{ path('afficher_groupes', { id: tournoi.id }) }}">Afficher les groupes</a>
+    <a class="bouton_redirection" href="{{ path('afficher_classement', { id: tournoi.id }) }}">Afficher le classement</a>
+{% endif %}
 
 
 <div class="details-section">
-    <h2>Détails du tournoi : {{ tournoi.nom }}</h2>
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+    <h2 class="titreH2">Détails du tournoi : {{ tournoi.nom }}</h2>
     <p>ID du tournoi : {{ id }}</p>
     <p>Date de début : {{ tournoi.dateDebut|date('d/m/Y') }}</p>
     <p>Date de fin : {{ tournoi.dateFin|date('d/m/Y') }}</p>
     <p>Lieu : {{ tournoi.lieu }}</p>
     <p>Président du tournoi : {{ tournoi.president.nom }}</p>
+    {% if tournoi.inscriptionOuvertes %}
+        <stron>Inscriptions ouvertes</stron>
+    {% else %}
+        <strong>Inscriptions fermées</strong>
+    {% endif %}
+
 </div>
 
 <div class="flex-container">
@@ -56,23 +73,23 @@
                 {% endfor %}
             </ul>
            <button id="toggleButtonCombattant" class="circle-button">
-                <span id="arrow" class="arrow">&#x25BC;</span> <!-- Flèche vers le bas -->
+                <span id="arrow" class="arrow">&#x25BC;</span>
             </button>
 
     </div>
 </div>
 <script>
-document.getElementById('toggleButtonCombattant').addEventListener('click', function() {
-    const arrow = document.getElementById('arrow');
-    arrow.classList.toggle('up'); // Ajoute ou retire la classe 'up'
-    
-    const list = document.querySelector('.combattants-list');
-    if (list.style.maxHeight) {
-        list.style.maxHeight = null; // Masque la liste
-    } else {
-        list.style.maxHeight = list.scrollHeight + "px"; // Déplie la liste
-    }
-});
+    document.getElementById('toggleButtonCombattant').addEventListener('click', function() {
+        const arrow = document.getElementById('arrow');
+        arrow.classList.toggle('up'); // Ajoute ou retire la classe 'up'
+        
+        const list = document.querySelector('.combattants-list');
+        if (list.style.maxHeight) {
+            list.style.maxHeight = null; // Masque la liste
+        } else {
+            list.style.maxHeight = list.scrollHeight + "px"; // Déplie la liste
+        }
+    });
 
 </script>
 

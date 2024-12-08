@@ -34,6 +34,12 @@ class InscriptionTournoi extends AbstractController
         // Récupérer le club du président
         $club = $user->getPresidentClub();
 
+            // Vérifier si l'inscription au tournoi est fermée
+        if (!$tournoi->isInscriptionOuvertes()) { // Remplacez 'getInscriptionOuverte()' par la méthode correcte de votre entité
+            $this->addFlash('error', 'Les inscriptions sont fermées pour ce tournoi.');
+            return $this->redirectToRoute('app_tournoi_show', ['id' => $tournoi->getId()]);
+        }
+
         // Récupérer les adhérents du club
         $adherants = $adherantRepository->findBy(['club' => $club]);
 

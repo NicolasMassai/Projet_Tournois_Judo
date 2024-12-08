@@ -3,7 +3,8 @@
 {% block body %}
     <h2 class="titreH2">Groupes du Tournoi</h2>
 
-    <a class="bouton_redirection" href="{{ path('app_tournoi_show', { id: tournoi.id }) }}">Retour au tournoi</a>
+    <a class="bouton_redirection" href="{{ path('app_tournoi_show', 
+        { id: tournoi.id }) }}">Retour au tournoi</a>
     <div class="groupes-container">
         {% for resultat in resultats %}
             <div class="groupe">

@@ -55,6 +55,9 @@ class Tournoi
     #[ORM\OneToMany(targetEntity: CategorieTournoi::class, mappedBy: 'tournoi')]
     private Collection $categorieTournois;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $inscriptionOuvertes = null;
+
     public function __construct()
     {
         $this->clubs = new ArrayCollection();
@@ -241,6 +244,18 @@ class Tournoi
                 $categorieTournoi->setTournoi(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isInscriptionOuvertes(): ?bool
+    {
+        return $this->inscriptionOuvertes;
+    }
+
+    public function setInscriptionOuvertes(?bool $inscriptionOuvertes): static
+    {
+        $this->inscriptionOuvertes = $inscriptionOuvertes;
 
         return $this;
     }

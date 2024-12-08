@@ -30,14 +30,15 @@ class CombatController extends AbstractController
         $this->em = $em;
         $this->note= $note;
     }
+    
     #[Route('/tournoi/{id}/groupes', name: 'afficher_groupes')]
-    public function afficherGroupes(Tournoi $tournoi, CombatService $service): Response
+    public function afficherGroupes(Tournoi $tournoi, CombatService $service, Security $security): Response
     {
-        $groupes = $service->creerGroupesParCategorie($tournoi);
+        $groupes = $service->creerGroupesParCategorie($tournoi, $security);
 
         // Récupérer les groupes du tournoi
         $groupes = $tournoi->getGroupes();
-        
+
         $resultats = [];
     
         // Parcourir chaque groupe

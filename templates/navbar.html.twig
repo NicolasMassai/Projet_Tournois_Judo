@@ -2,38 +2,67 @@
     <div class="navbar-logo">
         <a href="{{ path('app_home') }}">JudokaConnect</a>
     </div>
-    {% if is_granted('ROLE_PRESIDENT') %}
-        <ul class="navbar-links-left">
-            <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
-            <li><a href="{{ path('app_club_User') }}">Club</a></li>
-        </ul>
-    {% endif %}
-    {% if is_granted('ROLE_ARBITRE') %}
-        <ul class="navbar-links-left">
-            <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
-        </ul>
-    {% endif %}
-    {% if is_granted('ROLE_ADHERANT') %}
-        <ul class="navbar-links-left">
-            <li><a href="{{ path('statistiques_combattant') }}">Statistiques</a></li>
-            <li><a href="{{ path('classement') }}">Classement</a></li>
-            <li><a href="{{ path('app_tournoiUser') }}">Tournoi</a></li>
-            <li><a href="{{ path('app_club_User') }}">Club</a></li>
-        </ul>
-    {% endif %}
-    {% if is_granted('ROLE_SPECTATEUR') %}
-        <ul class="navbar-links-left">
-            <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
-            <li><a href="{{ path('classement') }}">Classement</a></li>
-        </ul>
-    {% endif %}
 
-    <ul class="navbar-links">
-        {% if app.user %}
-            <li><a href="{{ path('app_logout') }}" class="btn logout-btn">Se déconnecter</a></li>
-        {% else %}
-            <li><a href="{{ path('app_login') }}" class="btn login-btn">Se connecter</a></li>
-            <li><a href="{{ path('app_register') }}" class="btn register-btn">S'inscrire</a></li>
-        {% endif %}
-    </ul>
+
+    <button class="navbar-toggler" id="navbar-toggler">
+        <div class="bar bar1"></div>
+        <div class="bar bar2"></div>
+        <div class="bar bar3"></div>
+    </button>
+
+
+    <div class="navbar-menu" id="navbar-menu">
+        <div class="navbar-left">
+            {% if is_granted('ROLE_PRESIDENT') %}
+                <ul class="navbar-links-left">
+                    <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
+                    <li><a href="{{ path('app_club_User') }}">Club</a></li>
+                </ul>
+            {% endif %}
+            {% if is_granted('ROLE_ARBITRE') %}
+                <ul class="navbar-links-left">
+                    <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
+                </ul>
+            {% endif %}
+            {% if is_granted('ROLE_ADHERANT') %}
+                <ul class="navbar-links-left">
+                    <li><a href="{{ path('statistiques_combattant') }}">Statistiques</a></li>
+                    <li><a href="{{ path('classement') }}">Classement</a></li>
+                    <li><a href="{{ path('app_tournoiUser') }}">Tournoi</a></li>
+                    <li><a href="{{ path('app_club_User') }}">Club</a></li>
+                    </ul>
+                {% endif %}
+                {% if is_granted('ROLE_SPECTATEUR') %}
+                    <ul class="navbar-links-left">
+                        <li><a href="{{ path('app_tournoi') }}">Tournoi</a></li>
+                        <li><a href="{{ path('classement') }}">Classement</a></li>
+                    </ul>
+                {% endif %}
+        </div>
+
+        <div class="navbar-left">
+            <ul class="navbar-links">
+                {% if app.user %}
+                    <li><a href="{{ path('app_logout') }}" class="btn logout-btn">Se déconnecter</a></li>
+                {% else %}
+                    <li><a href="{{ path('app_login') }}" class="btn login-btn">Se connecter</a></li>
+                    <li><a href="{{ path('app_register') }}" class="btn register-btn">S'inscrire</a></li>
+                {% endif %}
+            </ul>
+        </div> 
+    </div> 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggler = document.getElementById('navbar-toggler');
+            const menu = document.getElementById('navbar-menu');
+
+            toggler.addEventListener('click', () => {
+                menu.classList.toggle('show');
+                toggler.classList.toggle('open'); // Ajouter ou enlever la classe "open"
+            });
+        });
+    </script>
+
+
 </nav>

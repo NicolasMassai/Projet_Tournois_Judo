@@ -9,6 +9,8 @@
  * which should already be in your base.html.twig.
  */
 import './styles/app.css';
+import './styles/app_mobile.css';
+
 
 
 registerReactControllerComponents(require.context('./react/controllers', true, /\.(j|t)sx?$/));

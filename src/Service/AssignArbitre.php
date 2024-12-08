@@ -27,16 +27,16 @@ class AssignArbitre extends AbstractController
 
     public function assignArbitres(Tournoi $tournoi, Request $request, Security $security): Response
     {
-
         // Vérifier que l'utilisateur connecté est le président du tournoi
         $user = $security->getUser();
 
         if (!$user || $user !== $tournoi->getPresident()) {
             $this->addFlash('error', 'Vous n\'êtes pas autorisé à assigner des arbitres pour ce tournoi.');
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_tournoi_show', ['id' => $tournoi->getId()]);
         }
-
-        $arbitres = $this->em->getRepository(Arbitre::class)->findAll(); // Récupérer tous les arbitres
+        
+        // Récupérer tous les arbitres
+        $arbitres = $this->em->getRepository(Arbitre::class)->findAll(); 
     
         $form = $this->createFormBuilder()
             ->add('categorieTournoi', EntityType::class, [

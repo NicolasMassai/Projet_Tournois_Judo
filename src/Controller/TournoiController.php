@@ -66,7 +66,7 @@ class TournoiController extends AbstractController
         ]);
     }
 
-
+    #[IsGranted("ROLE_PRESIDENT")]
     #[Route('/tournoi/create', name: 'app_tournoi_create')]
     public function create(Request $request): Response
     {
@@ -89,6 +89,7 @@ class TournoiController extends AbstractController
                 $this->em->persist($categorieTournoi);
             }
 
+            $tournoi->setInscriptionOuvertes(true);
             $this->em->persist($tournoi);
             $this->em->flush();
 
@@ -101,6 +102,7 @@ class TournoiController extends AbstractController
     }
 
 
+    #[IsGranted("ROLE_PRESIDENT")]
     #[Route('/tournoi/update/{tournoi}', name: 'app_tournoi_update')]
     public function update(Service $myService, Tournoi $tournoi, Request $request): Response
     {
@@ -117,6 +119,7 @@ class TournoiController extends AbstractController
         return $form;
     }
 
+    #[IsGranted("ROLE_PRESIDENT")]
     #[Route('/tournoi/delete/{tournoi}', name: 'app_tournoi_delete')]
     public function delete(Tournoi $tournoi): Response
 
@@ -160,144 +163,25 @@ class TournoiController extends AbstractController
             'categoriesTournoi' => $categoriesTournoi, // Passer les catégories-tournois
         ]);
     }
-    
-/*
+
     #[IsGranted("ROLE_PRESIDENT")]
-    #[Route('/tournoi/{id}/inscription', name: 'inscrire_club_tournoi')]
-    public function inscrireClub(Tournoi $tournoi, Request $request, AdherantRepository $adherantRepository ): Response {
-        // Récupérer l'utilisateur connecté
-        $user = $this->getUser();
-
-        // Récupérer le club du président
-        $club = $user->getPresidentClub();
-
-        // Récupérer les adhérents du club
-        $adherants = $adherantRepository->findBy(['club' => $club]);
-
-        // Récupérer les catégories du tournoi
-        $categoriesTournoi = $tournoi->getCategorieTournois();
-
-        // Créer le formulaire pour sélectionner les combattants par catégorie
-        $form = $this->createFormBuilder()
-            ->add('categorieTournoi', EntityType::class, [
-                'class' => CategorieTournoi::class,
-                'choices' => $categoriesTournoi, // Limité aux catégories de ce tournoi
-                'choice_label' => function (CategorieTournoi $categorieTournoi) {
-                    return sprintf(
-                        '%s kg',
-                        $categorieTournoi->getCategorie()->getCategoriePoids()
-                    );
-                },
-                'placeholder' => 'Sélectionnez une catégorie',
-            ])
-            ->add('combattant', EntityType::class, [
-                'class' => Adherant::class,
-                'choices' => $adherants, // Seuls les adhérents du club
-            'choice_label' => function (Adherant $adherant) {
-            $categorie = $adherant->getCategorie();
-            $categorieText = $categorie 
-                ? sprintf(' (%s kg)', $categorie->getCategoriePoids()) 
-                : ' (Pas de catégorie)';
-
-            return sprintf('%s %s%s', $adherant->getNom(), $adherant->getPrenom(), $categorieText);
-        },
-            'multiple' => true,
-            'expanded' => true,
-        ])
-        ->add('Inscrire', SubmitType::class)
-        ->getForm();
-
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérer les données du formulaire
-            $categorieTournoi = $form->get('categorieTournoi')->getData();
-            $selectedCombattants = $form->get('combattant')->getData();
-
-            // Ajouter les combattants sélectionnés à la catégorie du tournoi
-            foreach ($selectedCombattants as $combattant) {
-                $categorieTournoi->addCombattant($combattant);
-            }
-
-            // Ajouter le club au tournoi s'il n'est pas déjà présent
-            if (!$tournoi->getClubs()->contains($club)) {
-                $tournoi->addClub($club);
-            }
-
-            // Sauvegarder les changements en base de données
-            $this->em->persist($categorieTournoi);
-            $this->em->flush();
-
-            // Rediriger vers la page de détails du tournoi
-            return $this->redirectToRoute('app_tournoi_show', ['id' => $tournoi->getId()]);
-        }
-
-        return $this->render('tournoi/inscription_create.html.twig', [
-            'form' => $form->createView(),
-            'tournoi' => $tournoi,
-        ]);
-    }
-*/
-
-/*
-    #[Route('/tournoi/{id}/arbitres', name: 'assign_arbitres')]
-    public function assignArbitres(Tournoi $tournoi, Request $request, Security $security): Response
+    #[Route('/tournoi/{id}/fermer', name: 'app_tournoi_close')]
+    public function fermerInscriptions(Tournoi $tournoi, Security $security): Response
     {
-
-        // Vérifier que l'utilisateur connecté est le président du tournoi
         $user = $security->getUser();
 
         if (!$user || $user !== $tournoi->getPresident()) {
-            $this->addFlash('error', 'Vous n\'êtes pas autorisé à assigner des arbitres pour ce tournoi.');
-            return $this->redirectToRoute('app_home');
+            $this->addFlash('error', 'Vous n\'êtes pas autorisé à fermer les inscription pour ce tournoi.');
+            return $this->redirectToRoute('app_tournoi_show', ['id' => $tournoi->getId()]);
         }
 
-        $arbitres = $this->em->getRepository(Arbitre::class)->findAll(); // Récupérer tous les arbitres
-    
-        $form = $this->createFormBuilder()
-            ->add('categorieTournoi', EntityType::class, [
-                'class' => CategorieTournoi::class,
-                'choices' => $this->em->getRepository(CategorieTournoi::class)
-                    ->findBy(['tournoi' => $tournoi]),
-                'choice_label' => function (CategorieTournoi $categorieTournoi) {
-                    return $categorieTournoi->getCategorie()->getCategoriePoids();
-                },
-            ])
-            ->add('arbitres', EntityType::class, [
-                'class' => Arbitre::class,
-                'choices' => $arbitres,
-                'choice_label' => function (Arbitre $arbitre) {
-                    return $arbitre->getNom() . ' ' . $arbitre->getPrenom();
-                },
-                'multiple' => true,
-                'expanded' => true,
-            ])
-            ->add('Assigner', SubmitType::class)
-            ->getForm();
-    
-            $form->handleRequest($request);
-    
-            if ($form->isSubmitted() && $form->isValid()) {
-                $categorieTournoi = $form->get('categorieTournoi')->getData();
-                $selectedArbitres = $form->get('arbitres')->getData();
-        
-                foreach ($selectedArbitres as $arbitre) {
-                    $categorieTournoi->addArbitre($arbitre);
-                }
-        
-                $this->em->persist($categorieTournoi);
-                $this->em->flush();
-        
-                return $this->redirectToRoute('app_tournoi_show', ['id' => $tournoi->getId()]);
-            }
-    
-        return $this->render('tournoi/arbitres.html.twig', [
-            'form' => $form->createView(),
-            'tournoi' => $tournoi,
-        ]);
+        $tournoi->setInscriptionOuvertes(false);
+        $this->em->flush();
+
+        return $this->redirectToRoute('app_tournoi_show', ['id' => $tournoi->getId()]);
     }
-    */
+
+ 
 
     #[IsGranted("ROLE_PRESIDENT")]
     #[Route('/tournoi/{id}/inscription', name: 'inscrire_club_tournoi')]

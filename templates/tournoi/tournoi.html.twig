@@ -2,8 +2,14 @@
 
 {% block title %}Hello ClubController!{% endblock %}
 
-{% block body %}
+{% block body %}    
+
+    {% if is_granted('ROLE_PRESIDENT') %}
+            <a class="bouton_redirection" href="{{ path('app_tournoi_create') }}">Créer un Tournoi</a>
+    {% endif %}
+    
 <div class="tournament-list">
+
     <h2 class="titreH2">Liste des Tournois</h2>
     {% for tournoi in tournois %}
         <ul>

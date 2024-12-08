@@ -3,17 +3,22 @@
 {% block title %}Combat Edit{% endblock %}
 
 {% block body %}
-
     <h2 class="titreH2">Édition du combat entre {{ combat.combattant1.nom }} {{ combat.combattant1.prenom }} et 
         {{ combat.combattant2.nom }} {{ combat.combattant2.prenom }}
     </h2>
 
     {{ form_start(form, {'attr': {'class': 'combat-form'}}) }}
         <div class="form-group">
-            {{ form_row(form.scoreCombattant1, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.scoreCombattant1, {
+                'attr': {'class': 'form-control'},
+                'label': 'Score de ' ~ combat.combattant1.nom ~ ' ' ~ combat.combattant1.prenom
+            }) }}
         </div>
         <div class="form-group">
-            {{ form_row(form.scoreCombattant2, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.scoreCombattant2, {
+                'attr': {'class': 'form-control'},
+                'label': 'Score de ' ~ combat.combattant2.nom ~ ' ' ~ combat.combattant2.prenom
+            }) }}
         </div>
     {{ form_end(form) }}
 {% endblock %}

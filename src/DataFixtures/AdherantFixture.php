@@ -31,7 +31,7 @@ class AdherantFixture extends Fixture
         }
 
         // Créer des adhérents
-        for ($i = 0; $i < 200; $i++) {
+        for ($i = 0; $i < 500; $i++) {
             // Créer un nouvel adhérant
             $adherant = new Adherant();
             $adherant->setNom($faker->lastName());
@@ -43,7 +43,7 @@ class AdherantFixture extends Fixture
             $adherant->setPassword($password);
 
             // Assigner un club_id aléatoire
-            $clubId = [9, 10, 11, 12][array_rand([9, 10, 11, 12])];
+            $clubId = [1,5,6][array_rand([1,5,6])];
             $club = $manager->getRepository(Club::class)->find($clubId);
             if ($club) {
                 $adherant->setClub($club);
