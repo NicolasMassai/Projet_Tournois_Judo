@@ -9,6 +9,7 @@ use App\Entity\Tournoi;
 use App\Form\CombatType;
 use App\Entity\Categorie;
 use App\Service\CombatService;
+use App\Service\GroupeService;
 use App\Entity\CategorieTournoi;
 use App\Service\NoteMoyenneService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,7 +33,7 @@ class CombatController extends AbstractController
     }
     
     #[Route('/tournoi/{id}/groupes', name: 'afficher_groupes')]
-    public function afficherGroupes(Tournoi $tournoi, CombatService $service, Security $security): Response
+    public function afficherGroupes(Tournoi $tournoi, GroupeService $service, Security $security): Response
     {
         $groupes = $service->creerGroupesParCategorie($tournoi, $security);
 

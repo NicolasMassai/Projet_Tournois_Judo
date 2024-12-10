@@ -157,6 +157,10 @@
         font-size: 0.9em;
     }
 
+    .profile-details {
+        margin: 20px;
+    }
+
 }
 
 @media (max-width: 863px) {

@@ -6,13 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class PhaseFinaleController extends AbstractController
+class MentionLegaleController extends AbstractController
 {
-    #[Route('/phase/finale', name: 'app_phase_finale')]
+    #[Route('/mentions-legales', name: 'app_mentions_legales')]
     public function index(): Response
     {
-        return $this->render('phase_finale/index.html.twig', [
-            'controller_name' => 'PhaseFinaleController',
-        ]);
+        return $this->render('mention_legale/index.html.twig');
     }
 }

@@ -6,6 +6,7 @@ use App\Entity\Club;
 use App\Entity\User;
 use App\Entity\Categorie;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -19,6 +20,16 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationFormType extends AbstractType
 {
+
+    private RouterInterface $router;
+
+    public function __construct(RouterInterface $router)
+    {
+        $this->router = $router;
+    }
+
+
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -68,6 +79,17 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Vous devez accepter les mentions légales pour continuer.',
+                    ]),
+                ],
+                'label' => 'J\'ai pris connaissance des <a href="' . $this->router->generate('app_mentions_legales') . '" target="_blank">mentions légales</a>.',
+                'label_html' => true,
+
+            ]);
         ;
     }
 

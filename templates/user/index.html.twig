@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+
+    <a class="bouton_redirection" href="{{ path('app_profil_update') }}">Modifier mon Profil</a>
+
+    <form action="{{ path('app_profil_delete') }}" method="post" class="form-delete">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete_user') }}">
+        <button type="submit" class="btn_delete">Supprimer mon Compte</button>
+    </form>
+
+
+    <h2 class="titreH2">Profil de {{ user.nom }} {{ user.prenom }}</h2>
+
+<ul class="profile-details">
+    <li class="profile-item"><strong>Nom :</strong> <span class="profile-value">{{ user.nom }}</span></li>
+    <li class="profile-item"><strong>Prénom :</strong> <span class="profile-value">{{ user.prenom }}</span></li>
+    <li class="profile-item"><strong>Email :</strong> <span class="profile-value">{{ user.email }}</span></li>
+</ul>
+
+
+   <footer>
+        <p class="mentions-link">
+            <a href="{{ path('app_mentions_legales') }}">Mentions légales</a>
+        </p>
+    </footer>
+
+{% endblock %}

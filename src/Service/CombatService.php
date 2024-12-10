@@ -165,7 +165,7 @@ class CombatService extends AbstractController
         });
         return $classement;
     }
-
+/*
     public function creerGroupesParCategorie(Tournoi $tournoi, Security $security): array
     {
         // Vérifier si les groupes ont déjà été générés
@@ -251,5 +251,5 @@ class CombatService extends AbstractController
 
         // Sauvegarder tous les combats (sans résultats pour l'instant)
         $this->em->flush();
-    }
+    }*/
 }
